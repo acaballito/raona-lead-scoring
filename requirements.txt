@@ -1,0 +1,40 @@
+# Raona Lead Scoring -- Project dependencies
+# Install: pip install -r requirements.txt
+
+# Core data science
+pandas==2.1.4
+numpy==1.26.2
+scikit-learn==1.5.2
+
+# Models
+lightgbm==4.5.0
+xgboost==2.0.3
+optuna==3.5.0
+shap==0.44.1
+
+# NLP
+sentence-transformers==2.3.1
+umap-learn==0.5.5
+bertopic==0.16.0
+
+# Visualization
+plotly==5.18.0
+matplotlib==3.8.2
+missingno==0.5.2
+
+# Web / API
+streamlit==1.29.0
+fastapi==0.104.1
+uvicorn==0.24.0
+pydantic==2.5.2
+
+# MLOps
+mlflow==2.9.2
+apache-airflow==2.8.1
+
+# Data storage
+pyarrow==14.0.2
+
+# Utilities
+tqdm==4.66.1
+requests==2.31.0

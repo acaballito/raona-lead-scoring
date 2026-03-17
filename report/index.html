@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raona Lead Scoring</title>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --ivory: #FAFAF7;
+  --black: #141413;
+  --text: #3D3D3A;
+  --text-muted: #6B6B66;
+  --text-subtle: #8B8B85;
+  --border: #E8E8E3;
+  --surface: #FFFFFF;
+  --bg-alt: #F0F0EB;
+  --gold: #FFC630;
+  --gold-dark: #EDB82D;
+  --gold-light: #FFF3D1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--ivory);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: var(--black);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+h1 { font-size: 3.2rem; margin-bottom: 1rem; }
+h2 {
+  font-size: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+h3 { font-size: 1.3rem; margin-top: 2.5rem; margin-bottom: 0.8rem; }
+
+p { margin-bottom: 1.2rem; max-width: 700px; }
+strong { color: var(--black); }
+ul, ol { margin: 1rem 0 1.5rem 1.5rem; max-width: 700px; }
+li { margin-bottom: 0.5rem; }
+code {
+  font-family: 'SF Mono', 'Menlo', monospace;
+  font-size: 0.85em;
+  background: var(--bg-alt);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+}
+
+.top-bar {
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--black) 50%, var(--border) 100%);
+}
+
+.section-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-subtle);
+  margin-bottom: 0.5rem;
+}
+
+.section-hero {
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 0;
+}
+.section-hero h1 { font-size: 3.8rem; max-width: 800px; }
+.section-hero .subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-top: 1.5rem;
+}
+.section-hero .meta {
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 2.5rem;
+}
+
+.stat-row {
+  display: flex;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  flex: 1;
+  min-width: 160px;
+}
+.stat-card .label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  margin-bottom: 0.3rem;
+}
+.stat-card .value {
+  font-family: 'Georgia', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--black);
+}
+.stat-card .value.gold { color: var(--gold-dark); }
+.stat-card .detail {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+.highlight-box {
+  background: var(--gold-light);
+  border-left: 4px solid var(--gold);
+  padding: 1.5rem 2rem;
+  border-radius: 0 8px 8px 0;
+  margin: 2rem 0;
+  max-width: 700px;
+}
+.highlight-box p { margin-bottom: 0; }
+
+.insight-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 1.5rem 2rem;
+  margin: 1rem 0;
+  max-width: 700px;
+}
+.insight-card .insight-title {
+  font-family: 'Georgia', serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--black);
+  margin-bottom: 0.3rem;
+}
+.insight-card p { margin-bottom: 0; font-size: 0.95rem; }
+
+.pipeline {
+  display: flex;
+  gap: 0;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+.pipeline-step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.2rem 1.5rem;
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+}
+.pipeline-step:first-child { border-radius: 8px 0 0 8px; }
+.pipeline-step:last-child { border-radius: 0 8px 8px 0; }
+.pipeline-step .step-num {
+  font-family: 'Georgia', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold-dark);
+}
+.pipeline-step .step-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 860px;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+th {
+  background: var(--bg-alt);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid var(--border);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-subtle);
+}
+td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+tr:hover { background-color: var(--gold-light); }
+
+/* Architecture diagram */
+.arch-diagram {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+.arch-box {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  flex: 1;
+  min-width: 280px;
+}
+.arch-box.primary { border-color: var(--gold); }
+.arch-box .arch-title {
+  font-family: 'Georgia', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--black);
+  margin-bottom: 0.8rem;
+}
+.arch-box .arch-subtitle {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  margin-bottom: 0.5rem;
+}
+.arch-box ul {
+  margin: 0.5rem 0 0 1rem;
+  font-size: 0.9rem;
+}
+.arch-box li { margin-bottom: 0.3rem; }
+.arch-connector {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 1rem 0;
+  max-width: 700px;
+}
+
+/* Before/After */
+.before-after {
+  display: flex;
+  gap: 0;
+  margin: 2rem 0;
+  max-width: 700px;
+}
+.before-after .ba-card {
+  flex: 1;
+  padding: 1.5rem 2rem;
+  text-align: center;
+}
+.before-after .ba-card.before {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px 0 0 8px;
+}
+.before-after .ba-card.after {
+  background: var(--gold-light);
+  border: 1px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+}
+.before-after .ba-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-subtle);
+  margin-bottom: 0.5rem;
+}
+.before-after .ba-value {
+  font-family: 'Georgia', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+.before-after .ba-card.before .ba-value { color: var(--text-muted); }
+.before-after .ba-card.after .ba-value { color: var(--gold-dark); }
+.before-after .ba-detail {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+.footer {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem; }
+  .section-hero h1 { font-size: 2.6rem; }
+  .stat-row { flex-direction: column; }
+  .pipeline { flex-direction: column; }
+  .pipeline-step { border-radius: 0 !important; }
+  .pipeline-step:first-child { border-radius: 8px 8px 0 0 !important; }
+  .pipeline-step:last-child { border-radius: 0 0 8px 8px !important; }
+  .arch-diagram { flex-direction: column; }
+  .before-after { flex-direction: column; }
+  .before-after .ba-card.before { border-radius: 8px 8px 0 0; }
+  .before-after .ba-card.after { border-radius: 0 0 8px 8px; }
+}
+
+/* Sidebar */
+#sidebar-nav {
+    position: fixed; top: 0; left: 0; width: 200px; height: 100vh;
+    background: #141413; color: #B5B5AE; padding: 1.5rem 1.2rem;
+    box-sizing: border-box; z-index: 9999;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.82rem; line-height: 1.4;
+    display: flex; flex-direction: column; overflow-y: auto;
+}
+#sidebar-nav .sidebar-title {
+    font-family: Georgia, serif; font-size: 1.1rem; color: #FAFAF7;
+    font-weight: 700; margin-bottom: 0.3rem;
+}
+#sidebar-nav .sidebar-subtitle {
+    font-size: 0.7rem; color: #8B8B85; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 1rem;
+}
+#sidebar-nav .sidebar-divider {
+    height: 2px; background: linear-gradient(90deg, #FFC630, #141413);
+    margin-bottom: 1rem; border: none;
+}
+#sidebar-nav a {
+    display: block; color: #B5B5AE; text-decoration: none;
+    padding: 0.35rem 0.6rem; margin: 0.1rem 0; border-radius: 4px;
+    border-left: 2px solid transparent; font-size: 0.82rem;
+    transition: all 0.15s;
+}
+#sidebar-nav a:hover {
+    color: #FAFAF7; border-left-color: #FFC630; background: rgba(255,198,48,0.08);
+}
+#sidebar-nav a.sidebar-active {
+    color: #FFC630; font-weight: 600; border-left-color: #FFC630;
+    background: rgba(255,198,48,0.12);
+}
+#sidebar-nav .sidebar-footer {
+    margin-top: auto; padding-top: 1rem; font-size: 0.7rem; color: #6B6B66;
+}
+body { margin-left: 200px !important; }
+  </style>
+</head>
+<body>
+<div id="sidebar-nav">
+  <div class="sidebar-title">Raona<br>Lead Scoring</div>
+  <div class="sidebar-subtitle">TFM - Nuclio Digital School</div>
+  <hr class="sidebar-divider">
+  <a href="index.html" class="sidebar-active">Data Story</a>
+  <a href="nb01_data_loading.html">NB01: Data Loading</a>
+  <a href="nb02_eda.html">NB02: EDA</a>
+  <a href="nb03_feature_engineering.html">NB03: Features</a>
+  <a href="nb04_models.html">NB04: Models</a>
+  <a href="nb05_mlops.html">NB05: MLOps</a>
+  <hr class="sidebar-divider">
+  <a href="https://raona-lead-scoring.streamlit.app" target="_blank">App Demo &#8599;</a>
+  <div class="sidebar-footer">G03<br>Marzo 2026</div>
+</div>
+
+<div class="top-bar"></div>
+
+<div class="container">
+
+<!-- ===== HERO ===== -->
+<div class="section-hero">
+  <div class="section-label">Nuclio Digital School &mdash; Trabajo Final de Master</div>
+  <h1>&iquest;Y si pudieras triplicar tu tasa de respuesta?</h1>
+  <div class="subtitle">
+    Raona contacta miles de prospectos B2B por LinkedIn y email. Solo el 14% responde.
+    Nuestro modelo identifica los mejores leads para que el equipo comercial contacte
+    a las personas correctas primero &mdash; triplicando la precisi&oacute;n en los top leads.
+  </div>
+  <div class="meta">
+    G03 &middot; Data Science &middot; Marzo 2026
+  </div>
+</div>
+
+<hr>
+
+<!-- ===== LOS DATOS ===== -->
+<div class="section-label">Los datos</div>
+<h2 style="border:none;padding:0;margin-top:0.5rem;">5,987 contactos. Una pregunta: &iquest;qui&eacute;n responder&aacute;?</h2>
+
+<p>
+  El equipo comercial de Raona contacta prospectos B2B por LinkedIn y email.
+  Cada contacto recibe una secuencia de mensajes.
+  El dataset captura todas las conversaciones de sus campa&ntilde;as en Espa&ntilde;a.
+</p>
+
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="label">Contactos</div>
+    <div class="value">5,987</div>
+    <div class="detail">Leads contactados</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Respuestas</div>
+    <div class="value gold">841</div>
+    <div class="detail">14.0% tasa de respuesta</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Campa&ntilde;as</div>
+    <div class="value">45+</div>
+    <div class="detail">7 l&iacute;neas de producto</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Features</div>
+    <div class="value">39</div>
+    <div class="detail">Raw + AI + NLP + Externas</div>
+  </div>
+</div>
+
+<p>
+  Raona es Microsoft Gold Partner en Barcelona, especializado en soluciones de digital workplace.
+  Su proceso de outreach incluye enriquecimiento con IA: antes del primer contacto, se generan
+  informes autom&aacute;ticos sobre cada empresa (<code>ai_COMPANY_REPORT</code>) y se&ntilde;ales
+  de urgencia (<code>ai_MOMENTUM</code>).
+</p>
+
+<hr>
+
+<!-- ===== ANALISIS EXPLORATORIO ===== -->
+<div class="section-label">An&aacute;lisis exploratorio</div>
+<h2 style="border:none;padding:0;margin-top:0.5rem;">&iquest;Qu&eacute; distingue a un contacto que responde?</h2>
+
+<p>
+  Antes de construir ning&uacute;n modelo, analizamos los datos para entender qu&eacute;
+  diferencia al 14% que responde del 86% que no.
+</p>
+
+<div class="insight-card">
+  <div class="insight-title">El seniority importa, pero no linealmente</div>
+  <p>VPs (19.6%) y Managers (16.2%) responden m&aacute;s que los C-level (11.4%).
+  El punto &oacute;ptimo son los decisores operativos de nivel medio-alto.</p>
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">El tama&ntilde;o de empresa tiene un rango &oacute;ptimo</div>
+  <p>Empresas medianas (200&ndash;2,000 empleados) con crecimiento de plantilla activo
+  muestran las tasas de respuesta m&aacute;s altas. Demasiado peque&ntilde;a (sin presupuesto)
+  o demasiado grande (procesos lentos) reduce la conversi&oacute;n.</p>
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">LinkedIn domina sobre email</div>
+  <p>La tasa de respuesta en LinkedIn es significativamente superior a email. El contexto
+  profesional y personal de LinkedIn conecta mejor con prospectos B2B.</p>
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">Los mensajes enviados en jueves generan m&aacute;s respuestas</div>
+  <p>Los contactos que reciben el primer mensaje un jueves responden con mayor frecuencia.
+  Lunes y viernes muestran el menor engagement, sugiriendo que enviar outreach a mitad
+  de semana maximiza la probabilidad de respuesta.</p>
+</div>
+
+<hr>
+
+<!-- ===== METODOLOGIA ===== -->
+<div class="section-label">Metodolog&iacute;a</div>
+<h2 style="border:none;padding:0;margin-top:0.5rem;">De datos brutos a scores accionables</h2>
+
+<p>
+  El proyecto se estructura en cinco notebooks que cubren desde la carga de datos
+  hasta el despliegue en producci&oacute;n, transformando datos de outreach en un sistema
+  de scoring accionable.
+</p>
+
+<div class="pipeline">
+  <div class="pipeline-step">
+    <div class="step-num">01</div>
+    <div class="step-label">Data Loading<br>&amp; Cleaning</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">02</div>
+    <div class="step-label">An&aacute;lisis<br>Exploratorio</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">03</div>
+    <div class="step-label">Feature Engineering<br>&amp; NLP</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">04</div>
+    <div class="step-label">Modelos<br>ML</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">05</div>
+    <div class="step-label">MLOps<br>&amp; Deploy</div>
+  </div>
+</div>
+
+<h3>Feature engineering</h3>
+
+<p>39 features de cuatro or&iacute;genes, cada una con un prefijo que indica su procedencia:</p>
+
+<table>
+  <thead>
+    <tr><th>Origen</th><th>Prefijo</th><th>Cantidad</th><th>Ejemplos</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Datos de Raona / LinkedIn</td><td><em>(ninguno)</em></td><td>9</td><td>Years in role, Number of employees, Industry</td></tr>
+    <tr><td>Enrichment IA de Enginy</td><td><code>ai_</code></td><td>5</td><td>ai_SENIORITY, ai_FIT, ai_TYPE_OF_CONTACT</td></tr>
+    <tr><td>Ingenier&iacute;a propia</td><td><code>fe_</code></td><td>14</td><td>fe_company_size_bucket, fe_headcount_momentum</td></tr>
+    <tr><td>Enrichment externo</td><td><code>ext_</code></td><td>3</td><td>ext_ms_maturity_score, ext_has_competitor_tech</td></tr>
+    <tr><td>NLP sobre informes de texto</td><td><code>nlp_</code></td><td>8</td><td>nlp_embedding_01..03, nlp_topic</td></tr>
+  </tbody>
+</table>
+
+<h3>Pipeline NLP</h3>
+
+<p>Los campos de texto (<code>ai_COMPANY_REPORT</code>, <code>ai_MOMENTUM</code>) se procesaron con:</p>
+
+<ul>
+  <li><strong>Sentence-BERT</strong> (multilingual MiniLM) para embeddings, reducidos a 3 dimensiones con UMAP</li>
+  <li><strong>BERTopic</strong> para topic modeling, identificando cl&uacute;sters tem&aacute;ticos</li>
+  <li><strong>Extracci&oacute;n de keywords</strong> para se&ntilde;ales de urgencia e indicadores de decisi&oacute;n</li>
+</ul>
+
+<hr>
+
+<!-- ===== MODELOS ===== -->
+<div class="section-label">Modelos</div>
+<h2 style="border:none;padding:0;margin-top:0.5rem;">Cuatro modelos, un sistema</h2>
+
+<h3>Modelo 1: Lead Scoring</h3>
+
+<p>
+  El modelo principal predice qu&eacute; contactos tienen mayor probabilidad de responder.
+  LightGBM fue seleccionado tras comparar Logistic Regression, Random Forest, LightGBM y XGBoost,
+  tuneado con Optuna (50 trials).
+</p>
+
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="label">PR-AUC</div>
+    <div class="value gold">0.258</div>
+    <div class="detail">M&eacute;trica principal (modelo robusto)</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Precision@100</div>
+    <div class="value gold">38%</div>
+    <div class="detail">Casi 3x la tasa base (14%)</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Lift@10%</div>
+    <div class="value">2.6x</div>
+    <div class="detail">Respuestas vs aleatorio</div>
+  </div>
+</div>
+
+<div class="highlight-box">
+  <p><strong>Impacto de negocio:</strong> Si Raona contacta solo los 100 mejores leads seg&uacute;n
+  el modelo, <strong>38 responder&aacute;n</strong> &mdash; casi 3x m&aacute;s que con
+  selecci&oacute;n aleatoria (14). El modelo es una herramienta de <strong>ranking</strong>,
+  no un clasificador binario: prioriza correctamente, no predice con certeza.</p>
+</div>
+
+<h3>Qu&eacute; aprendi&oacute; el modelo (SHAP)</h3>
+
+<p>
+  Los perfiles con mayor score comparten un patr&oacute;n: <strong>managers y VPs en empresas
+  medianas (200&ndash;2,000 empleados) con crecimiento de plantilla positivo y stack Microsoft
+  existente</strong>. Este es el perfil donde el modelo concentra las puntuaciones m&aacute;s altas.
+</p>
+
+<table>
+  <thead>
+    <tr><th>Origen de features</th><th>Contribuci&oacute;n SHAP</th><th>Interpretaci&oacute;n</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Datos raw (LinkedIn/Raona)</td><td>36%</td><td>Conexiones, a&ntilde;os en puesto, tama&ntilde;o empresa</td></tr>
+    <tr><td>Feature engineering</td><td>34%</td><td>Seniority, momentum de crecimiento, tama&ntilde;o bucket</td></tr>
+    <tr><td>NLP</td><td>30%</td><td>Embeddings, topics, se&ntilde;ales de urgencia</td></tr>
+    <tr><td>Enrichment externo</td><td>&lt;1%</td><td>Microsoft maturity score</td></tr>
+  </tbody>
+</table>
+
+<h3>An&aacute;lisis de robustez: detectando data leakage</h3>
+
+<div class="highlight-box">
+  <p><strong>Descubrimos que el modelo estaba haciendo trampa.</strong> Una de las features
+  (<code>nlp_contact_report_length</code>) se genera <em>despu&eacute;s</em> de que el contacto
+  responde: el <code>ai_CONTACT_REPORT</code> se completa como parte del proceso post-respuesta.
+  El modelo le&iacute;a el resultado en vez de predecirlo.</p>
+  <p style="margin-top:0.8rem;">Al eliminarlo, el PR-AUC cae de 0.303 a 0.258 (&minus;14.7%).
+  Esa ca&iacute;da cuantifica exactamente cu&aacute;nta se&ntilde;al falsa aportaba el leakage.
+  El modelo robusto es el &uacute;nico v&aacute;lido para producci&oacute;n.</p>
+</div>
+
+<table>
+  <thead>
+    <tr><th>Modelo</th><th>Features</th><th>PR-AUC</th><th>Uso</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Completo</strong></td><td>39</td><td>0.303</td><td>An&aacute;lisis retrospectivo (valor acad&eacute;mico)</td></tr>
+    <tr><td style="font-weight:700;color:var(--gold-dark)">Robusto</td><td>38</td><td style="font-weight:700;color:var(--gold-dark)">0.258</td><td>Producci&oacute;n: scoring antes del contacto</td></tr>
+  </tbody>
+</table>
+
+<h3>Target alternativo: respuestas positivas</h3>
+
+<p>
+  Adem&aacute;s del target principal (<code>target_replied</code>, cualquier respuesta),
+  evaluamos <code>target_positive</code> que excluye respuestas negativas (Not Interested,
+  Wrong Person). El modelo robusto rinde mejor con <code>target_replied</code>
+  (PR-AUC 0.258 vs 0.213), y las respuestas negativas tambi&eacute;n generan valor
+  comercial (referrals, follow-ups futuros).
+</p>
+
+<h3>Modelo 2: Segmentaci&oacute;n</h3>
+
+<p>K-Means clustering (k=4, silhouette=0.266) identifica segmentos de prospectos con
+perfiles diferenciados. La separaci&oacute;n es suave (habitual en datos B2B), pero
+los segmentos son &uacute;tiles como gu&iacute;a direccional para estrategia de campa&ntilde;a.</p>
+
+<table>
+  <thead>
+    <tr><th>Segmento</th><th>Perfil</th><th>Tasa respuesta</th><th>Insight</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>SMB Microsoft FIT+</td><td>PYME con Microsoft, FIT aprobado</td><td>11.9%</td><td>Grupo m&aacute;s grande (2,588)</td></tr>
+    <tr><td>Enterprise Microsoft FIT+</td><td>Gran empresa con Microsoft</td><td>16.2%</td><td>Mayor tama&ntilde;o de empresa</td></tr>
+    <tr><td style="font-weight:600;color:var(--gold-dark)">Senior Non-FIT Responders</td><td>Alta seniority, sin FIT</td><td style="font-weight:600;color:var(--gold-dark)">17.4%</td><td>Mayor tasa de respuesta</td></tr>
+    <tr><td>Non-Microsoft FIT+</td><td>FIT aprobado, sin Microsoft</td><td>13.6%</td><td>Oportunidad sin Microsoft</td></tr>
+  </tbody>
+</table>
+
+<h3>Modelos 3 y 4: Producto, canal y timing</h3>
+
+<ul>
+  <li><strong>Producto:</strong> Validaci&oacute;n de FIT scores contra engagement real por l&iacute;nea de producto</li>
+  <li><strong>Canal:</strong> LinkedIn supera consistentemente a email en todos los segmentos</li>
+  <li><strong>Timing:</strong> El jueves muestra la mayor tasa de respuesta; lunes y viernes la menor</li>
+</ul>
+
+<hr>
+
+<!-- ===== PRODUCCION ===== -->
+<div class="section-label">Producci&oacute;n</div>
+<h2 style="border:none;padding:0;margin-top:0.5rem;">Construimos un sistema, no solo un modelo</h2>
+
+<p>
+  El pipeline de scoring se despliega como un sistema completo con API, contenedores,
+  experiment tracking y monitorizaci&oacute;n de drift.
+</p>
+
+<div class="arch-diagram">
+  <div class="arch-box primary">
+    <div class="arch-subtitle">Container 1 &mdash; siempre activo</div>
+    <div class="arch-title">API de Scoring</div>
+    <ul>
+      <li><code>POST /score</code> &mdash; scoring individual</li>
+      <li><code>GET /health</code> &mdash; verificaci&oacute;n</li>
+      <li>FastAPI + Docker</li>
+      <li>LightGBM + Preprocessor</li>
+    </ul>
+  </div>
+  <div class="arch-box">
+    <div class="arch-subtitle">Container 2 &mdash; programado</div>
+    <div class="arch-title">Airflow Pipelines</div>
+    <ul>
+      <li><strong>DAG 1:</strong> Scoring semanal<br><em>ingest &rarr; transform &rarr; score &rarr; deliver CSV</em></li>
+      <li><strong>DAG 2:</strong> Monitoring mensual<br><em>PSI drift &rarr; retrain si necesario</em></li>
+    </ul>
+  </div>
+</div>
+
+<div class="arch-connector">
+  Airflow actualiza el modelo &rarr; API lo sirve &rarr; Streamlit y CRM conectan a la API
+</div>
+
+<div class="pipeline">
+  <div class="pipeline-step">
+    <div class="step-num">API</div>
+    <div class="step-label">FastAPI<br>endpoint</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">Airflow</div>
+    <div class="step-label">Pipeline<br>orquestado</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">Docker</div>
+    <div class="step-label">Despliegue<br>containerizado</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">MLflow</div>
+    <div class="step-label">Experiment<br>tracking</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">PSI</div>
+    <div class="step-label">Drift<br>monitoring</div>
+  </div>
+</div>
+
+<h3>Dashboard Streamlit</h3>
+
+<p>Aplicaci&oacute;n interactiva con tres pesta&ntilde;as para el equipo comercial:</p>
+
+<ol>
+  <li><strong>Dashboard</strong> &mdash; KPIs, distribuci&oacute;n de scores, an&aacute;lisis de canal y timing</li>
+  <li><strong>Lead Scorer</strong> &mdash; Scoring individual en tiempo real con recomendaci&oacute;n de outreach</li>
+  <li><strong>Batch Scorer</strong> &mdash; Subir CSV de contactos, scorear todos y descargar ranking</li>
+</ol>
+
+<hr>
+
+<!-- ===== INSIGHTS DE NEGOCIO ===== -->
+<div class="section-label">Lo que aprendimos</div>
+<h2 style="border:none;padding:0;margin-top:0.5rem;">Insights para el negocio</h2>
+
+<div class="insight-card">
+  <div class="insight-title">Tu equipo puede generar 2.6x m&aacute;s reuniones sin contratar a nadie</div>
+  <p>Contactando los 100 mejores leads seg&uacute;n el modelo: 38 respuestas vs ~14 al azar.
+  Son 24 conversaciones extra por semana sin coste adicional de personal.</p>
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">Tu proceso de cualificaci&oacute;n est&aacute; descartando a los que m&aacute;s responden</div>
+  <p>El segmento Senior Non-FIT Responders tiene la mayor tasa de respuesta (17.4%)
+  pero FIT aprobado = 0%. Revisar los criterios de FIT o crear una v&iacute;a de
+  outreach espec&iacute;fica para este perfil podr&iacute;a desbloquear oportunidades.</p>
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">LinkedIn es tu canal, el jueves es tu d&iacute;a</div>
+  <p>Email tiene una fracci&oacute;n del rendimiento de LinkedIn. La ventana
+  martes&ndash;jueves concentra las mejores tasas de respuesta. Redistribuir el esfuerzo
+  hacia estos picos maximiza el ROI del outreach.</p>
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">El sistema se escala: scoring autom&aacute;tico</div>
+  <p>No es un informe puntual &mdash; es un pipeline que scorea nuevos leads cada semana,
+  entrega un ranking priorizado al equipo comercial, y se monitoriza solo con PSI:
+  si los datos cambian, alerta y reentrena.</p>
+</div>
+
+<hr>
+
+<!-- ===== IMPACTO ===== -->
+<div class="section-label">Impacto</div>
+<h2 style="border:none;padding:0;margin-top:0.5rem;">Antes vs despu&eacute;s</h2>
+
+<div class="before-after">
+  <div class="ba-card before">
+    <div class="ba-label">Antes (aleatorio)</div>
+    <div class="ba-value">14%</div>
+    <div class="ba-detail">Tasa de respuesta</div>
+  </div>
+  <div class="ba-card after">
+    <div class="ba-label">Despu&eacute;s (top 100)</div>
+    <div class="ba-value">38%</div>
+    <div class="ba-detail">Tasa de respuesta</div>
+  </div>
+</div>
+
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="label">Mejora</div>
+    <div class="value gold">2.6x</div>
+    <div class="detail">M&aacute;s respuestas en el top 10%</div>
+  </div>
+</div>
+
+<p>En lugar de contactar a todos por igual, Raona puede ahora:</p>
+
+<ol>
+  <li><strong>Priorizar</strong> &mdash; Scorear todos los prospectos y enfocarse en los mejores deciles</li>
+  <li><strong>Personalizar</strong> &mdash; Adaptar la recomendaci&oacute;n de producto al perfil de cada contacto</li>
+  <li><strong>Optimizar timing</strong> &mdash; Enviar outreach en los d&iacute;as de mayor respuesta</li>
+  <li><strong>Segmentar</strong> &mdash; Adaptar el mensaje por cl&uacute;ster (enterprise vs PYME, Microsoft vs no-Microsoft)</li>
+</ol>
+
+<hr>
+
+<!-- ===== LIMITACIONES ===== -->
+<div class="section-label">Mirando adelante</div>
+<h2 style="border:none;padding:0;margin-top:0.5rem;">Limitaciones y trabajo futuro</h2>
+
+<p><strong>Limitaciones:</strong></p>
+<ul>
+  <li>Clase positiva limitada (841 de 5,987) restringe la complejidad del modelo</li>
+  <li>1 feature NLP excluida por data leakage (generada post-respuesta)</li>
+</ul>
+
+<p><strong>Trabajo futuro:</strong></p>
+
+<div class="insight-card">
+  <div class="insight-title">A/B testing: medir el impacto real</div>
+  <p>El modelo rankea bien en datos hist&oacute;ricos, pero &iquest;cambia el resultado real?
+  Un A/B test dividir&iacute;a al equipo en dos: mitad usando los scores del modelo para
+  priorizar contactos, mitad con el proceso habitual. Comparando tasas de conversi&oacute;n
+  reales entre ambos grupos se medir&iacute;a el impacto causal del scoring.</p>
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">Feedback loop: reentrenamiento continuo</div>
+  <p>El modelo se entren&oacute; con datos hist&oacute;ricos. A medida que Raona use el scoring
+  en producci&oacute;n, generar&aacute; nuevas conversiones que deber&iacute;an alimentar el
+  reentrenamiento autom&aacute;tico. Sin este ciclo de feedback, el modelo se queda congelado
+  en patrones pasados y pierde precisi&oacute;n a medida que el mercado evoluciona.</p>
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">Integraci&oacute;n nativa con la herramienta de outreach</div>
+  <p>Actualmente el scoring es un proceso separado (CSV in, ranking out). Integrar la API
+  de scoring directamente con Enginy (la herramienta de outreach de Raona) permitir&iacute;a
+  que los scores aparezcan en la interfaz del vendedor sin exportar ni importar archivos,
+  reduciendo fricci&oacute;n y acelerando la adopci&oacute;n.</p>
+</div>
+
+<hr>
+
+<h3>Notebooks t&eacute;cnicos</h3>
+
+<p>C&oacute;digo completo, outputs y explicaciones detalladas de cada fase del proyecto:</p>
+
+<div class="stat-row">
+  <a href="nb01_data_loading.html" class="stat-card" style="text-decoration:none; cursor:pointer; transition: border-color 0.2s;">
+    <div class="label">Notebook 01</div>
+    <div class="value" style="font-size:1.2rem;">Data Loading</div>
+    <div class="detail">Carga, target variable, calidad</div>
+  </a>
+  <a href="nb02_eda.html" class="stat-card" style="text-decoration:none; cursor:pointer; transition: border-color 0.2s;">
+    <div class="label">Notebook 02</div>
+    <div class="value" style="font-size:1.2rem;">EDA</div>
+    <div class="detail">Distribuciones, funnel, perfilado</div>
+  </a>
+  <a href="nb03_feature_engineering.html" class="stat-card" style="text-decoration:none; cursor:pointer; transition: border-color 0.2s;">
+    <div class="label">Notebook 03</div>
+    <div class="value" style="font-size:1.2rem;">Features &amp; NLP</div>
+    <div class="detail">Engineering, embeddings, topics</div>
+  </a>
+  <a href="nb04_models.html" class="stat-card" style="text-decoration:none; cursor:pointer; transition: border-color 0.2s;">
+    <div class="label">Notebook 04</div>
+    <div class="value" style="font-size:1.2rem;">Modelos</div>
+    <div class="detail">LightGBM, clustering, SHAP</div>
+  </a>
+  <a href="nb05_mlops.html" class="stat-card" style="text-decoration:none; cursor:pointer; transition: border-color 0.2s;">
+    <div class="label">Notebook 05</div>
+    <div class="value" style="font-size:1.2rem;">MLOps</div>
+    <div class="detail">API, Docker, drift monitoring</div>
+  </a>
+</div>
+
+<hr>
+
+<div class="footer">
+  G03 &middot; Nuclio Digital School &middot; Data Science &middot; Marzo 2026<br>
+  Construido con Python, LightGBM, Streamlit, FastAPI y Docker.
+</div>
+
+</div><!-- /container -->
+
+</body>
+</html>
