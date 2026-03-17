@@ -7795,6 +7795,7 @@ a.anchor-link {
 </style>
 <!-- End of mermaid configuration --><style id="sidebar-nav-css">
 #sidebar-nav {
+    all: initial;
     position: fixed; top: 0; left: 0; width: 200px; height: 100vh;
     background: #141413; color: #B5B5AE; padding: 1.5rem 1.2rem;
     box-sizing: border-box; z-index: 9999;
@@ -7802,23 +7803,30 @@ a.anchor-link {
     font-size: 0.82rem; line-height: 1.4;
     display: flex; flex-direction: column; overflow-y: auto;
 }
+#sidebar-nav * {
+    all: unset;
+    box-sizing: border-box;
+}
 #sidebar-nav .sidebar-title {
+    display: block;
     font-family: Georgia, serif; font-size: 1.1rem; color: #FAFAF7;
     font-weight: 700; margin-bottom: 0.3rem;
 }
 #sidebar-nav .sidebar-subtitle {
+    display: block;
     font-size: 0.7rem; color: #8B8B85; text-transform: uppercase;
     letter-spacing: 0.08em; margin-bottom: 1rem;
 }
 #sidebar-nav .sidebar-divider {
+    display: block;
     height: 2px; background: linear-gradient(90deg, #FFC630, #141413);
-    margin-bottom: 1rem; border: none;
+    margin: 0 0 1rem 0; border: none;
 }
 #sidebar-nav a {
     display: block; color: #B5B5AE; text-decoration: none;
     padding: 0.35rem 0.6rem; margin: 0.1rem 0; border-radius: 4px;
     border-left: 2px solid transparent; font-size: 0.82rem;
-    transition: all 0.15s;
+    transition: all 0.15s; cursor: pointer;
 }
 #sidebar-nav a:hover {
     color: #FAFAF7; border-left-color: #FFC630; background: rgba(255,198,48,0.08);
@@ -7828,6 +7836,7 @@ a.anchor-link {
     background: rgba(255,198,48,0.12);
 }
 #sidebar-nav .sidebar-footer {
+    display: block;
     margin-top: auto; padding-top: 1rem; font-size: 0.7rem; color: #6B6B66;
 }
 body { margin-left: 200px !important; }
