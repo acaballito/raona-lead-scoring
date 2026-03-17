@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 def load_artifacts(model_dir: str) -> dict:
     """Carga todos los artefactos del modelo."""
     artifacts = {}
-    for name in ["lead_scorer", "preprocessor", "preprocessor_robust", "clustering", "feature_names"]:
+    for name in ["lead_scorer", "lead_scorer_robust", "preprocessor", "preprocessor_robust", "clustering", "feature_names"]:
         path = os.path.join(model_dir, f"{name}.pkl")
         if os.path.exists(path):
             with open(path, "rb") as f:
@@ -32,9 +32,9 @@ def score_leads(df: pd.DataFrame, artifacts: dict) -> pd.DataFrame:
     else:
         features = feature_names
 
-    # Usar preprocessor robusto si existe
+    # Usar artefactos robustos si existen
     prep = artifacts.get("preprocessor_robust", artifacts["preprocessor"])
-    model = artifacts["lead_scorer"]
+    model = artifacts.get("lead_scorer_robust", artifacts["lead_scorer"])
 
     # Preparar features
     X = df.reindex(columns=features, fill_value=np.nan)

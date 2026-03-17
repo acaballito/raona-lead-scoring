@@ -67,7 +67,7 @@ class ContactInput(BaseModel):
 class ScoreOutput(BaseModel):
     """Resultado del scoring."""
     lead_score: float = Field(description="Probabilidad de respuesta (0-1)")
-    cluster: int = Field(description="Segmento asignado (0-6)")
+    cluster: int = Field(description="Segmento asignado (0-3)")
     risk_level: str = Field(description="ALTO (>0.5), MEDIO (0.2-0.5), BAJO (<0.2)")
     recommended_channel: str = Field(description="Canal recomendado")
     recommended_day: str = Field(description="Mejor dia para contactar")
