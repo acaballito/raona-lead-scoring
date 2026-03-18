@@ -26,20 +26,16 @@ def run(data_path: str, model_dir: str, candidate_dir: str, feature_names_path: 
     # Feature names
     with open(feature_names_path, "rb") as f:
         feature_names = pickle.load(f)
-    features = feature_names["robust"] if isinstance(feature_names, dict) else feature_names
+    features = feature_names
 
     X = df[features].copy()
 
     # Modelo actual
-    current_prep_path = os.path.join(model_dir, "preprocessor_robust.pkl")
+    current_prep_path = os.path.join(model_dir, "preprocessor.pkl")
     current_model_path = os.path.join(model_dir, "lead_scorer.pkl")
 
-    if os.path.exists(current_prep_path):
-        with open(current_prep_path, "rb") as f:
-            current_prep = pickle.load(f)
-    else:
-        with open(os.path.join(model_dir, "preprocessor.pkl"), "rb") as f:
-            current_prep = pickle.load(f)
+    with open(current_prep_path, "rb") as f:
+        current_prep = pickle.load(f)
 
     with open(current_model_path, "rb") as f:
         current_model = pickle.load(f)
@@ -48,7 +44,7 @@ def run(data_path: str, model_dir: str, candidate_dir: str, feature_names_path: 
     current_score = average_precision_score(y, current_model.predict_proba(X_current)[:, 1])
 
     # Modelo candidato
-    with open(os.path.join(candidate_dir, "preprocessor_robust.pkl"), "rb") as f:
+    with open(os.path.join(candidate_dir, "preprocessor.pkl"), "rb") as f:
         candidate_prep = pickle.load(f)
     with open(os.path.join(candidate_dir, "lead_scorer.pkl"), "rb") as f:
         candidate_model = pickle.load(f)
@@ -75,8 +71,8 @@ def run(data_path: str, model_dir: str, candidate_dir: str, feature_names_path: 
             os.path.join(model_dir, "lead_scorer.pkl"),
         )
         shutil.copy(
-            os.path.join(candidate_dir, "preprocessor_robust.pkl"),
-            os.path.join(model_dir, "preprocessor_robust.pkl"),
+            os.path.join(candidate_dir, "preprocessor.pkl"),
+            os.path.join(model_dir, "preprocessor.pkl"),
         )
         result["promoted"] = True
         logger.info("Modelo candidato PROMOVIDO a produccion")

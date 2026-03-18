@@ -8000,10 +8000,6 @@ en su día a dia, necesita:</p>
 <li><strong>Monitorización</strong> para saber cuando el modelo deja de funciónar bien</li>
 <li><strong>Reproducibilidad</strong> para poder reentrenar con datos nuevos</li>
 </ul>
-<h3 id="Modelo-en-producci%C3%B3n">Modelo en producción<a class="anchor-link" href="#Modelo-en-producci%C3%B3n">¶</a></h3><p>En todo el pipeline de producción se usa exclusivamente el <strong>modelo robusto</strong>
-(<code>lead_scorer_robust.pkl</code>, 38 features). La única feature con data leakage
-(<code>nlp_contact_report_length</code>, derivada de <code>ai_CONTACT_REPORT</code> que se genera post-respuesta)
-queda excluida. El modelo completo (39 features) solo tiene valor academico y se documenta en NB04.</p>
 </div>
 </div>
 </div>
@@ -8091,23 +8087,23 @@ Modelos en: ./app/models
 <hr/>
 <h2 id="5.1-Pipeline-end-to-end">5.1 Pipeline end-to-end<a class="anchor-link" href="#5.1-Pipeline-end-to-end">¶</a></h2><p>Demostramos que el pipeline completo funcióna: desde un diccionario JSON con los datos
 de un contacto hasta la predicción del score, cluster y recomendación.</p>
-<p>Esto es exactamente lo que hara el API en producción, usando únicamente el modelo robusto.</p>
+<p>Esto es exactamente lo que hara el API en producción.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b4ce67f8">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=b4ce67f8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cargar artefactos del modelo robusto (produccion)</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DELIVERABLE_MODELS</span><span class="p">,</span> <span class="s1">'preprocessor_robust.pkl'</span><span class="p">),</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cargar artefactos del modelo (produccion)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DELIVERABLE_MODELS</span><span class="p">,</span> <span class="s1">'preprocessor.pkl'</span><span class="p">),</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">preprocessor</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DELIVERABLE_MODELS</span><span class="p">,</span> <span class="s1">'lead_scorer_robust.pkl'</span><span class="p">),</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DELIVERABLE_MODELS</span><span class="p">,</span> <span class="s1">'lead_scorer.pkl'</span><span class="p">),</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">lead_scorer</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DELIVERABLE_MODELS</span><span class="p">,</span> <span class="s1">'clustering.pkl'</span><span class="p">),</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -8116,51 +8112,32 @@ de un contacto hasta la predicción del score, cluster y recomendación.</p>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DELIVERABLE_MODELS</span><span class="p">,</span> <span class="s1">'feature_names.pkl'</span><span class="p">),</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">feature_names</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-<span class="c1"># Feature list del modelo robusto</span>
-<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">feature_names</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-    <span class="n">FEATURE_COLS</span> <span class="o">=</span> <span class="n">feature_names</span><span class="p">[</span><span class="s1">'robust'</span><span class="p">]</span>
+<span class="c1"># Feature list del modelo</span>
+<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">feature_names</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="n">FEATURE_COLS</span> <span class="o">=</span> <span class="n">feature_names</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">FEATURE_COLS</span> <span class="o">=</span> <span class="n">feature_names</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Artefactos cargados:'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Preprocessor: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">preprocessor</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Lead scorer (robusto): </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lead_scorer</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Features robustas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FEATURE_COLS</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Lead scorer: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lead_scorer</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Features: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FEATURE_COLS</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Clustering: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">clustering_bundle</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Artefactos cargados:
-  Preprocessor: Pipeline
-  Lead scorer (robusto): LGBMClassifier
-  Features robustas: 38
-  Clustering: ['kmeans', 'imputer', 'scaler', 'features']
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6dd2d544">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6dd2d544">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">score_lead</span><span class="p">(</span><span class="n">contact_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Pipeline completo: datos de contacto -&gt; score + cluster + recomendacion.</span>
-<span class="sd">    Usa exclusivamente el modelo robusto (sin features con data leakage).</span>
-<span class="sd">    """</span>
+<span class="w">    </span><span class="sd">"""Pipeline completo: datos de contacto -&gt; score + cluster + recomendacion."""</span>
     <span class="c1"># 1. Crear DataFrame</span>
     <span class="n">df_input</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">contact_data</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">FEATURE_COLS</span><span class="p">:</span>
@@ -8203,25 +8180,12 @@ de un contacto hasta la predicción del score, cluster y recomendación.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Funcion score_lead() definida
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=08f33709">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=08f33709">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Demo: scorear un contacto real del pool de no contactados</span>
@@ -8239,33 +8203,10 @@ de un contacto hasta la predicción del score, cluster y recomendación.</p>
 <span class="c1"># Scorear usando la funcion score_lead</span>
 <span class="n">demo_features</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">:</span> <span class="n">top_contact</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">FEATURE_COLS</span> <span class="k">if</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">top_contact</span><span class="o">.</span><span class="n">index</span><span class="p">}</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">score_lead</span><span class="p">(</span><span class="n">demo_features</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'=== Resultado del scoring (modelo robusto) ==='</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'=== Resultado del scoring ==='</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>=== Demo: contacto real del pool (top 1 por lead_score) ===
-  Empresa: Real Madrid C.F.
-  Seniority: MANAGER
-  Departamento: Sales &amp; MKT
-
-=== Resultado del scoring (modelo robusto) ===
-  lead_score: 0.887
-  cluster: 1
-  risk_level: ALTO
-  recommended_channel: LinkedIn
-  recommended_day: Jueves
-</pre>
 </div>
 </div>
 </div>
@@ -8373,12 +8314,12 @@ Experimento: raona_lead_scoring
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3ea854cd">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3ea854cd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cargar metricas reales de NB04</span>
@@ -8387,114 +8328,52 @@ Experimento: raona_lead_scoring
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metrics_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">nb04_metrics</span> <span class="o">=</span> <span class="n">json_lib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-<span class="n">complete_m</span> <span class="o">=</span> <span class="n">nb04_metrics</span><span class="p">[</span><span class="s1">'complete'</span><span class="p">]</span>
-<span class="n">robust_m</span> <span class="o">=</span> <span class="n">nb04_metrics</span><span class="p">[</span><span class="s1">'robust'</span><span class="p">]</span>
+<span class="n">model_m</span> <span class="o">=</span> <span class="n">nb04_metrics</span><span class="p">[</span><span class="s1">'complete'</span><span class="p">]</span>
 
-<span class="c1"># Registrar los experimentos de NB04 retroactivamente</span>
-<span class="n">experiments</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s1">'name'</span><span class="p">:</span> <span class="s1">'LightGBM_complete'</span><span class="p">,</span>
-        <span class="s1">'params'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'model_type'</span><span class="p">:</span> <span class="s1">'LightGBM'</span><span class="p">,</span> <span class="s1">'tuned'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'n_trials'</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-                   <span class="s1">'n_features'</span><span class="p">:</span> <span class="n">nb04_metrics</span><span class="p">[</span><span class="s1">'n_features_complete'</span><span class="p">],</span>
-                   <span class="s1">'note'</span><span class="p">:</span> <span class="s1">'Modelo academico - incluye features con data leakage'</span><span class="p">},</span>
-        <span class="s1">'metrics'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'pr_auc'</span><span class="p">:</span> <span class="n">complete_m</span><span class="p">[</span><span class="s1">'PR-AUC'</span><span class="p">],</span> <span class="s1">'roc_auc'</span><span class="p">:</span> <span class="n">complete_m</span><span class="p">[</span><span class="s1">'ROC-AUC'</span><span class="p">],</span>
-                    <span class="s1">'precision_at_100'</span><span class="p">:</span> <span class="n">complete_m</span><span class="p">[</span><span class="s1">'Precision@100'</span><span class="p">],</span> <span class="s1">'lift_10pct'</span><span class="p">:</span> <span class="n">complete_m</span><span class="p">[</span><span class="s1">'Lift@10%'</span><span class="p">]},</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s1">'name'</span><span class="p">:</span> <span class="s1">'LightGBM_robust_PRODUCTION'</span><span class="p">,</span>
-        <span class="s1">'params'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'model_type'</span><span class="p">:</span> <span class="s1">'LightGBM'</span><span class="p">,</span> <span class="s1">'tuned'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                   <span class="s1">'n_features'</span><span class="p">:</span> <span class="n">nb04_metrics</span><span class="p">[</span><span class="s1">'n_features_robust'</span><span class="p">],</span>
-                   <span class="s1">'leakage_features_removed'</span><span class="p">:</span> <span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nb04_metrics</span><span class="p">[</span><span class="s1">'leaking_features'</span><span class="p">])},</span>
-        <span class="s1">'metrics'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'pr_auc'</span><span class="p">:</span> <span class="n">robust_m</span><span class="p">[</span><span class="s1">'PR-AUC'</span><span class="p">],</span> <span class="s1">'roc_auc'</span><span class="p">:</span> <span class="n">robust_m</span><span class="p">[</span><span class="s1">'ROC-AUC'</span><span class="p">],</span>
-                    <span class="s1">'precision_at_100'</span><span class="p">:</span> <span class="n">robust_m</span><span class="p">[</span><span class="s1">'Precision@100'</span><span class="p">],</span> <span class="s1">'lift_10pct'</span><span class="p">:</span> <span class="n">robust_m</span><span class="p">[</span><span class="s1">'Lift@10%'</span><span class="p">]},</span>
-    <span class="p">},</span>
-<span class="p">]</span>
+<span class="c1"># Registrar el experimento de NB04 retroactivamente</span>
+<span class="n">experiment</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'name'</span><span class="p">:</span> <span class="s1">'LightGBM_PRODUCTION'</span><span class="p">,</span>
+    <span class="s1">'params'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'model_type'</span><span class="p">:</span> <span class="s1">'LightGBM'</span><span class="p">,</span> <span class="s1">'tuned'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'n_trials'</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+               <span class="s1">'n_features'</span><span class="p">:</span> <span class="n">nb04_metrics</span><span class="p">[</span><span class="s1">'n_features_complete'</span><span class="p">]},</span>
+    <span class="s1">'metrics'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'pr_auc'</span><span class="p">:</span> <span class="n">model_m</span><span class="p">[</span><span class="s1">'PR-AUC'</span><span class="p">],</span> <span class="s1">'roc_auc'</span><span class="p">:</span> <span class="n">model_m</span><span class="p">[</span><span class="s1">'ROC-AUC'</span><span class="p">],</span>
+                <span class="s1">'precision_at_100'</span><span class="p">:</span> <span class="n">model_m</span><span class="p">[</span><span class="s1">'Precision@100'</span><span class="p">],</span> <span class="s1">'lift_10pct'</span><span class="p">:</span> <span class="n">model_m</span><span class="p">[</span><span class="s1">'Lift@10%'</span><span class="p">]},</span>
+<span class="p">}</span>
 
-<span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="n">exp</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]):</span>
-        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_params</span><span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="s1">'params'</span><span class="p">])</span>
-        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="s1">'metrics'</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">exp</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'LightGBM_robust_PRODUCTION'</span><span class="p">:</span>
-            <span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">log_model</span><span class="p">(</span><span class="n">lead_scorer</span><span class="p">,</span> <span class="s1">'lead_scorer_robust'</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Registrado: </span><span class="si">{</span><span class="n">exp</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span><span class="si">}</span><span class="s1"> (PR-AUC=</span><span class="si">{</span><span class="n">exp</span><span class="p">[</span><span class="s2">"metrics"</span><span class="p">][</span><span class="s2">"pr_auc"</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="n">experiment</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]):</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">log_params</span><span class="p">(</span><span class="n">experiment</span><span class="p">[</span><span class="s1">'params'</span><span class="p">])</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span><span class="n">experiment</span><span class="p">[</span><span class="s1">'metrics'</span><span class="p">])</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">log_model</span><span class="p">(</span><span class="n">lead_scorer</span><span class="p">,</span> <span class="s1">'lead_scorer'</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Total runs registrados: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Registrado: </span><span class="si">{</span><span class="n">experiment</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span><span class="si">}</span><span class="s1"> (PR-AUC=</span><span class="si">{</span><span class="n">experiment</span><span class="p">[</span><span class="s2">"metrics"</span><span class="p">][</span><span class="s2">"pr_auc"</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Total runs registrados: 1'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>2026/03/17 12:21:57 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  Registrado: LightGBM_complete (PR-AUC=0.303)
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre><span class="ansi-red-fg">2026/03/17 12:21:59 WARNING mlflow.models.model: Model logged without a signature and input example. Please set `input_example` parameter when logging the model to auto infer the model signature.</span>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  Registrado: LightGBM_robust_PRODUCTION (PR-AUC=0.258)
-
-Total runs registrados: 2
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ad82bea0">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ad82bea0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visualizar comparacion de experimentos</span>
-<span class="n">exp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
-    <span class="p">{</span><span class="s1">'Modelo'</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">'name'</span><span class="p">],</span> <span class="s1">'PR-AUC'</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">'metrics'</span><span class="p">][</span><span class="s1">'pr_auc'</span><span class="p">],</span> <span class="s1">'ROC-AUC'</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">'metrics'</span><span class="p">][</span><span class="s1">'roc_auc'</span><span class="p">]}</span>
-    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">experiments</span>
-<span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visualizar el experimento registrado</span>
+<span class="n">exp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span>
+    <span class="s1">'Modelo'</span><span class="p">:</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">'name'</span><span class="p">],</span>
+    <span class="s1">'PR-AUC'</span><span class="p">:</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">'metrics'</span><span class="p">][</span><span class="s1">'pr_auc'</span><span class="p">],</span>
+    <span class="s1">'ROC-AUC'</span><span class="p">:</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">'metrics'</span><span class="p">][</span><span class="s1">'roc_auc'</span><span class="p">]</span>
+<span class="p">}])</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'PR-AUC'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">exp_df</span><span class="p">[</span><span class="s1">'Modelo'</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">exp_df</span><span class="p">[</span><span class="s1">'PR-AUC'</span><span class="p">],</span>
                      <span class="n">marker_color</span><span class="o">=</span><span class="s1">'#2ecc71'</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">exp_df</span><span class="p">[</span><span class="s1">'PR-AUC'</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">textposition</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">))</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'ROC-AUC'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">exp_df</span><span class="p">[</span><span class="s1">'Modelo'</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">exp_df</span><span class="p">[</span><span class="s1">'ROC-AUC'</span><span class="p">],</span>
                      <span class="n">marker_color</span><span class="o">=</span><span class="s1">'#3498db'</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">exp_df</span><span class="p">[</span><span class="s1">'ROC-AUC'</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">textposition</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">))</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'MLflow: Comparacion de experimentos'</span><span class="p">,</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">'group'</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'MLflow: Experimento registrado'</span><span class="p">,</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">'group'</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<div> <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
-<script charset="utf-8" crossorigin="anonymous" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> <div class="plotly-graph-div" id="c7327abe-b497-4d7d-8165-091b55927291" style="height:400px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("c7327abe-b497-4d7d-8165-091b55927291")) {                    Plotly.newPlot(                        "c7327abe-b497-4d7d-8165-091b55927291",                        [{"marker":{"color":"#2ecc71"},"name":"PR-AUC","text":{"bdata":"MQisHFpk0z9QjZduEoPQPw==","dtype":"f8"},"textposition":"auto","x":["LightGBM_complete","LightGBM_robust_PRODUCTION"],"y":{"bdata":"jnF89aVg0z\u002fWaYB6bYnQPw==","dtype":"f8"},"type":"bar"},{"marker":{"color":"#3498db"},"name":"ROC-AUC","text":{"bdata":"bxKDwMqh5T\u002fHSzeJQWDlPw==","dtype":"f8"},"textposition":"auto","x":["LightGBM_complete","LightGBM_robust_PRODUCTION"],"y":{"bdata":"Z\u002fCsCoOg5T9uVVk+ymDlPw==","dtype":"f8"},"type":"bar"}],                        {"barmode":"group","height":400,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"MLflow: Comparacion de experimentos"}},                        {"responsive": true}                    )                };            </script> </div>
 </div>
 </div>
 </div>
@@ -8514,7 +8393,7 @@ corriendo y atiende peticiones de scoring en tiempo real.</p>
 <li>Integraciones con CRM u otros sistemás internos</li>
 <li>Cualquier sistema que necesite scorear un lead puntual</li>
 </ul>
-<h3 id="Arquitectura">Arquitectura<a class="anchor-link" href="#Arquitectura">¶</a></h3><pre><code>POST /score  -&gt;  FastAPI  -&gt;  modelo robusto  -&gt;  JSON response
+<h3 id="Arquitectura">Arquitectura<a class="anchor-link" href="#Arquitectura">¶</a></h3><pre><code>POST /score  -&gt;  FastAPI  -&gt;  modelo  -&gt;  JSON response
 GET /health  -&gt;  verificación de que el servicio esta activo
 </code></pre>
 <p>El contenedor Docker empaqueta el API + modelos + dependencias en una imagen
@@ -8527,15 +8406,15 @@ para garantizar reproducibilidad. Los archivos generados son: <code>api.py</code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=14ba3c25">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=14ba3c25">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar api.py (usa exclusivamente el modelo robusto)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar api.py</span>
 <span class="n">api_code</span> <span class="o">=</span> <span class="s1">'''"""FastAPI endpoint para el lead scoring de Raona.</span>
 
 <span class="s1">Uso:</span>
@@ -8552,19 +8431,19 @@ para garantizar reproducibilidad. Los archivos generados son: <code>api.py</code
 <span class="s1">from pydantic import BaseModel, Field</span>
 <span class="s1">from typing import Optional</span>
 
-<span class="s1"># --- Cargar modelo robusto al iniciar ---</span>
+<span class="s1"># --- Cargar modelo al iniciar ---</span>
 <span class="s1">MODEL_DIR = os.path.join(os.path.dirname(__file__), "models")</span>
 
-<span class="s1">with open(os.path.join(MODEL_DIR, "preprocessor_robust.pkl"), "rb") as f:</span>
+<span class="s1">with open(os.path.join(MODEL_DIR, "preprocessor.pkl"), "rb") as f:</span>
 <span class="s1">    preprocessor = pickle.load(f)</span>
-<span class="s1">with open(os.path.join(MODEL_DIR, "lead_scorer_robust.pkl"), "rb") as f:</span>
+<span class="s1">with open(os.path.join(MODEL_DIR, "lead_scorer.pkl"), "rb") as f:</span>
 <span class="s1">    lead_scorer = pickle.load(f)</span>
 <span class="s1">with open(os.path.join(MODEL_DIR, "clustering.pkl"), "rb") as f:</span>
 <span class="s1">    clustering_bundle = pickle.load(f)</span>
 <span class="s1">with open(os.path.join(MODEL_DIR, "feature_names.pkl"), "rb") as f:</span>
 <span class="s1">    feature_names = pickle.load(f)</span>
 
-<span class="s1">FEATURE_COLS = feature_names["robust"] if isinstance(feature_names, dict) else feature_names</span>
+<span class="s1">FEATURE_COLS = feature_names if isinstance(feature_names, list) else feature_names</span>
 <span class="s1">CLUSTER_FEATURES = clustering_bundle["features"]</span>
 
 
@@ -8594,6 +8473,7 @@ para garantizar reproducibilidad. Los archivos generados son: <code>api.py</code
 <span class="s1">    ext_ms_maturity_score: Optional[float] = Field(None, description="Score madurez Microsoft")</span>
 <span class="s1">    ext_has_competitor_tech: Optional[float] = Field(None, description="Usa tech competidora (0/1)")</span>
 <span class="s1">    nlp_report_length: Optional[float] = Field(None, description="Longitud company report")</span>
+<span class="s1">    nlp_contact_report_length: Optional[float] = Field(None, description="Longitud contact report AI")</span>
 <span class="s1">    nlp_has_momentum: Optional[float] = Field(None, description="Tiene info momentum (0/1)")</span>
 <span class="s1">    nlp_urgency_score: Optional[float] = Field(None, description="Score de urgencia")</span>
 <span class="s1">    nlp_embedding_01: Optional[float] = Field(None, description="Embedding UMAP dim 1")</span>
@@ -8614,7 +8494,7 @@ para garantizar reproducibilidad. Los archivos generados son: <code>api.py</code
 <span class="s1"># --- App ---</span>
 <span class="s1">app = FastAPI(</span>
 <span class="s1">    title="Raona Lead Scoring API",</span>
-<span class="s1">    description="Scoring de leads B2B con modelo robusto LightGBM",</span>
+<span class="s1">    description="Scoring de leads B2B con modelo LightGBM",</span>
 <span class="s1">    version="2.0.0",</span>
 <span class="s1">)</span>
 
@@ -8623,7 +8503,7 @@ para garantizar reproducibilidad. Los archivos generados son: <code>api.py</code
 <span class="s1">def health_check():</span>
 <span class="s1">    return {</span>
 <span class="s1">        "status": "ok",</span>
-<span class="s1">        "model": "lead_scorer_robust",</span>
+<span class="s1">        "model": "lead_scorer",</span>
 <span class="s1">        "n_features": len(FEATURE_COLS),</span>
 <span class="s1">        "n_clusters": clustering_bundle["kmeans"].n_clusters,</span>
 <span class="s1">    }</span>
@@ -8679,22 +8559,8 @@ para garantizar reproducibilidad. Los archivos generados son: <code>api.py</code
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">api_code</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'API generado: </span><span class="si">{</span><span class="n">api_path</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Modelo: lead_scorer_robust.pkl (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FEATURE_COLS</span><span class="p">)</span><span class="si">}</span><span class="s1"> features, sin data leakage)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Modelo: lead_scorer.pkl (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FEATURE_COLS</span><span class="p">)</span><span class="si">}</span><span class="s1"> features)'</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>API generado: ./app/api.py
-Modelo: lead_scorer_robust.pkl (38 features, sin data leakage)
-</pre>
 </div>
 </div>
 </div>
@@ -8780,12 +8646,12 @@ Response:
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4a58dfd6">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4a58dfd6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar Dockerfile para Container 1 (API)</span>
@@ -8801,8 +8667,8 @@ Response:
 <span class="s1">RUN pip install --no-cache-dir -r requirements.txt</span>
 
 <span class="s1">COPY api.py .</span>
-<span class="s1">COPY models/lead_scorer_robust.pkl models/</span>
-<span class="s1">COPY models/preprocessor_robust.pkl models/</span>
+<span class="s1">COPY models/lead_scorer.pkl models/</span>
+<span class="s1">COPY models/preprocessor.pkl models/</span>
 <span class="s1">COPY models/clustering.pkl models/</span>
 <span class="s1">COPY models/feature_names.pkl models/</span>
 
@@ -8818,19 +8684,6 @@ Response:
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dockerfile</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Dockerfile generado (Container 1: API)'</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Dockerfile generado (Container 1: API)
-</pre>
 </div>
 </div>
 </div>
@@ -8941,7 +8794,7 @@ requirements.txt generado
 <tr>
 <td><strong>score</strong></td>
 <td><code>pipelines/score.py</code></td>
-<td>Scorea todos los contactos con <code>lead_scorer_robust.pkl</code>, asigna clusters</td>
+<td>Scorea todos los contactos con <code>lead_scorer.pkl</code>, asigna clusters</td>
 </tr>
 <tr>
 <td><strong>deliver</strong></td>
@@ -9008,7 +8861,7 @@ Este DAG lo detecta antes de que sea un problema.</p>
 <tr>
 <td><strong>retrain</strong></td>
 <td><code>pipelines/retrain.py</code></td>
-<td>Reentrena LightGBM con datos acumulados (solo modelo robusto)</td>
+<td>Reentrena LightGBM con datos acumulados</td>
 </tr>
 <tr>
 <td><strong>validate</strong></td>
@@ -9018,7 +8871,7 @@ Este DAG lo detecta antes de que sea un problema.</p>
 <tr>
 <td><strong>deploy</strong></td>
 <td><code>pipelines/validate.py</code></td>
-<td>Reemplaza <code>lead_scorer_robust.pkl</code> en el Container 1</td>
+<td>Reemplaza <code>lead_scorer.pkl</code> en el Container 1</td>
 </tr>
 </tbody>
 </table>
@@ -9109,12 +8962,12 @@ y los datos más recientes:</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=943ef819">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=943ef819">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Simular monitorizacion: dividir datos en referencia y produccion</span>
@@ -9130,7 +8983,7 @@ y los datos más recientes:</p>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Datos de referencia (entrenamiento): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_train_ref</span><span class="p">)</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> filas'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Datos simulados (produccion): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_prod_sim</span><span class="p">)</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> filas'</span><span class="p">)</span>
 
-<span class="c1"># Calcular PSI para cada feature del modelo robusto</span>
+<span class="c1"># Calcular PSI para cada feature del modelo</span>
 <span class="n">psi_results</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">FEATURE_COLS</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
@@ -9139,70 +8992,9 @@ y los datos más recientes:</p>
         <span class="n">psi_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'Feature'</span><span class="p">:</span> <span class="n">col</span><span class="p">,</span> <span class="s1">'PSI'</span><span class="p">:</span> <span class="n">psi</span><span class="p">,</span> <span class="s1">'Status'</span><span class="p">:</span> <span class="n">status</span><span class="p">})</span>
 
 <span class="n">psi_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">psi_results</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'PSI'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">=== PSI por feature (modelo robusto) ==='</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">=== PSI por feature ==='</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">psi_df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Datos de referencia (entrenamiento): 2,993 filas
-Datos simulados (produccion): 2,994 filas
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-=== PSI por feature (modelo robusto) ===
-                    Feature      PSI      Status
-           fe_log_employees 0.181015 MONITORIZAR
-        Number of employees 0.181015 MONITORIZAR
-           nlp_embedding_01 0.158765 MONITORIZAR
-           nlp_embedding_02 0.149021 MONITORIZAR
-     fe_company_size_bucket 0.146012 MONITORIZAR
-      fe_headcount_momentum 0.123971 MONITORIZAR
-     fe_type_of_contact_ord 0.116110 MONITORIZAR
- Two years headcount growth 0.109045 MONITORIZAR
-Six months headcount growth 0.105107 MONITORIZAR
-           nlp_embedding_03 0.099063          OK
-      fe_department_encoded 0.077968          OK
-    Yearly headcount growth 0.077795          OK
-      ext_ms_maturity_score 0.072872          OK
-               Year founded 0.062031          OK
-             fe_company_age 0.053566          OK
-                  nlp_topic 0.035623          OK
-          nlp_urgency_score 0.029411          OK
-          nlp_report_length 0.018129          OK
-      Number of connections 0.015926          OK
-         fe_log_connections 0.015926          OK
-           Years in company 0.010689          OK
-              Years in role 0.005308          OK
-           fe_seniority_ord 0.005119          OK
-       fe_tech_fit_colabora 0.000000          OK
-          fe_tech_fit_infra 0.000000          OK
-       fe_tech_fit_comunica 0.000000          OK
-      fe_tech_fit_workplace 0.000000          OK
-             fe_tech_fit_ia 0.000000          OK
-           fe_tech_fit_data 0.000000          OK
-                 fe_has_bio 0.000000          OK
-           nlp_has_momentum 0.000000          OK
-    ext_has_competitor_tech 0.000000          OK
-          fe_microsoft_flag 0.000000          OK
-               fe_has_email 0.000000          OK
-       fe_fit_data_approved 0.000000          OK
-            fe_fit_approved 0.000000          OK
-         Hiring on LinkedIn 0.000000          OK
-          fe_tech_fit_maite 0.000000          OK
-</pre>
 </div>
 </div>
 </div>
@@ -9247,7 +9039,8 @@ Six months headcount growth 0.105107 MONITORIZAR
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<div> <div class="plotly-graph-div" id="9de30300-125c-4cc7-a9c3-5782c15156fe" style="height:500px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("9de30300-125c-4cc7-a9c3-5782c15156fe")) {                    Plotly.newPlot(                        "9de30300-125c-4cc7-a9c3-5782c15156fe",                        [{"marker":{"color":["#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71"]},"text":{"bdata":"XrpJDAIrxz9eukkMAivHPycxCKwcWsQ\u002f30+Nl24Swz\u002fjpZvEILDCP1g5tMh2vr8\u002fGQRWDi2yvT+BlUOLbOe7P+F6FK5H4bo\u002f8tJNYhBYuT8rhxbZzvezPyuHFtnO97M\u002f46WbxCCwsj9YObTIdr6vP9nO91Pjpas\u002fO99PjZduoj8ZBFYOLbKdPzvfT42XbpI\u002f\u002fKnx0k1ikD\u002f8qfHSTWKQP7pJDAIrh4Y\u002fexSuR+F6dD97FK5H4Xp0PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==","dtype":"f8"},"textposition":"auto","x":["fe_log_employees","Number of employees","nlp_embedding_01","nlp_embedding_02","fe_company_size_bucket","fe_headcount_momentum","fe_type_of_contact_ord","Two years headcount growth","Six months headcount growth","nlp_embedding_03","fe_department_encoded","Yearly headcount growth","ext_ms_maturity_score","Year founded","fe_company_age","nlp_topic","nlp_urgency_score","nlp_report_length","Number of connections","fe_log_connections","Years in company","Years in role","fe_seniority_ord","fe_tech_fit_colabora","fe_tech_fit_infra","fe_tech_fit_comunica","fe_tech_fit_workplace","fe_tech_fit_ia","fe_tech_fit_data","fe_has_bio","nlp_has_momentum","ext_has_competitor_tech","fe_microsoft_flag","fe_has_email","fe_fit_data_approved","fe_fit_approved","Hiring on LinkedIn","fe_tech_fit_maite"],"y":{"bdata":"yHEjnoIrxz\u002fIcSOegivHP8SzdhBoUsQ\u002fO+pklCETwz+iPWD4gbDCP5JZkJGLvL8\u002f6k4C8Fy5vT+U3kHxWuq7P1U7xSdN6Lo\u002f4M7OqS9cuT+8V35VuPWzPx7thPFc6rM\u002f7zBz1MOnsj+9\u002fjpAfsKvP3ZqF6MPbas\u002fgEGRUiU9oj8iJNSFzR2eP8UCbrZgkJI\u002fbYr+LwdPkD9tiv4vB0+QPx\u002f2eeL244U\u002f8U2yQdq9dT\u002fYxyhUJ\u002fd0PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==","dtype":"f8"},"type":"bar"}],                        {"annotations":[{"showarrow":false,"text":"Umbral monitorizar (0.1)","x":1,"xanchor":"right","xref":"x domain","y":0.1,"yanchor":"bottom","yref":"y"},{"showarrow":false,"text":"Umbral alerta (0.25)","x":1,"xanchor":"right","xref":"x domain","y":0.25,"yanchor":"bottom","yref":"y"}],"height":500,"shapes":[{"line":{"color":"#f39c12","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.1,"y1":0.1,"yref":"y"},{"line":{"color":"#e74c3c","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.25,"y1":0.25,"yref":"y"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Population Stability Index (PSI) por feature"},"xaxis":{"tickangle":-45,"title":{"text":"Feature"}},"yaxis":{"title":{"text":"PSI"}}},                        {"responsive": true}                    )                };            </script> </div>
+<div> <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+<script charset="utf-8" crossorigin="anonymous" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> <div class="plotly-graph-div" id="cc575aca-6a64-4ca6-b31a-06675349ea58" style="height:500px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("cc575aca-6a64-4ca6-b31a-06675349ea58")) {                    Plotly.newPlot(                        "cc575aca-6a64-4ca6-b31a-06675349ea58",                        [{"marker":{"color":["#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71"]},"text":["0.181","0.181","0.159","0.149","0.146","0.124","0.116","0.109","0.105","0.099","0.078","0.078","0.073","0.062","0.054","0.036","0.029","0.018","0.016","0.016","0.011","0.005","0.005","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0"],"textposition":"auto","x":["fe_log_employees","Number of employees","nlp_embedding_01","nlp_embedding_02","fe_company_size_bucket","fe_headcount_momentum","fe_type_of_contact_ord","Two years headcount growth","Six months headcount growth","nlp_embedding_03","fe_department_encoded","Yearly headcount growth","ext_ms_maturity_score","Year founded","fe_company_age","nlp_topic","nlp_urgency_score","nlp_report_length","Number of connections","fe_log_connections","Years in company","Years in role","fe_seniority_ord","fe_tech_fit_colabora","fe_tech_fit_infra","fe_tech_fit_comunica","fe_tech_fit_workplace","fe_tech_fit_ia","fe_tech_fit_data","fe_has_bio","nlp_has_momentum","ext_has_competitor_tech","fe_microsoft_flag","fe_has_email","fe_fit_data_approved","fe_fit_approved","Hiring on LinkedIn","fe_tech_fit_maite"],"y":[0.1810153267059731,0.1810153267059731,0.15876484683886194,0.14902133699236395,0.1460115874074122,0.12397072128110256,0.11610966548533566,0.10904472723074782,0.10510713787992405,0.0990628995485241,0.07796814048046391,0.07779484650102517,0.0728723901440309,0.0620307401090918,0.053566445025087825,0.0356227553644457,0.029410563748602077,0.01812888253653246,0.015926468185748655,0.015926468185748655,0.010688713823806371,0.005308010640095771,0.005118516567152974,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"type":"bar"}],                        {"annotations":[{"showarrow":false,"text":"Umbral monitorizar (0.1)","x":1,"xanchor":"right","xref":"x domain","y":0.1,"yanchor":"bottom","yref":"y"},{"showarrow":false,"text":"Umbral alerta (0.25)","x":1,"xanchor":"right","xref":"x domain","y":0.25,"yanchor":"bottom","yref":"y"}],"height":500,"shapes":[{"line":{"color":"#f39c12","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.1,"y1":0.1,"yref":"y"},{"line":{"color":"#e74c3c","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.25,"y1":0.25,"yref":"y"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"sequentialminus":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Population Stability Index (PSI) por feature"},"xaxis":{"tickangle":-45,"title":{"text":"Feature"}},"yaxis":{"title":{"text":"PSI"}}},                        {"responsive": true}                    )                };            </script> </div>
 </div>
 </div>
 </div>
@@ -9342,9 +9135,7 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 │   ├── docker-compose.yml
 │   ├── requirements.txt
 │   ├── models/
-│   │   ├── lead_scorer_robust.pkl    # Modelo de PRODUCCION
-│   │   ├── lead_scorer_complete.pkl  # Solo uso academico
-│   │   ├── preprocessor_robust.pkl
+│   │   ├── lead_scorer.pkl           # Modelo de PRODUCCION
 │   │   ├── preprocessor.pkl
 │   │   ├── clustering.pkl
 │   │   └── feature_names.pkl
@@ -9410,11 +9201,11 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 <li><strong>Priorizacion en campaña</strong>: ordenar contactos por lead_score antes del outreach</li>
 <li><strong>Feedback loop</strong>: resultados del outreach retroalimentan el reentrenamiento</li>
 </ol>
-<h3 id="A/B-Testing">A/B Testing<a class="anchor-link" href="#A/B-Testing">¶</a></h3><p>Para validar el impacto real del modelo robusto:</p>
+<h3 id="A/B-Testing">A/B Testing<a class="anchor-link" href="#A/B-Testing">¶</a></h3><p>Para validar el impacto real del modelo:</p>
 <ul>
 <li><strong>Grupo A</strong>: Outreach priorizado por lead_score (top 50%)</li>
 <li><strong>Grupo B</strong>: Outreach aleatorio (baseline actual de Raona)</li>
-<li><strong>Métrica</strong>: reply rate del grupo A vs grupo B</li>
+<li><strong>Metrica</strong>: reply rate del grupo A vs grupo B</li>
 <li><strong>Duracion</strong>: 4-6 semanas, 500 contactos por grupo</li>
 <li><strong>Hipotesis</strong>: basandonos en el lift@10% de 2.1x, esperamos que el grupo A tenga una tasa de respuesta significativamente superior</li>
 </ul>
@@ -9433,7 +9224,7 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 <thead>
 <tr>
 <th>Archivo</th>
-<th>Descripción</th>
+<th>Descripcion</th>
 </tr>
 </thead>
 <tbody>
@@ -9442,12 +9233,12 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 <td>Endpoint FastAPI (POST /score, GET /health)</td>
 </tr>
 <tr>
-<td><code>models/lead_scorer_robust.pkl</code></td>
-<td><strong>Modelo de PRODUCCION</strong> (38 features, sin data leakage)</td>
+<td><code>models/lead_scorer.pkl</code></td>
+<td><strong>Modelo de PRODUCCION</strong> (39 features)</td>
 </tr>
 <tr>
-<td><code>models/preprocessor_robust.pkl</code></td>
-<td>Pipeline preprocesado del modelo robusto</td>
+<td><code>models/preprocessor.pkl</code></td>
+<td>Pipeline preprocesado</td>
 </tr>
 <tr>
 <td><code>app/Dockerfile</code></td>
@@ -9455,7 +9246,7 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 </tr>
 <tr>
 <td><code>app/docker-compose.yml</code></td>
-<td>Orquestación del contenedor</td>
+<td>Orquestacion del contenedor</td>
 </tr>
 <tr>
 <td><code>app/requirements.txt</code></td>
@@ -9467,11 +9258,11 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 </tr>
 </tbody>
 </table>
-<h3 id="Arquitectura-de-producci%C3%B3n">Arquitectura de producción<a class="anchor-link" href="#Arquitectura-de-producci%C3%B3n">¶</a></h3><table>
+<h3 id="Arquitectura-de-produccion">Arquitectura de produccion<a class="anchor-link" href="#Arquitectura-de-produccion">¶</a></h3><table>
 <thead>
 <tr>
 <th>Componente</th>
-<th>Función</th>
+<th>Funcion</th>
 <th>Frecuencia</th>
 </tr>
 </thead>
@@ -9498,20 +9289,20 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 </tr>
 </tbody>
 </table>
-<h3 id="Modelo-robusto-en-producci%C3%B3n">Modelo robusto en producción<a class="anchor-link" href="#Modelo-robusto-en-producci%C3%B3n">¶</a></h3><table>
+<h3 id="Modelo-en-produccion">Modelo en produccion<a class="anchor-link" href="#Modelo-en-produccion">¶</a></h3><table>
 <thead>
 <tr>
-<th>Métrica</th>
+<th>Metrica</th>
 <th>Valor</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>PR-AUC</td>
-<td>0.258</td>
+<td>0.303</td>
 </tr>
 <tr>
-<td>Precisión@100</td>
+<td>Precision@100</td>
 <td>31% (vs 14% aleatorio)</td>
 </tr>
 <tr>
@@ -9520,23 +9311,23 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 </tr>
 <tr>
 <td>Features</td>
-<td>38 (1 excluida por data leakage)</td>
+<td>39</td>
 </tr>
 </tbody>
 </table>
-<h3 id="Conclusi%C3%B3n">Conclusión<a class="anchor-link" href="#Conclusi%C3%B3n">¶</a></h3><p>El sistema va más alla de un modelo aislado: es un <strong>pipeline de producción profesional</strong>
-con scoring en tiempo real (API), procesamiento en batch (DAG 1), monitorización continua
-(DAG 2) y una interfaz accesible (Streamlit). El modelo robusto duplica la tasa de respuesta
+<h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h3><p>El sistema va mas alla de un modelo aislado: es un <strong>pipeline de produccion profesional</strong>
+con scoring en tiempo real (API), procesamiento en batch (DAG 1), monitorizacion continua
+(DAG 2) y una interfaz accesible (Streamlit). El modelo duplica la tasa de respuesta
 en el top 10% de leads, y Raona podria desplegarlo con <code>docker-compose up</code>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=30e79b27">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=30e79b27">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Inventario final</span>
@@ -9545,12 +9336,12 @@ en el top 10% de leads, y Raona podria desplegarlo con <code>docker-compose up</
 <span class="nb">print</span><span class="p">(</span><span class="s1">'='</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 
 <span class="n">generated_files</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s1">'app/api.py'</span><span class="p">,</span> <span class="s1">'FastAPI endpoint (modelo robusto)'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/api.py'</span><span class="p">,</span> <span class="s1">'FastAPI endpoint'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/Dockerfile'</span><span class="p">,</span> <span class="s1">'Container 1: imagen Docker'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/docker-compose.yml'</span><span class="p">,</span> <span class="s1">'Orquestacion'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/requirements.txt'</span><span class="p">,</span> <span class="s1">'Dependencias'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'app/models/lead_scorer_robust.pkl'</span><span class="p">,</span> <span class="s1">'Modelo robusto (PRODUCCION)'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'app/models/preprocessor_robust.pkl'</span><span class="p">,</span> <span class="s1">'Pipeline preprocesado robusto'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/models/lead_scorer.pkl'</span><span class="p">,</span> <span class="s1">'Modelo (PRODUCCION)'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/models/preprocessor.pkl'</span><span class="p">,</span> <span class="s1">'Pipeline preprocesado'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/models/clustering.pkl'</span><span class="p">,</span> <span class="s1">'K-Means + scaler'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/models/feature_names.pkl'</span><span class="p">,</span> <span class="s1">'Lista de features'</span><span class="p">),</span>
 <span class="p">]</span>
@@ -9563,49 +9354,9 @@ en el top 10% de leads, y Raona podria desplegarlo con <code>docker-compose up</
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">MLflow experiments:'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  URI: </span><span class="si">{</span><span class="n">mlflow</span><span class="o">.</span><span class="n">get_tracking_uri</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Runs registrados: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Modelo en produccion: lead_scorer_robust.pkl (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FEATURE_COLS</span><span class="p">)</span><span class="si">}</span><span class="s1"> features)'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Feature excluida (data leakage): nlp_contact_report_length (de ai_CONTACT_REPORT, post-respuesta)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Modelo en produccion: lead_scorer.pkl (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FEATURE_COLS</span><span class="p">)</span><span class="si">}</span><span class="s1"> features)'</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>============================================================
-RESUMEN NOTEBOOK 05 - MLOps
-============================================================
-
-Archivos del sistema de produccion:
-  [OK] app/api.py -- FastAPI endpoint (modelo robusto)
-  [OK] app/Dockerfile -- Container 1: imagen Docker
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [OK] app/docker-compose.yml -- Orquestacion
-  [OK] app/requirements.txt -- Dependencias
-  [OK] app/models/lead_scorer_robust.pkl -- Modelo robusto (PRODUCCION)
-  [OK] app/models/preprocessor_robust.pkl -- Pipeline preprocesado robusto
-  [OK] app/models/clustering.pkl -- K-Means + scaler
-  [OK] app/models/feature_names.pkl -- Lista de features
-
-MLflow experiments:
-  URI: file://./_working/mlruns
-  Runs registrados: 2
-
-Modelo en produccion: lead_scorer_robust.pkl (38 features)
-Feature excluida (data leakage): nlp_contact_report_length (de ai_CONTACT_REPORT, post-respuesta)
-</pre>
 </div>
 </div>
 </div>

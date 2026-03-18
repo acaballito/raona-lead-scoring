@@ -356,37 +356,15 @@ def load_models():
         preprocessor = pickle.load(f)
     with open(os.path.join(MODEL_DIR, "lead_scorer.pkl"), "rb") as f:
         lead_scorer = pickle.load(f)
-    # Modelo robusto (produccion, sin feature con leakage)
-    robust_path = os.path.join(MODEL_DIR, "lead_scorer_robust.pkl")
-    lead_scorer_robust = None
-    if os.path.exists(robust_path):
-        with open(robust_path, "rb") as f:
-            lead_scorer_robust = pickle.load(f)
-    # Preprocessor robusto
-    robust_prep_path = os.path.join(MODEL_DIR, "preprocessor_robust.pkl")
-    preprocessor_robust = None
-    if os.path.exists(robust_prep_path):
-        with open(robust_prep_path, "rb") as f:
-            preprocessor_robust = pickle.load(f)
     with open(os.path.join(MODEL_DIR, "clustering.pkl"), "rb") as f:
         clustering = pickle.load(f)
     with open(os.path.join(MODEL_DIR, "feature_names.pkl"), "rb") as f:
         feature_names = pickle.load(f)
-    return preprocessor, lead_scorer, lead_scorer_robust, preprocessor_robust, clustering, feature_names
+    return preprocessor, lead_scorer, clustering, feature_names
 
 
 df, daily = load_data()
-preprocessor, lead_scorer, lead_scorer_robust, preprocessor_robust, clustering_bundle, FEATURE_COLS_RAW = load_models()
-
-# Resolve feature names (may be dict with 'complete' and 'robust' keys)
-if isinstance(FEATURE_COLS_RAW, dict):
-    FEATURE_COLS = FEATURE_COLS_RAW.get("robust", FEATURE_COLS_RAW.get("complete", []))
-    FEATURE_COLS_COMPLETE = FEATURE_COLS_RAW.get("complete", FEATURE_COLS)
-    FEATURE_COLS_ROBUST = FEATURE_COLS_RAW.get("robust", FEATURE_COLS)
-else:
-    FEATURE_COLS = FEATURE_COLS_RAW
-    FEATURE_COLS_COMPLETE = FEATURE_COLS_RAW
-    FEATURE_COLS_ROBUST = FEATURE_COLS_RAW
+preprocessor, lead_scorer, clustering_bundle, FEATURE_COLS = load_models()
 
 # Global stats (used across pages)
 TOTAL_CONTACTS = len(df)
@@ -693,9 +671,6 @@ with tab_scorer:
             microsoft_flag = st.checkbox("Usa tecnologia Microsoft", value=False)
             fit_approved = st.checkbox("FIT aprobado", value=True)
             hiring = st.checkbox("Ofertas de empleo activas", value=False)
-            is_enriched = st.checkbox("Contacto ya enriquecido?", value=False,
-                                      help="Si el contacto tiene CONTACT REPORT generado, "
-                                           "se puede usar el modelo completo para un score mas preciso.")
 
         st.markdown("### Indicadores de crecimiento")
         gc1, gc2, gc3 = st.columns(3)
@@ -785,7 +760,7 @@ with tab_scorer:
             ),
             "fe_log_connections": float(np.log1p(connections)),
             "fe_headcount_momentum": 0.5 * growth_6m + 0.3 * growth_1y + 0.2 * growth_2y,
-            "fe_has_email": 1.0 if is_enriched else 0.0,
+            "fe_has_email": 0.0,
             "fe_has_bio": float(has_bio),
             "fe_microsoft_flag": float(microsoft_flag),
             "fe_department_encoded": 0.08,
@@ -803,24 +778,12 @@ with tab_scorer:
 
         df_input = pd.DataFrame([contact_features])
 
-        # Seleccionar modelo: contactos enriquecidos usan modelo completo, otros el robusto
-        if is_enriched:
-            active_model = lead_scorer
-            active_features = FEATURE_COLS_COMPLETE
-            active_preprocessor = preprocessor
-            model_label = "Modelo completo (contacto enriquecido)"
-        else:
-            active_model = lead_scorer_robust if lead_scorer_robust else lead_scorer
-            active_features = FEATURE_COLS_ROBUST
-            active_preprocessor = preprocessor_robust if preprocessor_robust else preprocessor
-            model_label = "Modelo robusto (produccion)"
-
-        for col in active_features:
+        for col in FEATURE_COLS:
             if col not in df_input.columns:
                 df_input[col] = np.nan
 
-        X = active_preprocessor.transform(df_input[active_features])
-        score = float(active_model.predict_proba(X)[:, 1][0])
+        X = preprocessor.transform(df_input[FEATURE_COLS])
+        score = float(lead_scorer.predict_proba(X)[:, 1][0])
 
         cluster_feats = clustering_bundle["features"]
         df_cluster = df_input[cluster_feats].copy()
@@ -849,7 +812,7 @@ with tab_scorer:
         rc2.metric("Prioridad", risk_level)
         rc3.metric("Segmento", cluster_label(cluster))
         rc4.metric("Mejor canal", "LinkedIn")
-        st.caption(f"Modelo utilizado: {model_label}")
+        st.caption("Modelo utilizado: LightGBM (39 features, PR-AUC 0.303)")
 
         # Gauge
         fig = go.Figure(go.Indicator(
@@ -955,8 +918,7 @@ with tab_batch:
     st.title("Batch Lead Scorer")
     st.markdown(
         '<div class="lead-text">'
-        "Sube un CSV con datos de contactos para scorear todos a la vez. "
-        "Se utiliza el modelo robusto (sin features de enriquecimiento) para contactos nuevos."
+        "Sube un CSV con datos de contactos para scorear todos a la vez."
         "</div>",
         unsafe_allow_html=True,
     )
@@ -976,10 +938,7 @@ with tab_batch:
             batch_df = pd.read_csv(uploaded_file)
             st.success(f"{len(batch_df)} contactos cargados")
 
-            # Use robust model for batch
-            active_features = FEATURE_COLS_ROBUST
-            active_prep = preprocessor_robust if preprocessor_robust else preprocessor
-            active_model_batch = lead_scorer_robust if lead_scorer_robust else lead_scorer
+            active_features = FEATURE_COLS
 
             # Check if CSV already has model features (pre-processed dataset)
             has_model_features = all(c in batch_df.columns for c in active_features)
@@ -995,8 +954,8 @@ with tab_batch:
                 if col not in features_df.columns:
                     features_df[col] = np.nan
 
-            X_batch = active_prep.transform(features_df[active_features])
-            scores = active_model_batch.predict_proba(X_batch)[:, 1]
+            X_batch = preprocessor.transform(features_df[active_features])
+            scores = lead_scorer.predict_proba(X_batch)[:, 1]
 
             # Assign clusters
             cluster_feats = clustering_bundle["features"]
@@ -1050,10 +1009,11 @@ with tab_batch:
                 hide_index=True,
             )
 
-            # Download results
+            # Download results (include all original columns + scoring)
             from io import BytesIO
+            download_cols = [c for c in results.columns if c not in active_features]
             excel_buffer = BytesIO()
-            results[display_cols].to_excel(excel_buffer, index=False, engine="openpyxl")
+            results[download_cols].to_excel(excel_buffer, index=False, engine="openpyxl")
             excel_buffer.seek(0)
             st.download_button(
                 label="Descargar resultados (Excel)",

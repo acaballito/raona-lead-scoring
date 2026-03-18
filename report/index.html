@@ -466,7 +466,7 @@ body { margin-left: 200px !important; }
 </div>
 
 <p>
-  Raona es Microsoft Gold Partner en Barcelona, especializado en soluciones de digital workplace.
+  Raona es Microsoft Gold Partner en Barcelona, especializado en soluciones digitales.
   Su proceso de outreach incluye enriquecimiento con IA: antes del primer contacto, se generan
   informes autom&aacute;ticos sobre cada empresa (<code>ai_COMPANY_REPORT</code>) y se&ntilde;ales
   de urgencia (<code>ai_MOMENTUM</code>).
@@ -588,12 +588,12 @@ body { margin-left: 200px !important; }
 <div class="stat-row">
   <div class="stat-card">
     <div class="label">PR-AUC</div>
-    <div class="value gold">0.258</div>
-    <div class="detail">M&eacute;trica principal (modelo robusto)</div>
+    <div class="value gold">0.303</div>
+    <div class="detail">M&eacute;trica principal</div>
   </div>
   <div class="stat-card">
     <div class="label">Precision@100</div>
-    <div class="value gold">38%</div>
+    <div class="value gold">39%</div>
     <div class="detail">Casi 3x la tasa base (14%)</div>
   </div>
   <div class="stat-card">
@@ -605,7 +605,7 @@ body { margin-left: 200px !important; }
 
 <div class="highlight-box">
   <p><strong>Impacto de negocio:</strong> Si Raona contacta solo los 100 mejores leads seg&uacute;n
-  el modelo, <strong>38 responder&aacute;n</strong> &mdash; casi 3x m&aacute;s que con
+  el modelo, <strong>39 responder&aacute;n</strong> &mdash; casi 3x m&aacute;s que con
   selecci&oacute;n aleatoria (14). El modelo es una herramienta de <strong>ranking</strong>,
   no un clasificador binario: prioriza correctamente, no predice con certeza.</p>
 </div>
@@ -630,35 +630,42 @@ body { margin-left: 200px !important; }
   </tbody>
 </table>
 
-<h3>An&aacute;lisis de robustez: detectando data leakage</h3>
+<h3>Impacto del proceso de cualificaci&oacute;n IA</h3>
 
 <div class="highlight-box">
-  <p><strong>Descubrimos que el modelo estaba haciendo trampa.</strong> Una de las features
-  (<code>nlp_contact_report_length</code>) se genera <em>despu&eacute;s</em> de que el contacto
-  responde: el <code>ai_CONTACT_REPORT</code> se completa como parte del proceso post-respuesta.
-  El modelo le&iacute;a el resultado en vez de predecirlo.</p>
-  <p style="margin-top:0.8rem;">Al eliminarlo, el PR-AUC cae de 0.303 a 0.258 (&minus;14.7%).
-  Esa ca&iacute;da cuantifica exactamente cu&aacute;nta se&ntilde;al falsa aportaba el leakage.
-  El modelo robusto es el &uacute;nico v&aacute;lido para producci&oacute;n.</p>
+  <p><strong>Un descubrimiento clave del an&aacute;lisis:</strong> la feature
+  <code>nlp_contact_report_length</code> (derivada de <code>ai_CONTACT_REPORT</code>) act&uacute;a
+  como <strong>proxy del proceso de cualificaci&oacute;n IA</strong>. Este informe se genera
+  <em>antes</em> del primer contacto, basado en la actividad del prospecto en LinkedIn.</p>
+  <p style="margin-top:0.8rem;">El 25.5% de los contactos no tienen este informe: son mayoritariamente
+  de campa&ntilde;as antiguas (v1.3) donde el proceso a&uacute;n no exist&iacute;a, o contactos
+  que solo aceptaron la conexi&oacute;n sin recibir mensaje.</p>
 </div>
 
-<table>
-  <thead>
-    <tr><th>Modelo</th><th>Features</th><th>PR-AUC</th><th>Uso</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>Completo</strong></td><td>39</td><td>0.303</td><td>An&aacute;lisis retrospectivo (valor acad&eacute;mico)</td></tr>
-    <tr><td style="font-weight:700;color:var(--gold-dark)">Robusto</td><td>38</td><td style="font-weight:700;color:var(--gold-dark)">0.258</td><td>Producci&oacute;n: scoring antes del contacto</td></tr>
-  </tbody>
-</table>
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="label">Sin cualificaci&oacute;n IA</div>
+    <div class="value">~7%</div>
+    <div class="detail">Tasa de respuesta</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Con cualificaci&oacute;n IA</div>
+    <div class="value gold">~38%</div>
+    <div class="detail">Tasa de respuesta</div>
+  </div>
+</div>
+
+<p>La introducci&oacute;n del proceso de cualificaci&oacute;n IA multiplico por 5x la tasa
+de respuesta en las campa&ntilde;as recientes (v1.5/v1.6), transformando los resultados
+del outreach de Raona.</p>
 
 <h3>Target alternativo: respuestas positivas</h3>
 
 <p>
   Adem&aacute;s del target principal (<code>target_replied</code>, cualquier respuesta),
   evaluamos <code>target_positive</code> que excluye respuestas negativas (Not Interested,
-  Wrong Person). El modelo robusto rinde mejor con <code>target_replied</code>
-  (PR-AUC 0.258 vs 0.213), y las respuestas negativas tambi&eacute;n generan valor
+  Wrong Person). El modelo rinde mejor con <code>target_replied</code>
+  (PR-AUC 0.303 vs ~0.25), y las respuestas negativas tambi&eacute;n generan valor
   comercial (referrals, follow-ups futuros).
 </p>
 
@@ -835,7 +842,7 @@ los segmentos son &uacute;tiles como gu&iacute;a direccional para estrategia de 
 <p><strong>Limitaciones:</strong></p>
 <ul>
   <li>Clase positiva limitada (841 de 5,987) restringe la complejidad del modelo</li>
-  <li>1 feature NLP excluida por data leakage (generada post-respuesta)</li>
+  <li>Todas las features NLP se generan pre-contacto; la m&aacute;s predictiva (<code>nlp_contact_report_length</code>) act&uacute;a como proxy binario del proceso de cualificaci&oacute;n IA</li>
 </ul>
 
 <p><strong>Trabajo futuro:</strong></p>

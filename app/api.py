@@ -14,19 +14,19 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Optional
 
-# --- Cargar modelo robusto al iniciar ---
+# --- Cargar modelo al iniciar ---
 MODEL_DIR = os.path.join(os.path.dirname(__file__), "models")
 
-with open(os.path.join(MODEL_DIR, "preprocessor_robust.pkl"), "rb") as f:
+with open(os.path.join(MODEL_DIR, "preprocessor.pkl"), "rb") as f:
     preprocessor = pickle.load(f)
-with open(os.path.join(MODEL_DIR, "lead_scorer_robust.pkl"), "rb") as f:
+with open(os.path.join(MODEL_DIR, "lead_scorer.pkl"), "rb") as f:
     lead_scorer = pickle.load(f)
 with open(os.path.join(MODEL_DIR, "clustering.pkl"), "rb") as f:
     clustering_bundle = pickle.load(f)
 with open(os.path.join(MODEL_DIR, "feature_names.pkl"), "rb") as f:
     feature_names = pickle.load(f)
 
-FEATURE_COLS = feature_names["robust"] if isinstance(feature_names, dict) else feature_names
+FEATURE_COLS = feature_names
 CLUSTER_FEATURES = clustering_bundle["features"]
 
 
@@ -76,7 +76,7 @@ class ScoreOutput(BaseModel):
 # --- App ---
 app = FastAPI(
     title="Raona Lead Scoring API",
-    description="Scoring de leads B2B con modelo robusto LightGBM",
+    description="Scoring de leads B2B con modelo LightGBM",
     version="2.0.0",
 )
 
@@ -85,7 +85,7 @@ app = FastAPI(
 def health_check():
     return {
         "status": "ok",
-        "model": "lead_scorer_robust",
+        "model": "lead_scorer",
         "n_features": len(FEATURE_COLS),
         "n_clusters": clustering_bundle["kmeans"].n_clusters,
     }

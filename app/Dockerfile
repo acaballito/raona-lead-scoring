@@ -10,8 +10,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY api.py .
-COPY models/lead_scorer_robust.pkl models/
-COPY models/preprocessor_robust.pkl models/
+COPY models/lead_scorer.pkl models/
+COPY models/preprocessor.pkl models/
 COPY models/clustering.pkl models/
 COPY models/feature_names.pkl models/
 

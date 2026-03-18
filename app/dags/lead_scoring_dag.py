@@ -92,7 +92,7 @@ def _transform(**kwargs):
 
 
 def _score(**kwargs):
-    """Aplica scoring con modelo robusto."""
+    """Aplica scoring."""
     from pipelines import score
     input_path = os.path.join(PROCESSED_DIR, "transformed.parquet")
     output_path = os.path.join(SCORED_DIR, f"scored_{datetime.now().strftime('%Y%m%d')}.parquet")
@@ -110,7 +110,7 @@ def _monitor(**kwargs):
     feature_names_path = os.path.join(MODEL_DIR, "feature_names.pkl")
     with open(feature_names_path, "rb") as f:
         feature_names = pickle.load(f)
-    features = feature_names["robust"] if isinstance(feature_names, dict) else feature_names
+    features = feature_names
 
     psi_df = monitor.run(train_path, new_path, features)
 

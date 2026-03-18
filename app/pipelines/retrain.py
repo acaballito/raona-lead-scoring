@@ -1,8 +1,7 @@
 """Retrain: reentrenamiento del modelo con datos acumulados.
 
 Solo se ejecuta si el monitor detecta drift significativo.
-Reentrena el modelo robusto (sin features con data leakage) con todos
-los datos disponibles.
+Reentrena el modelo con datos acumulados.
 """
 import os
 import pickle
@@ -22,7 +21,7 @@ SEED = 42
 
 
 def run(data_path: str, model_dir: str, feature_names_path: str) -> dict:
-    """Reentrena el modelo robusto con los datos acumulados."""
+    """Reentrena el modelo con los datos acumulados."""
     try:
         import lightgbm as lgb
     except ImportError:
@@ -37,10 +36,7 @@ def run(data_path: str, model_dir: str, feature_names_path: str) -> dict:
     with open(feature_names_path, "rb") as f:
         feature_names = pickle.load(f)
 
-    if isinstance(feature_names, dict):
-        features = feature_names["robust"]
-    else:
-        features = feature_names
+    features = feature_names
 
     X = df[features].copy()
     y = df["target_replied"].copy()
@@ -82,7 +78,7 @@ def run(data_path: str, model_dir: str, feature_names_path: str) -> dict:
 
     with open(os.path.join(candidate_dir, "lead_scorer.pkl"), "wb") as f:
         pickle.dump(model, f)
-    with open(os.path.join(candidate_dir, "preprocessor_robust.pkl"), "wb") as f:
+    with open(os.path.join(candidate_dir, "preprocessor.pkl"), "wb") as f:
         pickle.dump(preprocessor, f)
 
     return {

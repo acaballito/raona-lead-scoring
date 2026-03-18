@@ -1,7 +1,6 @@
 """Score: aplica modelo de lead scoring y clustering a datos nuevos.
 
-Logica extraida de NB04. Usa el modelo robusto (sin features con data leakage)
-para scoring de contactos nuevos.
+Logica extraida de NB04. Usa el modelo LightGBM para scoring de contactos nuevos.
 """
 import os
 import pickle
@@ -15,7 +14,7 @@ logger = logging.getLogger(__name__)
 def load_artifacts(model_dir: str) -> dict:
     """Carga todos los artefactos del modelo."""
     artifacts = {}
-    for name in ["lead_scorer", "lead_scorer_robust", "preprocessor", "preprocessor_robust", "clustering", "feature_names"]:
+    for name in ["lead_scorer", "preprocessor", "clustering", "feature_names"]:
         path = os.path.join(model_dir, f"{name}.pkl")
         if os.path.exists(path):
             with open(path, "rb") as f:
@@ -25,16 +24,11 @@ def load_artifacts(model_dir: str) -> dict:
 
 
 def score_leads(df: pd.DataFrame, artifacts: dict) -> pd.DataFrame:
-    """Aplica scoring con modelo robusto y asigna clusters."""
-    feature_names = artifacts["feature_names"]
-    if isinstance(feature_names, dict):
-        features = feature_names["robust"]
-    else:
-        features = feature_names
+    """Aplica scoring y asigna clusters."""
+    features = artifacts["feature_names"]
 
-    # Usar artefactos robustos si existen
-    prep = artifacts.get("preprocessor_robust", artifacts["preprocessor"])
-    model = artifacts.get("lead_scorer_robust", artifacts["lead_scorer"])
+    prep = artifacts["preprocessor"]
+    model = artifacts["lead_scorer"]
 
     # Preparar features
     X = df.reindex(columns=features, fill_value=np.nan)
