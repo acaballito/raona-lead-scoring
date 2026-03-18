@@ -940,19 +940,19 @@ with tab_batch:
 
             active_features = FEATURE_COLS
 
-            # Check if CSV already has model features (pre-processed dataset)
-            has_model_features = all(c in batch_df.columns for c in active_features)
+            # Check overlap between CSV columns and model features
+            present = [c for c in active_features if c in batch_df.columns]
+            missing = [c for c in active_features if c not in batch_df.columns]
 
-            if has_model_features:
-                features_df = batch_df[active_features].copy()
-            else:
-                st.error("El CSV no contiene las features del modelo. "
+            if len(present) < len(active_features) * 0.8:
+                st.error("El CSV no contiene suficientes features del modelo. "
                          "Usa el CSV de contactos no contactados exportado desde el pipeline.")
                 st.stop()
 
-            for col in active_features:
-                if col not in features_df.columns:
-                    features_df[col] = np.nan
+            features_df = batch_df.reindex(columns=active_features)
+            if missing:
+                st.info(f"{len(missing)} feature(s) no encontrada(s) en el CSV "
+                        f"({', '.join(missing)}). Se rellenan con NaN.")
 
             X_batch = preprocessor.transform(features_df[active_features])
             scores = lead_scorer.predict_proba(X_batch)[:, 1]
