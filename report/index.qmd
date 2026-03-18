@@ -1,0 +1,389 @@
+---
+title: "Raona Lead Scoring"
+format:
+  html:
+    toc: false
+---
+
+<!-- Top accent bar -->
+<div class="top-bar"></div>
+
+<!-- ===== ACT 1: HERO ===== -->
+<div class="section-hero">
+
+<div class="section-label">Nuclio Digital School -- Trabajo Final de Master</div>
+
+# Thousands of messages. Less than 6% get a reply.
+
+<div class="subtitle">
+Raona is a Microsoft Gold Partner in Barcelona that contacts thousands of potential B2B clients
+through LinkedIn and email. This project uses data science to identify <strong>who</strong> to
+contact, with <strong>which service</strong>, through <strong>which channel</strong>,
+and <strong>when</strong>.
+</div>
+
+<div class="meta">
+Adriana Caballero &middot; Data Science &middot; March 2026
+</div>
+
+</div>
+
+---
+
+<!-- ===== ACT 2: THE SCALE OF THE PROBLEM ===== -->
+
+<div class="section-label">The data</div>
+
+## 10,946 outreach conversations. One question: who will reply?
+
+Raona's sales team uses an automated outreach tool to contact prospects via LinkedIn and email.
+Each contact receives a sequence of messages. The dataset captures every conversation from
+their Spain-focused campaigns.
+
+<div class="stat-row">
+<div class="stat-card">
+  <div class="label">Total contacts</div>
+  <div class="value">10,946</div>
+</div>
+<div class="stat-card">
+  <div class="label">Replied</div>
+  <div class="value gold">632</div>
+  <div class="detail">5.8% reply rate</div>
+</div>
+<div class="stat-card">
+  <div class="label">Campaigns</div>
+  <div class="value">45+</div>
+  <div class="detail">Across 7 product lines</div>
+</div>
+<div class="stat-card">
+  <div class="label">Features engineered</div>
+  <div class="value">33</div>
+  <div class="detail">Raw + AI + NLP + External</div>
+</div>
+</div>
+
+### The funnel
+
+<!-- TODO: Insert funnel chart from NB02 -->
+<!-- {{< embed ../notebooks/02_eda.ipynb#fig-funnel >}} -->
+
+The conversion funnel reveals where prospects drop off. LinkedIn significantly outperforms
+email as a response channel for B2B outreach in this context.
+
+---
+
+<!-- ===== ACT 3: DISCOVERY ===== -->
+
+<div class="section-label">Exploratory analysis</div>
+
+## What distinguishes a contact who replies?
+
+Before building any model, we explored the data to understand what makes a converter different
+from the 94% who never respond.
+
+### Key findings
+
+<div class="insight-card">
+  <div class="insight-title">Seniority matters, but not linearly</div>
+  Directors and managers reply more often than C-level executives or junior profiles.
+  The sweet spot is mid-to-senior decision makers.
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">Company size has a U-shape</div>
+  Both mid-size (50-250 employees) and large enterprises (1000+) show higher reply rates
+  than small companies. Very large organizations have dedicated teams that evaluate proposals.
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">LinkedIn dominates email</div>
+  LinkedIn reply rate is significantly higher than email. The personal, professional context
+  of LinkedIn messages resonates better with B2B prospects.
+</div>
+
+<div class="insight-card">
+  <div class="insight-title">Thursday is the best day</div>
+  Reply rates peak on Thursdays. Monday and Friday show the lowest engagement,
+  suggesting mid-week outreach is optimal.
+</div>
+
+### Converter vs non-converter profiles
+
+<!-- TODO: Insert industry/seniority comparison charts from NB02 -->
+
+### FIT scores by product line
+
+<!-- TODO: Insert FIT violin plots from NB02 -->
+
+---
+
+<!-- ===== ACT 4: METHODOLOGY ===== -->
+
+<div class="section-label">Methodology</div>
+
+## From raw data to actionable scores
+
+The project follows CRISP-DM methodology across five notebooks, transforming raw outreach
+data into a production-ready scoring system.
+
+<div class="pipeline">
+  <div class="pipeline-step">
+    <div class="step-num">01</div>
+    <div class="step-label">Data Loading<br>& Cleaning</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">02</div>
+    <div class="step-label">Exploratory<br>Analysis</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">03</div>
+    <div class="step-label">Feature Engineering<br>& NLP</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">04</div>
+    <div class="step-label">ML<br>Models</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">05</div>
+    <div class="step-label">MLOps<br>& Deploy</div>
+  </div>
+</div>
+
+### Feature engineering
+
+33 features from four sources, each with a clear prefix indicating its origin:
+
+| Origin | Prefix | Count | Examples |
+|--------|--------|-------|---------|
+| Raw from Raona | *(none)* | ~10 | Years in role, Number of employees, Industry |
+| AI-enriched by Enginy | `ai_` | ~8 | ai_SENIORITY, ai_FIT, ai_TYPE_OF_CONTACT |
+| Engineered by us | `fe_` | ~8 | fe_company_size_bucket, fe_headcount_momentum |
+| External enrichment | `ext_` | ~3 | ext_ms_maturity_score, ext_has_competitor_tech |
+| NLP from text reports | `nlp_` | ~6 | nlp_embedding_01..03, nlp_topic_cluster |
+
+### NLP pipeline
+
+Text fields (CONTACT REPORT, COMPANY REPORT, MOMENTUM) were processed with:
+
+- **Sentence-BERT** (multilingual MiniLM) for embeddings, reduced to 3 dimensions via UMAP
+- **BERTopic** for topic modeling, identifying thematic clusters
+- **Keyword extraction** for urgency signals and decision-maker indicators
+
+---
+
+<!-- ===== ACT 5: MODELS & RESULTS ===== -->
+
+<div class="section-label">Models</div>
+
+## Four models, one system
+
+### Model 1: Lead Scoring
+
+The core model predicts which contacts are most likely to reply. LightGBM was selected
+after comparing Logistic Regression, XGBoost, and LightGBM, tuned with Optuna (50 trials).
+
+<div class="stat-row">
+<div class="stat-card">
+  <div class="label">PR-AUC</div>
+  <div class="value gold">0.281</div>
+  <div class="detail">Primary metric (5x random baseline)</div>
+</div>
+<div class="stat-card">
+  <div class="label">ROC-AUC</div>
+  <div class="value">0.807</div>
+  <div class="detail">Strong discrimination</div>
+</div>
+<div class="stat-card">
+  <div class="label">Precision@100</div>
+  <div class="value">19%</div>
+  <div class="detail">3.3x lift over random</div>
+</div>
+</div>
+
+<!-- TODO: Insert cumulative gains / lift curve from NB04 -->
+
+<div class="highlight-box">
+<p><strong>Business impact:</strong> If Raona contacts only the top 10% of scored leads,
+they capture approximately 35% of all positive replies -- a <strong>3.6x improvement</strong>
+over random selection.</p>
+</div>
+
+### Feature importance (SHAP)
+
+<!-- TODO: Insert SHAP summary plot from NB04 -->
+
+The top predictive features by origin:
+
+| Origin | SHAP contribution | Interpretation |
+|--------|------------------|----------------|
+| NLP features | ~52% | Text report length and embeddings dominate |
+| Raw features | ~29% | Connections, years in role, company size |
+| Engineered features | ~19% | Seniority encoding, headcount momentum |
+| External features | <1% | Microsoft maturity score |
+
+### Robustness analysis: detecting data leakage
+
+<div class="highlight-box">
+<p><strong>Data leakage detected:</strong> Raona enriches contacts <em>after</em> they reply,
+not before. This means <code>nlp_contact_report_length</code> (80% coverage for positives
+vs 39% for negatives), <code>fe_has_email</code>, and <code>Years in role</code> are
+<strong>consequences of the target</strong>, not genuine predictors.</p>
+</div>
+
+A **robust model** trained without the 3 leaking features shows PR-AUC of 0.159 (-43%).
+This confirms which features have genuine predictive power independent of post-response enrichment.
+
+**Two-model strategy:**
+
+- **Complete model** (all features): for retrospective analysis of already-enriched contacts.
+  Demonstrates the NLP pipeline and has academic value.
+- **Robust model** (without leaking features): the correct production model for scoring
+  new contacts that haven't been enriched yet. Used in the API, Airflow pipeline, and Batch Scorer.
+
+Detecting and handling this data leakage demonstrates critical thinking about the data generation
+process -- a key skill in applied data science.
+
+### Model 2: Segmentation
+
+K-Means clustering (k=7, silhouette=0.138) identifies distinct prospect segments:
+
+<!-- TODO: Insert segment profiles chart -->
+
+| Segment | Profile | Reply rate | Key insight |
+|---------|---------|-----------|-------------|
+| 0 | Financial Services, senior | 9% | Strong fit for DATA & INFRA |
+| 1 | Telecom & Tech, director level | 8% | Largest segment (2,400 contacts) |
+| 2 | Large Telecom, high engagement | 11% | Above-average conversion |
+| 3 | Enterprise / Government, 6K+ employees | 9% | Largest companies |
+| 4 | Junior profiles, Gov & Education | 7% | Limited decision-making power |
+| 5 | Industrial SMEs, low response | 3% | Lowest conversion rate |
+| 6 | Pharma & Wellness, top converters | **12%** | Best performing segment |
+
+### Model 3: Product recommendation
+
+Validation of existing FIT scores against actual campaign engagement. The model recommends
+which Raona product line to pitch based on the contact and company profile.
+
+### Model 4: Channel & timing
+
+- **LinkedIn** consistently outperforms email across all segments
+- **Thursday** shows the highest reply rate; Monday and Friday the lowest
+- Segment-level channel preferences inform outreach strategy
+
+---
+
+<!-- ===== ACT 6: MLOps ===== -->
+
+<div class="section-label">Production</div>
+
+## We built a system, not just a model
+
+The scoring pipeline is deployed as a production-ready system with API, containerization,
+experiment tracking, and drift monitoring.
+
+<div class="pipeline">
+  <div class="pipeline-step">
+    <div class="step-num">API</div>
+    <div class="step-label">FastAPI<br>endpoint</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">Airflow</div>
+    <div class="step-label">Orchestrated<br>pipeline</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">Docker</div>
+    <div class="step-label">Containerized<br>deployment</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">MLflow</div>
+    <div class="step-label">Experiment<br>tracking</div>
+  </div>
+  <div class="pipeline-step">
+    <div class="step-num">PSI</div>
+    <div class="step-label">Drift<br>monitoring</div>
+  </div>
+</div>
+
+- **FastAPI** serves predictions via `POST /score` -- returns lead score, segment, product
+  recommendation, and channel suggestion
+- **Apache Airflow** orchestrates the full ML pipeline: ingest, transform, score, monitor,
+  and conditional retraining ([pipeline details](mlops_pipeline.html))
+- **Docker** packages the full stack (API + Airflow) for reproducible deployment
+- **MLflow** tracks all experiments with metrics, parameters, and model artifacts
+- **PSI monitoring** detects feature drift to trigger model retraining
+
+### Streamlit dashboard
+
+A three-tab interactive application for the sales team:
+
+1. **Dashboard** -- KPIs, score distribution, cumulative gains, channel analysis,
+   timing insights, and segment profiles
+2. **Lead Scorer** -- Input a contact's profile and get real-time score, segment
+   assignment, and outreach recommendation. Uses robust model by default;
+   toggle to complete model if the contact is already enriched.
+3. **Batch Scorer** -- Upload a CSV of contacts, score them all with the robust model,
+   and download ranked results with priority assignments.
+
+<!-- TODO: Insert Streamlit screenshots -->
+
+---
+
+<!-- ===== ACT 7: IMPACT ===== -->
+
+<div class="section-label">Impact</div>
+
+## What changes for Raona
+
+<div class="stat-row">
+<div class="stat-card">
+  <div class="label">Before</div>
+  <div class="value">5.8%</div>
+  <div class="detail">Reply rate (random outreach)</div>
+</div>
+<div class="stat-card">
+  <div class="label">After (top 10%)</div>
+  <div class="value gold">~20%</div>
+  <div class="detail">Estimated reply rate with model</div>
+</div>
+<div class="stat-card">
+  <div class="label">Efficiency gain</div>
+  <div class="value gold">3.6x</div>
+  <div class="detail">Lift over random selection</div>
+</div>
+</div>
+
+Instead of contacting everyone equally, Raona can now:
+
+1. **Prioritize** -- Score all prospects and focus on the top deciles
+2. **Personalize** -- Match product recommendations to each contact's profile
+3. **Optimize timing** -- Send outreach on the best-performing days
+4. **Segment** -- Tailor messaging per cluster (enterprise vs SME, pharma vs industrial)
+
+---
+
+<!-- ===== LIMITATIONS & FUTURE WORK ===== -->
+
+<div class="section-label">Looking ahead</div>
+
+## Limitations and future work
+
+**Limitations:**
+
+- Selection bias in NLP features (enrichment correlates with response)
+- Small positive class (632 out of 10,946) limits model complexity
+- Spain-only scope; LATAM market excluded due to insufficient data
+
+**Future work:**
+
+- A/B testing framework to measure real-world impact of model-guided outreach
+- Feedback loop for continuous retraining as new conversion data arrives
+- Integration with the outreach tool's API for real-time scoring
+- Expansion to LATAM market when sufficient data is collected
+
+---
+
+<div class="footer">
+Adriana Caballero &middot; Nuclio Digital School &middot; Data Science Master &middot; March 2026
+<br>
+Supervised by [tutor name]. Built with Python, LightGBM, Streamlit, FastAPI, and Docker.
+</div>

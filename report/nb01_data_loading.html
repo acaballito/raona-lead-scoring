@@ -9290,15 +9290,14 @@ ai_TYPE_OF_CONTACT_WORKPLACE       19.5      8636              object
 <span class="c1"># Seleccionar columnas de features (excluir IDs, texto largo, y targets)</span>
 <span class="n">feature_cols</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">'Job title'</span><span class="p">,</span> <span class="s1">'Years in role'</span><span class="p">,</span> <span class="s1">'Years in company'</span><span class="p">,</span> <span class="s1">'Number of connections'</span><span class="p">,</span>
-    <span class="s1">'Contact country'</span><span class="p">,</span> <span class="s1">'Geo region'</span><span class="p">,</span> <span class="s1">'Gender'</span><span class="p">,</span>
-    <span class="s1">'Industry'</span><span class="p">,</span> <span class="s1">'Number of employees'</span><span class="p">,</span> <span class="s1">'Revenue'</span><span class="p">,</span> <span class="s1">'Year founded'</span><span class="p">,</span>
+    <span class="s1">'Contact country'</span><span class="p">,</span> <span class="s1">'Geo region'</span><span class="p">,</span>
+    <span class="s1">'Industry'</span><span class="p">,</span> <span class="s1">'Number of employees'</span><span class="p">,</span> <span class="s1">'Year founded'</span><span class="p">,</span>
     <span class="s1">'Hiring on LinkedIn'</span><span class="p">,</span>
     <span class="s1">'Six months headcount growth'</span><span class="p">,</span> <span class="s1">'Two years headcount growth'</span><span class="p">,</span> <span class="s1">'Yearly headcount growth'</span><span class="p">,</span>
     <span class="s1">'Technologies used'</span><span class="p">,</span> <span class="s1">'ai_Microsoft'</span><span class="p">,</span>
     <span class="s1">'ai_SENIORITY'</span><span class="p">,</span> <span class="s1">'ai_DEPARTMENT'</span><span class="p">,</span>
-    <span class="s1">'ai_FIT'</span><span class="p">,</span> <span class="s1">'ai_FIT_IA'</span><span class="p">,</span> <span class="s1">'ai_FIT_COLABORA'</span><span class="p">,</span> <span class="s1">'ai_FIT_INFRA'</span><span class="p">,</span>
-    <span class="s1">'ai_FIT_DATA'</span><span class="p">,</span> <span class="s1">'ai_FIT_WORKPLACE'</span><span class="p">,</span> <span class="s1">'ai_FIT_MAITE'</span><span class="p">,</span>
-    <span class="s1">'ai_Contact_score'</span><span class="p">,</span> <span class="s1">'ai_Company_score'</span><span class="p">,</span>
+    <span class="s1">'ai_FIT'</span><span class="p">,</span> <span class="s1">'ai_FIT_IA'</span><span class="p">,</span> <span class="s1">'ai_FIT_COLABORA'</span><span class="p">,</span>
+    <span class="s1">'ai_FIT_DATA'</span><span class="p">,</span>
     <span class="s1">'target_replied'</span><span class="p">,</span>
 <span class="p">]</span>
 <span class="n">existing_feature_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
@@ -9335,7 +9334,7 @@ ai_TYPE_OF_CONTACT_WORKPLACE       19.5      8636              object
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># 3. Valores unicos de columnas categoricas clave</span>
 <span class="n">cat_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'ai_SENIORITY'</span><span class="p">,</span> <span class="s1">'ai_DEPARTMENT'</span><span class="p">,</span> <span class="s1">'ai_TYPE_OF_CONTACT'</span><span class="p">,</span>
-            <span class="s1">'Contact country'</span><span class="p">,</span> <span class="s1">'Gender'</span><span class="p">]</span>
+            <span class="s1">'Contact country'</span><span class="p">]</span>
 
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cat_cols</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
@@ -9518,23 +9517,23 @@ Por canal:
 <span class="n">cols_raw_contact</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">'Job title'</span><span class="p">,</span> <span class="s1">'Years in role'</span><span class="p">,</span> <span class="s1">'Years in company'</span><span class="p">,</span>
     <span class="s1">'Number of connections'</span><span class="p">,</span> <span class="s1">'Contact country'</span><span class="p">,</span> <span class="s1">'Geo region'</span><span class="p">,</span>
-    <span class="s1">'Gender'</span><span class="p">,</span> <span class="s1">'Profile bio'</span><span class="p">,</span> <span class="s1">'Professional email'</span><span class="p">,</span>
+    <span class="s1">'Profile bio'</span><span class="p">,</span> <span class="s1">'Professional email'</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">cols_raw_company</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">'Industry'</span><span class="p">,</span> <span class="s1">'Number of employees'</span><span class="p">,</span> <span class="s1">'Revenue'</span><span class="p">,</span> <span class="s1">'Year founded'</span><span class="p">,</span>
+    <span class="s1">'Industry'</span><span class="p">,</span> <span class="s1">'Number of employees'</span><span class="p">,</span> <span class="s1">'Year founded'</span><span class="p">,</span>
     <span class="s1">'Hiring on LinkedIn'</span><span class="p">,</span>
     <span class="s1">'Six months headcount growth'</span><span class="p">,</span> <span class="s1">'Two years headcount growth'</span><span class="p">,</span> <span class="s1">'Yearly headcount growth'</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">cols_tech</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Technologies used'</span><span class="p">]</span>
 
-<span class="n">cols_linkedin_activity</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Last LinkedIn post date'</span><span class="p">,</span> <span class="s1">'Jobs posted from LinkedIn'</span><span class="p">]</span>
+<span class="n">cols_linkedin_activity</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Last LinkedIn post date'</span><span class="p">]</span>
 
 <span class="n">cols_ai</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">'ai_SENIORITY'</span><span class="p">,</span> <span class="s1">'ai_DEPARTMENT'</span><span class="p">,</span>
     <span class="s1">'ai_FIT'</span><span class="p">,</span> <span class="s1">'ai_FIT_IA'</span><span class="p">,</span> <span class="s1">'ai_FIT_COLABORA'</span><span class="p">,</span>
-    <span class="s1">'ai_FIT_INFRA'</span><span class="p">,</span> <span class="s1">'ai_FIT_DATA'</span><span class="p">,</span> <span class="s1">'ai_FIT_WORKPLACE'</span><span class="p">,</span> <span class="s1">'ai_FIT_MAITE'</span><span class="p">,</span>
+    <span class="s1">'ai_FIT_DATA'</span><span class="p">,</span>
     <span class="s1">'ai_Microsoft'</span><span class="p">,</span>
 <span class="p">]</span>
 
@@ -9544,7 +9543,6 @@ Por canal:
     <span class="s1">'ai_TYPE_OF_CONTACT'</span><span class="p">,</span> <span class="s1">'ai_TYPE_OF_CONTACT_COLABORA'</span><span class="p">,</span> <span class="s1">'ai_TYPE_OF_CONTACT_IA'</span><span class="p">,</span>
     <span class="s1">'ai_TYPE_OF_CONTACT_INFRA'</span><span class="p">,</span> <span class="s1">'ai_TYPE_OF_CONTACT_MAITE'</span><span class="p">,</span>
     <span class="s1">'ai_TYPE_OF_CONTACT_WORKPLACE'</span><span class="p">,</span> <span class="s1">'ai_TYPE_OF_CONTACT_DATA'</span><span class="p">,</span>
-    <span class="s1">'ai_TYPE_OF_CONTACT_AJUSTAR'</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">cols_engagement</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Conversation tags'</span><span class="p">]</span>
@@ -9625,13 +9623,11 @@ Dataset final: 10,722 filas x 49 columnas
     <span class="p">(</span><span class="s1">'Number of connections'</span><span class="p">,</span> <span class="s1">'Number of connections'</span><span class="p">,</span> <span class="s1">'numeric'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Numero de conexiones LinkedIn'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'Contact country'</span><span class="p">,</span> <span class="s1">'Contact country'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Pais del contacto'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'Geo region'</span><span class="p">,</span> <span class="s1">'Geo region'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Region geografica'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'Gender'</span><span class="p">,</span> <span class="s1">'Gender'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Genero'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'Profile bio'</span><span class="p">,</span> <span class="s1">'Profile bio'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Biografia LinkedIn'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'Professional email'</span><span class="p">,</span> <span class="s1">'Professional email'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Email profesional (para feature binaria has_email)'</span><span class="p">),</span>
     <span class="c1"># Raw company</span>
     <span class="p">(</span><span class="s1">'Industry'</span><span class="p">,</span> <span class="s1">'Industry'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Sector de la empresa'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'Number of employees'</span><span class="p">,</span> <span class="s1">'Number of employees'</span><span class="p">,</span> <span class="s1">'numeric'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Numero de empleados'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'Revenue'</span><span class="p">,</span> <span class="s1">'Revenue'</span><span class="p">,</span> <span class="s1">'numeric'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Facturacion'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'Year founded'</span><span class="p">,</span> <span class="s1">'Year founded'</span><span class="p">,</span> <span class="s1">'numeric'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Ano de fundacion'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'Hiring on LinkedIn'</span><span class="p">,</span> <span class="s1">'Hiring on LinkedIn'</span><span class="p">,</span> <span class="s1">'binary'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Si la empresa esta contratando en LinkedIn'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'Six months headcount growth'</span><span class="p">,</span> <span class="s1">'Six months headcount growth'</span><span class="p">,</span> <span class="s1">'numeric'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Crecimiento plantilla 6 meses (%)'</span><span class="p">),</span>
@@ -9641,17 +9637,13 @@ Dataset final: 10,722 filas x 49 columnas
     <span class="p">(</span><span class="s1">'Technologies used'</span><span class="p">,</span> <span class="s1">'Technologies used'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Lista de tecnologias que usa la empresa'</span><span class="p">),</span>
     <span class="c1"># LinkedIn activity</span>
     <span class="p">(</span><span class="s1">'Last LinkedIn post date'</span><span class="p">,</span> <span class="s1">'Last LinkedIn post date'</span><span class="p">,</span> <span class="s1">'datetime'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Fecha del ultimo post en LinkedIn'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'Jobs posted from LinkedIn'</span><span class="p">,</span> <span class="s1">'Jobs posted from LinkedIn'</span><span class="p">,</span> <span class="s1">'numeric'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Numero de ofertas publicadas en LinkedIn'</span><span class="p">),</span>
     <span class="c1"># AI-enriched</span>
     <span class="p">(</span><span class="s1">'ai_SENIORITY'</span><span class="p">,</span> <span class="s1">'SENIORITY'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Nivel jerarquico (C-Level, Director, Manager, etc.)'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_DEPARTMENT'</span><span class="p">,</span> <span class="s1">'DEPARTMENT'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Departamento (IT, Operations, HR, etc.)'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_FIT'</span><span class="p">,</span> <span class="s1">'FIT'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Puntuacion general de fit'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_FIT_IA'</span><span class="p">,</span> <span class="s1">'FIT IA'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Fit para Soluciones AI (Azure AI, Copilot)'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_FIT_COLABORA'</span><span class="p">,</span> <span class="s1">'FIT COLABORA'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Fit para Collaboration Hub (Teams, SharePoint)'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'ai_FIT_INFRA'</span><span class="p">,</span> <span class="s1">'FIT INFRA'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Fit para Infraestructuras Cloud (Azure)'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_FIT_DATA'</span><span class="p">,</span> <span class="s1">'FIT DATA'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Fit para Data Analytics (Power BI, Fabric)'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'ai_FIT_WORKPLACE'</span><span class="p">,</span> <span class="s1">'FIT WORKPLACE'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Fit para Digital Workplace (M365)'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'ai_FIT_MAITE'</span><span class="p">,</span> <span class="s1">'FIT MAITE'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Fit para Gobernanza IT (Intune, Entra ID, Purview)'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_Microsoft'</span><span class="p">,</span> <span class="s1">'Microsoft?'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Si la empresa usa tecnologia Microsoft (1=si, 0=no, -1=error)'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_TYPE_OF_CONTACT'</span><span class="p">,</span> <span class="s1">'TYPE OF CONTACT'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Tipo de contacto: Decisor, Champion, Influencer, Referer, NULL'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_TYPE_OF_CONTACT_COLABORA'</span><span class="p">,</span> <span class="s1">'TYPE OF CONTACT COLABORA'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Tipo de contacto para producto COLABORA'</span><span class="p">),</span>
@@ -9660,7 +9652,6 @@ Dataset final: 10,722 filas x 49 columnas
     <span class="p">(</span><span class="s1">'ai_TYPE_OF_CONTACT_MAITE'</span><span class="p">,</span> <span class="s1">'TYPE OF CONTACT MAITE'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Tipo de contacto para producto MAITE'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_TYPE_OF_CONTACT_WORKPLACE'</span><span class="p">,</span> <span class="s1">'TYPE OF CONTACT WORKPLACE'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Tipo de contacto para producto WORKPLACE'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_TYPE_OF_CONTACT_DATA'</span><span class="p">,</span> <span class="s1">'TYPE OF CONTACT DATA'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Tipo de contacto para producto DATA'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'ai_TYPE_OF_CONTACT_AJUSTAR'</span><span class="p">,</span> <span class="s1">'TYPE OF CONTACT - Para Ajustar'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Tipo de contacto con explicacion para ajuste manual'</span><span class="p">),</span>
     <span class="c1"># NLP text</span>
     <span class="p">(</span><span class="s1">'ai_CONTACT_REPORT'</span><span class="p">,</span> <span class="s1">'CONTACT REPORT'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Informe IA sobre el perfil del contacto'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'ai_COMPANY_REPORT'</span><span class="p">,</span> <span class="s1">'COMPANY REPORT'</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="s1">'AI-enriched'</span><span class="p">,</span> <span class="s1">'Informe IA sobre la empresa'</span><span class="p">),</span>
@@ -9669,6 +9660,7 @@ Dataset final: 10,722 filas x 49 columnas
     <span class="p">(</span><span class="s1">'Conversation tags'</span><span class="p">,</span> <span class="s1">'Conversation tags'</span><span class="p">,</span> <span class="s1">'categorical'</span><span class="p">,</span> <span class="s1">'Raw'</span><span class="p">,</span> <span class="s1">'Etiquetas de la conversacion'</span><span class="p">),</span>
     <span class="c1"># Targets</span>
     <span class="p">(</span><span class="s1">'target_replied'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'binary'</span><span class="p">,</span> <span class="s1">'Created'</span><span class="p">,</span> <span class="s1">'Variable objetivo: 1 si respondio, 0 si no'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'target_positive'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'binary'</span><span class="p">,</span> <span class="s1">'Created'</span><span class="p">,</span> <span class="s1">'Variable objetivo refinada: 1 si respondio positivamente (excluye negative, not interested, wrong person)'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'target_replied_linkedin'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'binary'</span><span class="p">,</span> <span class="s1">'Created'</span><span class="p">,</span> <span class="s1">'1 si respondio por LinkedIn'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'target_replied_email'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'binary'</span><span class="p">,</span> <span class="s1">'Created'</span><span class="p">,</span> <span class="s1">'1 si respondio por email'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'reply_message_number'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'numeric'</span><span class="p">,</span> <span class="s1">'Created'</span><span class="p">,</span> <span class="s1">'Numero de mensaje en el que respondio (extraido del status)'</span><span class="p">),</span>
@@ -10309,8 +10301,8 @@ Guardado: replies_analytics_ES.parquet (13 filas)
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
 <h2 id="Resumen">Resumen<a class="anchor-link" href="#Resumen">¶</a></h2><h3 id="Qu%C3%A9-hemos-hecho:">Qué hemos hecho:<a class="anchor-link" href="#Qu%C3%A9-hemos-hecho:">¶</a></h3><ol>
-<li>Cargado <code>contacts_table_ES.csv</code> como tabla base (48 columnas de 373, incluyendo TYPE OF CONTACT)</li>
-<li>Creado la variable objetivo <code>target_replied</code> desde <code>Campaign engagement status</code></li>
+<li>Cargado <code>contacts_table_ES.csv</code> como tabla base (43 columnas de 373, incluyendo TYPE OF CONTACT)</li>
+<li>Creado las variables objetivo <code>target_replied</code> y <code>target_positive</code> desde <code>Campaign engagement status</code> y <code>Conversation tags</code></li>
 <li>Identificado contactos sin mensajes enviados (Added to Campaign, sin campaña)</li>
 <li>Marcado contactos no contactados para separación al final del notebook</li>
 <li>Excluido contactos no válidos (Microsoft?=-1, FIT=NO)</li>

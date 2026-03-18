@@ -1,0 +1,340 @@
+/* ============================================
+   Raona Lead Scoring -- Quarto Scrolling Report
+   Aesthetic: Ivory + Serif + Nuclio Gold accents
+   ============================================ */
+
+/* --- Reset & Base --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --ivory: #FAFAF7;
+  --black: #141413;
+  --text: #3D3D3A;
+  --text-muted: #6B6B66;
+  --text-subtle: #8B8B85;
+  --border: #E8E8E3;
+  --surface: #FFFFFF;
+  --bg-alt: #F0F0EB;
+  --gold: #FFC630;
+  --gold-dark: #EDB82D;
+  --gold-light: #FFF3D1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--ivory);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: var(--black);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: 3.2rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+h3 {
+  font-size: 1.3rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.8rem;
+}
+
+p {
+  margin-bottom: 1.2rem;
+  max-width: 700px;
+}
+
+strong {
+  color: var(--black);
+}
+
+/* --- Layout --- */
+.section-hero {
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.section-hero h1 {
+  font-size: 3.8rem;
+  max-width: 800px;
+}
+
+.section-hero .subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-top: 1.5rem;
+}
+
+.section-hero .meta {
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 2.5rem;
+}
+
+/* Section wrapper */
+.section {
+  padding: 4rem 0;
+}
+
+.section-alt {
+  background-color: var(--bg-alt);
+  padding: 4rem 2rem;
+  margin: 3rem -2rem;
+  border-radius: 0;
+}
+
+/* --- Top accent bar --- */
+.top-bar {
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--black) 50%, var(--border) 100%);
+  margin-bottom: 0;
+}
+
+/* --- Section labels --- */
+.section-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-subtle);
+  margin-bottom: 0.5rem;
+}
+
+/* --- Stat cards --- */
+.stat-row {
+  display: flex;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  flex: 1;
+  min-width: 160px;
+}
+
+.stat-card .label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  margin-bottom: 0.3rem;
+}
+
+.stat-card .value {
+  font-family: 'Georgia', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.stat-card .value.gold {
+  color: var(--gold-dark);
+}
+
+.stat-card .detail {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+/* --- Highlight box --- */
+.highlight-box {
+  background: var(--gold-light);
+  border-left: 4px solid var(--gold);
+  padding: 1.5rem 2rem;
+  border-radius: 0 8px 8px 0;
+  margin: 2rem 0;
+  max-width: 700px;
+}
+
+.highlight-box p {
+  margin-bottom: 0;
+}
+
+/* --- Insight cards --- */
+.insight-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 1.5rem 2rem;
+  margin: 1rem 0;
+  max-width: 700px;
+}
+
+.insight-card .insight-title {
+  font-family: 'Georgia', serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--black);
+  margin-bottom: 0.3rem;
+}
+
+/* --- Pipeline / process --- */
+.pipeline {
+  display: flex;
+  gap: 0;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.pipeline-step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.2rem 1.5rem;
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+  position: relative;
+}
+
+.pipeline-step:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.pipeline-step:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.pipeline-step .step-num {
+  font-family: 'Georgia', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold-dark);
+}
+
+.pipeline-step .step-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+/* --- Tables --- */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+th {
+  background: var(--bg-alt);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid var(--border);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-subtle);
+}
+
+td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+tr:hover {
+  background-color: var(--gold-light);
+}
+
+/* --- Figures / charts --- */
+.quarto-figure {
+  margin: 2rem 0;
+}
+
+.quarto-figure img,
+.quarto-figure iframe {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+figcaption {
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* --- Divider --- */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+/* --- Footer --- */
+.footer {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem; }
+  .section-hero h1 { font-size: 2.6rem; }
+  .stat-row { flex-direction: column; }
+  .pipeline { flex-direction: column; }
+  .pipeline-step { border-radius: 0; }
+  .pipeline-step:first-child { border-radius: 8px 8px 0 0; }
+  .pipeline-step:last-child { border-radius: 0 0 8px 8px; }
+}
+
+/* --- Quarto overrides --- */
+#quarto-content {
+  padding: 0 2rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.quarto-title-block {
+  display: none;
+}
+
+/* Hide Quarto's default nav, but keep our report-nav */
+nav:not(.report-nav) {
+  display: none !important;
+}
