@@ -949,10 +949,10 @@ with tab_batch:
                          "Usa el CSV de contactos no contactados exportado desde el pipeline.")
                 st.stop()
 
-            features_df = batch_df.reindex(columns=active_features)
+            features_df = batch_df.reindex(columns=active_features, fill_value=0)
             if missing:
                 st.info(f"{len(missing)} feature(s) no encontrada(s) en el CSV "
-                        f"({', '.join(missing)}). Se rellenan con NaN.")
+                        f"({', '.join(missing)}). Se rellenan con 0 (contactos no enriquecidos).")
 
             X_batch = preprocessor.transform(features_df[active_features])
             scores = lead_scorer.predict_proba(X_batch)[:, 1]

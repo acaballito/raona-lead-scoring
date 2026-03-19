@@ -26,7 +26,7 @@ with open(os.path.join(MODEL_DIR, "clustering.pkl"), "rb") as f:
 with open(os.path.join(MODEL_DIR, "feature_names.pkl"), "rb") as f:
     feature_names = pickle.load(f)
 
-FEATURE_COLS = feature_names
+FEATURE_COLS = feature_names if isinstance(feature_names, list) else feature_names
 CLUSTER_FEATURES = clustering_bundle["features"]
 
 
@@ -56,6 +56,7 @@ class ContactInput(BaseModel):
     ext_ms_maturity_score: Optional[float] = Field(None, description="Score madurez Microsoft")
     ext_has_competitor_tech: Optional[float] = Field(None, description="Usa tech competidora (0/1)")
     nlp_report_length: Optional[float] = Field(None, description="Longitud company report")
+    nlp_contact_report_length: Optional[float] = Field(None, description="Longitud contact report AI")
     nlp_has_momentum: Optional[float] = Field(None, description="Tiene info momentum (0/1)")
     nlp_urgency_score: Optional[float] = Field(None, description="Score de urgencia")
     nlp_embedding_01: Optional[float] = Field(None, description="Embedding UMAP dim 1")
@@ -67,7 +68,7 @@ class ContactInput(BaseModel):
 class ScoreOutput(BaseModel):
     """Resultado del scoring."""
     lead_score: float = Field(description="Probabilidad de respuesta (0-1)")
-    cluster: int = Field(description="Segmento asignado (0-3)")
+    cluster: int = Field(description="Segmento asignado (0-6)")
     risk_level: str = Field(description="ALTO (>0.5), MEDIO (0.2-0.5), BAJO (<0.2)")
     recommended_channel: str = Field(description="Canal recomendado")
     recommended_day: str = Field(description="Mejor dia para contactar")

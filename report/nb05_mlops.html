@@ -8091,12 +8091,12 @@ de un contacto hasta la predicción del score, cluster y recomendación.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=b4ce67f8">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b4ce67f8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cargar artefactos del modelo (produccion)</span>
@@ -8128,12 +8128,29 @@ de un contacto hasta la predicción del score, cluster y recomendación.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6dd2d544">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Artefactos cargados:
+  Preprocessor: Pipeline
+  Lead scorer: LGBMClassifier
+  Features: 39
+  Clustering: ['kmeans', 'imputer', 'scaler', 'features']
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6dd2d544">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">score_lead</span><span class="p">(</span><span class="n">contact_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -8180,12 +8197,25 @@ de un contacto hasta la predicción del score, cluster y recomendación.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=08f33709">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Funcion score_lead() definida
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=08f33709">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Demo: scorear un contacto real del pool de no contactados</span>
@@ -8207,6 +8237,29 @@ de un contacto hasta la predicción del score, cluster y recomendación.</p>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>=== Demo: contacto real del pool (top 1 por lead_score) ===
+  Empresa: Real Madrid C.F.
+  Seniority: MANAGER
+  Departamento: Sales &amp; MKT
+
+=== Resultado del scoring ===
+  lead_score: 0.7139
+  cluster: 1
+  risk_level: ALTO
+  recommended_channel: LinkedIn
+  recommended_day: Jueves
+</pre>
 </div>
 </div>
 </div>
@@ -8246,12 +8299,12 @@ de un contacto hasta la predicción del score, cluster y recomendación.</p>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
 === Contacto POSITIVO (respondio) ===
-  Score: 0.7337
+  Score: 0.6137
   Risk level: ALTO
   Cluster: 2
 
 === Contacto NEGATIVO (no respondio) ===
-  Score: 0.1868
+  Score: 0.1442
   Risk level: BAJO
   Cluster: 0
 </pre>
@@ -8301,25 +8354,19 @@ creando un historial completo de versiones del modelo.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>MLflow tracking URI: file://./_working/mlruns</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+<pre>MLflow tracking URI: file://./_working/mlruns
 Experimento: raona_lead_scoring
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3ea854cd">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3ea854cd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cargar metricas reales de NB04</span>
@@ -8351,12 +8398,41 @@ Experimento: raona_lead_scoring
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ad82bea0">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>2026/03/19 08:21:26 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre><span class="ansi-red-fg">2026/03/19 08:21:28 WARNING mlflow.models.model: Model logged without a signature and input example. Please set `input_example` parameter when logging the model to auto infer the model signature.</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  Registrado: LightGBM_PRODUCTION (PR-AUC=0.303)
+
+Total runs registrados: 1
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ad82bea0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visualizar el experimento registrado</span>
@@ -8374,6 +8450,19 @@ Experimento: raona_lead_scoring
 <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'MLflow: Experimento registrado'</span><span class="p">,</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">'group'</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div> <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+<script charset="utf-8" crossorigin="anonymous" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> <div class="plotly-graph-div" id="17499ea2-b25e-4222-ad10-2252b5fa94a8" style="height:400px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("17499ea2-b25e-4222-ad10-2252b5fa94a8")) {                    Plotly.newPlot(                        "17499ea2-b25e-4222-ad10-2252b5fa94a8",                        [{"marker":{"color":"#2ecc71"},"name":"PR-AUC","text":["0.303"],"textposition":"auto","x":["LightGBM_PRODUCTION"],"y":[0.3027739426923056],"type":"bar"},{"marker":{"color":"#3498db"},"name":"ROC-AUC","text":["0.676"],"textposition":"auto","x":["LightGBM_PRODUCTION"],"y":[0.6758437355524735],"type":"bar"}],                        {"barmode":"group","height":400,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"MLflow: Experimento registrado"}},                        {"responsive": true}                    )                };            </script> </div>
 </div>
 </div>
 </div>
@@ -8399,19 +8488,26 @@ GET /health  -&gt;  verificación de que el servicio esta activo
 <p>El contenedor Docker empaqueta el API + modelos + dependencias en una imagen
 reproducible que se despliega con <code>docker-compose up</code>.</p>
 <blockquote>
-<p><strong>Nota:</strong> Las celdas siguientes generan los archivos en <code>app/</code> directamente desde el notebook
-para garantizar reproducibilidad. Los archivos generados son: <code>api.py</code>, <code>Dockerfile</code>,
-<code>docker-compose.yml</code> y <code>requirements.txt</code>.</p>
+<p><strong>Nota sobre dependencias:</strong> El proyecto tiene dos entornos con requirements separados:</p>
+<ul>
+<li><code>requirements.txt</code> — dependencias de la <strong>demo Streamlit</strong> (Streamlit Cloud). No se genera desde este notebook.</li>
+<li><code>requirements-api.txt</code> — dependencias del <strong>API de produccion</strong> (Docker/FastAPI). Se genera aqui abajo.</li>
+</ul>
+<p>Las versiones de <code>scikit-learn</code> y <code>lightgbm</code> deben coincidir con las usadas para generar
+los artefactos <code>.pkl</code> (sklearn==1.6.1, lightgbm==4.6.0).</p>
 </blockquote>
+<p>Las celdas siguientes generan los archivos en <code>app/</code> directamente desde el notebook
+para garantizar reproducibilidad. Los archivos generados son: <code>api.py</code>, <code>Dockerfile</code>,
+<code>docker-compose.yml</code> y <code>requirements-api.txt</code>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=14ba3c25">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=14ba3c25">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar api.py</span>
@@ -8565,6 +8661,20 @@ para garantizar reproducibilidad. Los archivos generados son: <code>api.py</code
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>API generado: ./app/api.py
+Modelo: lead_scorer.pkl (39 features)
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=api_design_note">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -8635,7 +8745,7 @@ Request body (JSON):
 
 Response:
 {
-  "lead_score": 0.2975,
+  "lead_score": 0.2774,
   "cluster": 0,
   "risk_level": "MEDIO",
   "recommended_channel": "LinkedIn",
@@ -8646,12 +8756,12 @@ Response:
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4a58dfd6">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4a58dfd6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar Dockerfile para Container 1 (API)</span>
@@ -8663,8 +8773,8 @@ Response:
 <span class="s1">    libgomp1 </span><span class="se">\\</span>
 <span class="s1">    &amp;&amp; rm -rf /var/lib/apt/lists/*</span>
 
-<span class="s1">COPY requirements.txt .</span>
-<span class="s1">RUN pip install --no-cache-dir -r requirements.txt</span>
+<span class="s1">COPY requirements-api.txt .</span>
+<span class="s1">RUN pip install --no-cache-dir -r requirements-api.txt</span>
 
 <span class="s1">COPY api.py .</span>
 <span class="s1">COPY models/lead_scorer.pkl models/</span>
@@ -8684,6 +8794,19 @@ Response:
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dockerfile</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Dockerfile generado (Container 1: API)'</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Dockerfile generado (Container 1: API)
+</pre>
 </div>
 </div>
 </div>
@@ -8715,21 +8838,23 @@ Response:
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">APP_DIR</span><span class="p">,</span> <span class="s1">'docker-compose.yml'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">compose</span><span class="p">)</span>
 
-<span class="c1"># Generar requirements.txt</span>
-<span class="n">requirements</span> <span class="o">=</span> <span class="s1">'''fastapi==0.104.1</span>
+<span class="c1"># Generar requirements-api.txt (dependencias del API Docker, NO de Streamlit)</span>
+<span class="c1"># Las versiones de sklearn y lightgbm deben coincidir con las de los .pkl</span>
+<span class="n">requirements_api</span> <span class="o">=</span> <span class="s1">'''fastapi==0.104.1</span>
 <span class="s1">uvicorn==0.24.0</span>
-<span class="s1">pandas==2.1.4</span>
-<span class="s1">numpy==1.26.2</span>
-<span class="s1">scikit-learn==1.5.2</span>
-<span class="s1">lightgbm==4.5.0</span>
+<span class="s1">pandas&gt;=2.0.0</span>
+<span class="s1">numpy&gt;=1.24.0,&lt;2.1.0</span>
+<span class="s1">scikit-learn==1.6.1</span>
+<span class="s1">lightgbm==4.6.0</span>
 <span class="s1">pydantic==2.5.2</span>
 <span class="s1">'''</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">APP_DIR</span><span class="p">,</span> <span class="s1">'requirements.txt'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">requirements</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">APP_DIR</span><span class="p">,</span> <span class="s1">'requirements-api.txt'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">requirements_api</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'docker-compose.yml generado'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'requirements.txt generado'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'requirements-api.txt generado (dependencias API produccion)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'  Nota: requirements.txt (Streamlit demo) no se modifica desde este notebook'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">=== Desplegar ==='</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'  cd app/'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'  docker-compose up --build'</span><span class="p">)</span>
@@ -8748,7 +8873,8 @@ Response:
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>docker-compose.yml generado
-requirements.txt generado
+requirements-api.txt generado (dependencias API produccion)
+  Nota: requirements.txt (Streamlit demo) no se modifica desde este notebook
 
 === Desplegar ===
   cd app/
@@ -8962,12 +9088,12 @@ y los datos más recientes:</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=943ef819">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=943ef819">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Simular monitorizacion: dividir datos en referencia y produccion</span>
@@ -8995,6 +9121,68 @@ y los datos más recientes:</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">=== PSI por feature ==='</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">psi_df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Datos de referencia (entrenamiento): 2,993 filas</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+Datos simulados (produccion): 2,994 filas
+
+=== PSI por feature ===
+                    Feature      PSI      Status
+           fe_log_employees 0.181015 MONITORIZAR
+        Number of employees 0.181015 MONITORIZAR
+           nlp_embedding_01 0.158765 MONITORIZAR
+           nlp_embedding_02 0.149021 MONITORIZAR
+     fe_company_size_bucket 0.146012 MONITORIZAR
+      fe_headcount_momentum 0.123971 MONITORIZAR
+     fe_type_of_contact_ord 0.116110 MONITORIZAR
+ Two years headcount growth 0.109045 MONITORIZAR
+Six months headcount growth 0.105107 MONITORIZAR
+           nlp_embedding_03 0.099063          OK
+      fe_department_encoded 0.077968          OK
+    Yearly headcount growth 0.077795          OK
+      ext_ms_maturity_score 0.072872          OK
+               Year founded 0.062031          OK
+  nlp_contact_report_length 0.056024          OK
+             fe_company_age 0.053566          OK
+                  nlp_topic 0.035623          OK
+          nlp_urgency_score 0.029411          OK
+          nlp_report_length 0.018129          OK
+      Number of connections 0.015926          OK
+         fe_log_connections 0.015926          OK
+           Years in company 0.010689          OK
+              Years in role 0.005308          OK
+           fe_seniority_ord 0.005119          OK
+       fe_tech_fit_comunica 0.000000          OK
+       fe_tech_fit_colabora 0.000000          OK
+          fe_tech_fit_infra 0.000000          OK
+             fe_tech_fit_ia 0.000000          OK
+           fe_tech_fit_data 0.000000          OK
+      fe_tech_fit_workplace 0.000000          OK
+                 fe_has_bio 0.000000          OK
+           nlp_has_momentum 0.000000          OK
+    ext_has_competitor_tech 0.000000          OK
+          fe_microsoft_flag 0.000000          OK
+               fe_has_email 0.000000          OK
+       fe_fit_data_approved 0.000000          OK
+            fe_fit_approved 0.000000          OK
+         Hiring on LinkedIn 0.000000          OK
+          fe_tech_fit_maite 0.000000          OK
+</pre>
 </div>
 </div>
 </div>
@@ -9039,8 +9227,7 @@ y los datos más recientes:</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<div> <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
-<script charset="utf-8" crossorigin="anonymous" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> <div class="plotly-graph-div" id="d1e40cb3-7f4c-4981-bfc5-123aeaaca851" style="height:500px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("d1e40cb3-7f4c-4981-bfc5-123aeaaca851")) {                    Plotly.newPlot(                        "d1e40cb3-7f4c-4981-bfc5-123aeaaca851",                        [{"marker":{"color":["#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71"]},"text":["0.181","0.181","0.159","0.149","0.146","0.124","0.116","0.109","0.105","0.099","0.078","0.078","0.073","0.062","0.054","0.036","0.029","0.018","0.016","0.016","0.011","0.005","0.005","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0"],"textposition":"auto","x":["fe_log_employees","Number of employees","nlp_embedding_01","nlp_embedding_02","fe_company_size_bucket","fe_headcount_momentum","fe_type_of_contact_ord","Two years headcount growth","Six months headcount growth","nlp_embedding_03","fe_department_encoded","Yearly headcount growth","ext_ms_maturity_score","Year founded","fe_company_age","nlp_topic","nlp_urgency_score","nlp_report_length","Number of connections","fe_log_connections","Years in company","Years in role","fe_seniority_ord","fe_tech_fit_colabora","fe_tech_fit_infra","fe_tech_fit_comunica","fe_tech_fit_workplace","fe_tech_fit_ia","fe_tech_fit_data","fe_has_bio","nlp_has_momentum","ext_has_competitor_tech","fe_microsoft_flag","fe_has_email","fe_fit_data_approved","fe_fit_approved","Hiring on LinkedIn","fe_tech_fit_maite"],"y":[0.1810153267059731,0.1810153267059731,0.15876484683886194,0.14902133699236395,0.1460115874074122,0.12397072128110256,0.11610966548533566,0.10904472723074782,0.10510713787992405,0.0990628995485241,0.07796814048046391,0.07779484650102517,0.0728723901440309,0.0620307401090918,0.053566445025087825,0.0356227553644457,0.029410563748602077,0.01812888253653246,0.015926468185748655,0.015926468185748655,0.010688713823806371,0.005308010640095771,0.005118516567152974,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"type":"bar"}],                        {"annotations":[{"showarrow":false,"text":"Umbral monitorizar (0.1)","x":1,"xanchor":"right","xref":"x domain","y":0.1,"yanchor":"bottom","yref":"y"},{"showarrow":false,"text":"Umbral alerta (0.25)","x":1,"xanchor":"right","xref":"x domain","y":0.25,"yanchor":"bottom","yref":"y"}],"height":500,"shapes":[{"line":{"color":"#f39c12","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.1,"y1":0.1,"yref":"y"},{"line":{"color":"#e74c3c","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.25,"y1":0.25,"yref":"y"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]],"sequentialminus":[[0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Population Stability Index (PSI) por feature"},"xaxis":{"tickangle":-45,"title":{"text":"Feature"}},"yaxis":{"title":{"text":"PSI"}}},                        {"responsive": true}                    )                };            </script> </div>
+<div> <div class="plotly-graph-div" id="89503dd5-64a0-4924-823f-54ae05151fb0" style="height:500px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("89503dd5-64a0-4924-823f-54ae05151fb0")) {                    Plotly.newPlot(                        "89503dd5-64a0-4924-823f-54ae05151fb0",                        [{"marker":{"color":["#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71"]},"text":["0.181","0.181","0.159","0.149","0.146","0.124","0.116","0.109","0.105","0.099","0.078","0.078","0.073","0.062","0.056","0.054","0.036","0.029","0.018","0.016","0.016","0.011","0.005","0.005","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0"],"textposition":"auto","x":["fe_log_employees","Number of employees","nlp_embedding_01","nlp_embedding_02","fe_company_size_bucket","fe_headcount_momentum","fe_type_of_contact_ord","Two years headcount growth","Six months headcount growth","nlp_embedding_03","fe_department_encoded","Yearly headcount growth","ext_ms_maturity_score","Year founded","nlp_contact_report_length","fe_company_age","nlp_topic","nlp_urgency_score","nlp_report_length","Number of connections","fe_log_connections","Years in company","Years in role","fe_seniority_ord","fe_tech_fit_comunica","fe_tech_fit_colabora","fe_tech_fit_infra","fe_tech_fit_ia","fe_tech_fit_data","fe_tech_fit_workplace","fe_has_bio","nlp_has_momentum","ext_has_competitor_tech","fe_microsoft_flag","fe_has_email","fe_fit_data_approved","fe_fit_approved","Hiring on LinkedIn","fe_tech_fit_maite"],"y":[0.1810153267059731,0.1810153267059731,0.15876484683886194,0.14902133699236395,0.1460115874074122,0.12397072128110256,0.11610966548533566,0.10904472723074782,0.10510713787992405,0.0990628995485241,0.07796814048046391,0.07779484650102517,0.0728723901440309,0.0620307401090918,0.0560239188058064,0.053566445025087825,0.0356227553644457,0.029410563748602077,0.01812888253653246,0.015926468185748655,0.015926468185748655,0.010688713823806371,0.005308010640095771,0.005118516567152974,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"type":"bar"}],                        {"annotations":[{"showarrow":false,"text":"Umbral monitorizar (0.1)","x":1,"xanchor":"right","xref":"x domain","y":0.1,"yanchor":"bottom","yref":"y"},{"showarrow":false,"text":"Umbral alerta (0.25)","x":1,"xanchor":"right","xref":"x domain","y":0.25,"yanchor":"bottom","yref":"y"}],"height":500,"shapes":[{"line":{"color":"#f39c12","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.1,"y1":0.1,"yref":"y"},{"line":{"color":"#e74c3c","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.25,"y1":0.25,"yref":"y"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Population Stability Index (PSI) por feature"},"xaxis":{"tickangle":-45,"title":{"text":"Feature"}},"yaxis":{"title":{"text":"PSI"}}},                        {"responsive": true}                    )                };            </script> </div>
 </div>
 </div>
 </div>
@@ -9131,9 +9318,10 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 ├── app/
 │   ├── api.py                        # FastAPI (Container 1)
 │   ├── streamlit_app.py              # App interactiva (3 tabs)
-│   ├── Dockerfile                    # Container 1: API
+│   ├── Dockerfile                    # Container 1: imagen Docker
 │   ├── docker-compose.yml
-│   ├── requirements.txt
+│   ├── requirements-api.txt          # Dependencias API (produccion Docker)
+│   ├── requirements.txt              # Dependencias Streamlit (demo)
 │   ├── models/
 │   │   ├── lead_scorer.pkl           # Modelo de PRODUCCION
 │   │   ├── preprocessor.pkl
@@ -9207,7 +9395,7 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 <li><strong>Grupo B</strong>: Outreach aleatorio (baseline actual de Raona)</li>
 <li><strong>Metrica</strong>: reply rate del grupo A vs grupo B</li>
 <li><strong>Duracion</strong>: 4-6 semanas, 500 contactos por grupo</li>
-<li><strong>Hipotesis</strong>: basandonos en el lift@10% de 2.1x, esperamos que el grupo A tenga una tasa de respuesta significativamente superior</li>
+<li><strong>Hipotesis</strong>: basandonos en el lift@10% de 2.6x, esperamos que el grupo A tenga una tasa de respuesta significativamente superior</li>
 </ul>
 </div>
 </div>
@@ -9249,8 +9437,12 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 <td>Orquestacion del contenedor</td>
 </tr>
 <tr>
+<td><code>app/requirements-api.txt</code></td>
+<td>Dependencias del API (produccion Docker)</td>
+</tr>
+<tr>
 <td><code>app/requirements.txt</code></td>
-<td>Dependencias</td>
+<td>Dependencias de Streamlit (demo, no generado aqui)</td>
 </tr>
 <tr>
 <td><code>_working/mlruns/</code></td>
@@ -9322,12 +9514,12 @@ en el top 10% de leads, y Raona podria desplegarlo con <code>docker-compose up</
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=30e79b27">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=30e79b27">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Inventario final</span>
@@ -9339,7 +9531,8 @@ en el top 10% de leads, y Raona podria desplegarlo con <code>docker-compose up</
     <span class="p">(</span><span class="s1">'app/api.py'</span><span class="p">,</span> <span class="s1">'FastAPI endpoint'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/Dockerfile'</span><span class="p">,</span> <span class="s1">'Container 1: imagen Docker'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/docker-compose.yml'</span><span class="p">,</span> <span class="s1">'Orquestacion'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'app/requirements.txt'</span><span class="p">,</span> <span class="s1">'Dependencias'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/requirements-api.txt'</span><span class="p">,</span> <span class="s1">'Dependencias API (produccion Docker)'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/requirements.txt'</span><span class="p">,</span> <span class="s1">'Dependencias Streamlit (demo)'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/models/lead_scorer.pkl'</span><span class="p">,</span> <span class="s1">'Modelo (PRODUCCION)'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/models/preprocessor.pkl'</span><span class="p">,</span> <span class="s1">'Pipeline preprocesado'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/models/clustering.pkl'</span><span class="p">,</span> <span class="s1">'K-Means + scaler'</span><span class="p">),</span>
@@ -9357,6 +9550,37 @@ en el top 10% de leads, y Raona podria desplegarlo con <code>docker-compose up</
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Modelo en produccion: lead_scorer.pkl (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FEATURE_COLS</span><span class="p">)</span><span class="si">}</span><span class="s1"> features)'</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>============================================================
+RESUMEN NOTEBOOK 05 - MLOps
+============================================================
+
+Archivos del sistema de produccion:
+  [OK] app/api.py -- FastAPI endpoint
+  [OK] app/Dockerfile -- Container 1: imagen Docker
+  [OK] app/docker-compose.yml -- Orquestacion
+  [OK] app/requirements-api.txt -- Dependencias API (produccion Docker)
+  [OK] app/requirements.txt -- Dependencias Streamlit (demo)
+  [OK] app/models/lead_scorer.pkl -- Modelo (PRODUCCION)
+  [OK] app/models/preprocessor.pkl -- Pipeline preprocesado
+  [OK] app/models/clustering.pkl -- K-Means + scaler
+  [OK] app/models/feature_names.pkl -- Lista de features
+
+MLflow experiments:
+  URI: file://./_working/mlruns
+
+Modelo en produccion: lead_scorer.pkl (39 features)
+</pre>
 </div>
 </div>
 </div>
