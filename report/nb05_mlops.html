@@ -8322,9 +8322,9 @@ propuesta: la misma funcion <code>score_lead()</code> encapsula la logica de sco
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>=== Resultado del scoring ===
-  lead_score: 0.7139
+  lead_score: 0.0844
   cluster: 1
-  risk_level: ALTO
+  risk_level: BAJO
   recommended_channel: LinkedIn
   recommended_day: Jueves
 </pre>
@@ -8367,12 +8367,12 @@ propuesta: la misma funcion <code>score_lead()</code> encapsula la logica de sco
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
 === Contacto POSITIVO (respondio) ===
-  Score: 0.6137
+  Score: 0.8972
   Risk level: ALTO
   Cluster: 2
 
 === Contacto NEGATIVO (no respondio) ===
-  Score: 0.1442
+  Score: 0.0552
   Risk level: BAJO
   Cluster: 0
 </pre>
@@ -8473,14 +8473,14 @@ Experimento: raona_lead_scoring
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>2026/03/19 09:10:39 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
+<pre>2026/03/19 19:10:55 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre><span class="ansi-red-fg">2026/03/19 09:10:40 WARNING mlflow.models.model: Model logged without a signature and input example. Please set `input_example` parameter when logging the model to auto infer the model signature.</span>
+<pre><span class="ansi-red-fg">2026/03/19 19:10:57 WARNING mlflow.models.model: Model logged without a signature and input example. Please set `input_example` parameter when logging the model to auto infer the model signature.</span>
 </pre>
 </div>
 </div>
@@ -8530,7 +8530,7 @@ Total runs registrados: 1
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
 <div> <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
-<script charset="utf-8" crossorigin="anonymous" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> <div class="plotly-graph-div" id="070d0025-9c3d-4419-9f9b-7a9bf514da89" style="height:400px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("070d0025-9c3d-4419-9f9b-7a9bf514da89")) {                    Plotly.newPlot(                        "070d0025-9c3d-4419-9f9b-7a9bf514da89",                        [{"marker":{"color":"#2ecc71"},"name":"PR-AUC","text":["0.303"],"textposition":"auto","x":["LightGBM_PRODUCTION"],"y":[0.3027739426923056],"type":"bar"},{"marker":{"color":"#3498db"},"name":"ROC-AUC","text":["0.676"],"textposition":"auto","x":["LightGBM_PRODUCTION"],"y":[0.6758437355524735],"type":"bar"}],                        {"barmode":"group","height":400,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"MLflow: Experimento registrado"}},                        {"responsive": true}                    )                };            </script> </div>
+<script charset="utf-8" crossorigin="anonymous" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> <div class="plotly-graph-div" id="9d5a0573-fdb5-46db-a4a7-5a203fbc1780" style="height:400px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("9d5a0573-fdb5-46db-a4a7-5a203fbc1780")) {                    Plotly.newPlot(                        "9d5a0573-fdb5-46db-a4a7-5a203fbc1780",                        [{"marker":{"color":"#2ecc71"},"name":"PR-AUC","text":["0.303"],"textposition":"auto","x":["LightGBM_PRODUCTION"],"y":[0.3027739426923056],"type":"bar"},{"marker":{"color":"#3498db"},"name":"ROC-AUC","text":["0.676"],"textposition":"auto","x":["LightGBM_PRODUCTION"],"y":[0.6758437355524735],"type":"bar"}],                        {"barmode":"group","height":400,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"MLflow: Experimento registrado"}},                        {"responsive": true}                    )                };            </script> </div>
 </div>
 </div>
 </div>
@@ -8543,30 +8543,112 @@ Total runs registrados: 1
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="5.3-Servir-el-modelo:-API-FastAPI-+-Docker">5.3 Servir el modelo: API FastAPI + Docker<a class="anchor-link" href="#5.3-Servir-el-modelo:-API-FastAPI-+-Docker">¶</a></h2><p>Esta sección cubre el <strong>Container 1</strong> de la arquitectura: el servicio que esta siempre
-corriendo y atiende peticiones de scoring en tiempo real.</p>
-<h3 id="Quien-lo-usa?">Quien lo usa?<a class="anchor-link" href="#Quien-lo-usa?">¶</a></h3><ul>
-<li>El equipo comercial de Raona (via Streamlit o directamente)</li>
-<li>Integraciones con CRM u otros sistemás internos</li>
-<li>Cualquier sistema que necesite scorear un lead puntual</li>
-</ul>
-<h3 id="Arquitectura">Arquitectura<a class="anchor-link" href="#Arquitectura">¶</a></h3><pre><code>POST /score  -&gt;  FastAPI  -&gt;  modelo  -&gt;  JSON response
-GET /health  -&gt;  verificación de que el servicio esta activo
-</code></pre>
-<p>El contenedor Docker empaqueta el API + modelos + dependencias en una imagen
-reproducible que se despliega con <code>docker-compose up</code>.</p>
-<blockquote>
-<p><strong>Nota sobre dependencias:</strong> El proyecto tiene dos entornos con requirements separados:</p>
+<h2 id="5.3-Infraestructura-de-produccion">5.3 Infraestructura de produccion<a class="anchor-link" href="#5.3-Infraestructura-de-produccion">¶</a></h2><p>El sistema de produccion se compone de dos bloques funcionales, desplegados en
+seis servicios Docker orquestados por <code>docker-compose.yml</code>:</p>
+<h3 id="Arquitectura-de-containers">Arquitectura de containers<a class="anchor-link" href="#Arquitectura-de-containers">¶</a></h3><table>
+<thead>
+<tr>
+<th>Bloque</th>
+<th>Servicio</th>
+<th>Rol</th>
+<th>Imagen</th>
+<th>Puerto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API</strong></td>
+<td><code>lead-scorer-api</code></td>
+<td>Scoring REST en tiempo real</td>
+<td><code>Dockerfile</code> (Python + FastAPI)</td>
+<td>8000</td>
+</tr>
+<tr>
+<td><strong>Airflow</strong></td>
+<td><code>airflow-webserver</code></td>
+<td>Interfaz web de Airflow</td>
+<td><code>Dockerfile.airflow</code></td>
+<td>8080</td>
+</tr>
+<tr>
+<td></td>
+<td><code>airflow-scheduler</code></td>
+<td>Ejecuta los DAGs programados</td>
+<td><code>Dockerfile.airflow</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td></td>
+<td><code>airflow-triggerer</code></td>
+<td>Triggers asincronos</td>
+<td><code>Dockerfile.airflow</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td></td>
+<td><code>airflow-init</code></td>
+<td>Inicializa BD y usuario admin</td>
+<td><code>Dockerfile.airflow</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td></td>
+<td><code>postgres</code></td>
+<td>Metadata DB de Airflow</td>
+<td><code>postgres:13</code> (oficial)</td>
+<td>5432</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Por-que-dos-Dockerfiles">Por que dos Dockerfiles<a class="anchor-link" href="#Por-que-dos-Dockerfiles">¶</a></h3><p>Cada bloque tiene dependencias diferentes:</p>
 <ul>
-<li><code>requirements.txt</code> — dependencias de la <strong>demo Streamlit</strong> (Streamlit Cloud). No se genera desde este notebook.</li>
-<li><code>requirements-api.txt</code> — dependencias del <strong>API de produccion</strong> (Docker/FastAPI). Se genera aqui abajo.</li>
+<li><strong><code>Dockerfile</code></strong> (API): imagen ligera con FastAPI, uvicorn y el modelo. Solo sirve
+predicciones. No necesita Airflow ni su ecosistema.</li>
+<li><strong><code>Dockerfile.airflow</code></strong>: parte de la imagen oficial de Airflow y le anade <code>libgomp1</code>
+(OpenMP, requerido por LightGBM) y las dependencias de ML (<code>scikit-learn==1.6.1</code>,
+<code>lightgbm==4.6.0</code>, <code>pyarrow</code>). Ejecuta los pipelines de datos.</li>
 </ul>
+<p>Separarlos mantiene cada imagen ligera y con responsabilidad unica.</p>
+<h3 id="Por-que-Airflow-se-despliega-en-servicios-separados">Por que Airflow se despliega en servicios separados<a class="anchor-link" href="#Por-que-Airflow-se-despliega-en-servicios-separados">¶</a></h3><p>En desarrollo, Airflow puede correr como un solo proceso (<code>airflow standalone</code>).
+En produccion, se separa en servicios independientes por tres razones:</p>
+<ol>
+<li><strong>Resiliencia</strong> -- Si el webserver se cae, el scheduler sigue ejecutando los DAGs.
+Los pipelines no se detienen porque la interfaz falle.</li>
+<li><strong>Escalabilidad</strong> -- Cada servicio consume recursos diferentes. El scheduler necesita
+CPU para orquestar; el webserver necesita memoria para servir la UI. Separados, se
+pueden escalar independientemente.</li>
+<li><strong>Mantenimiento</strong> -- Se puede actualizar el webserver sin detener la ejecucion de los
+DAGs. En un entorno productivo, esto significa zero downtime en los pipelines.</li>
+</ol>
+<h3 id="Dependencias-separadas">Dependencias separadas<a class="anchor-link" href="#Dependencias-separadas">¶</a></h3><p>El proyecto mantiene dos archivos de dependencias para evitar conflictos:</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Entorno</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>requirements-api.txt</code></td>
+<td>API Docker (produccion)</td>
+<td>FastAPI, uvicorn, sklearn, lightgbm, pydantic</td>
+</tr>
+<tr>
+<td><code>requirements.txt</code></td>
+<td>Streamlit Cloud (demo)</td>
+<td>Streamlit, sklearn, lightgbm, plotly, openpyxl</td>
+</tr>
+</tbody>
+</table>
 <p>Las versiones de <code>scikit-learn</code> y <code>lightgbm</code> deben coincidir con las usadas para generar
-los artefactos <code>.pkl</code> (sklearn==1.6.1, lightgbm==4.6.0).</p>
-</blockquote>
-<p>Las celdas siguientes generan los archivos en <code>app/</code> directamente desde el notebook
-para garantizar reproducibilidad. Los archivos generados son: <code>api.py</code>, <code>Dockerfile</code>,
-<code>docker-compose.yml</code> y <code>requirements-api.txt</code>.</p>
+los artefactos <code>.pkl</code> (<code>sklearn==1.6.1</code>, <code>lightgbm==4.6.0</code>).</p>
+<h3 id="API-de-scoring">API de scoring<a class="anchor-link" href="#API-de-scoring">¶</a></h3><p>El <strong>Container 1 (API)</strong> esta siempre corriendo y atiende peticiones de scoring en tiempo real:</p>
+<pre><code>POST /score  -&gt;  FastAPI  -&gt;  modelo  -&gt;  JSON response
+GET /health  -&gt;  verificacion de que el servicio esta activo
+</code></pre>
+<p>Las celdas siguientes generan los archivos de infraestructura directamente desde el notebook.</p>
 </div>
 </div>
 </div>
@@ -8813,7 +8895,7 @@ Request body (JSON):
 
 Response:
 {
-  "lead_score": 0.2774,
+  "lead_score": 0.4087,
   "cluster": 0,
   "risk_level": "MEDIO",
   "recommended_channel": "LinkedIn",
@@ -8832,13 +8914,13 @@ Response:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar Dockerfile para Container 1 (API)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar Dockerfile para Container API</span>
 <span class="n">dockerfile</span> <span class="o">=</span> <span class="s1">'''FROM python:3.9-slim</span>
 
 <span class="s1">WORKDIR /app</span>
 
 <span class="s1">RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends </span><span class="se">\\</span>
-<span class="s1">    libgomp1 </span><span class="se">\\</span>
+<span class="s1">    libgomp1 curl </span><span class="se">\\</span>
 <span class="s1">    &amp;&amp; rm -rf /var/lib/apt/lists/*</span>
 
 <span class="s1">COPY requirements-api.txt .</span>
@@ -8860,7 +8942,7 @@ Response:
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">APP_DIR</span><span class="p">,</span> <span class="s1">'Dockerfile'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dockerfile</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Dockerfile generado (Container 1: API)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Dockerfile generado (Container API: Python + FastAPI + curl)'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8873,7 +8955,7 @@ Response:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Dockerfile generado (Container 1: API)
+<pre>Dockerfile generado (Container API: Python + FastAPI + curl)
 </pre>
 </div>
 </div>
@@ -8887,8 +8969,34 @@ Response:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar docker-compose.yml</span>
-<span class="n">compose</span> <span class="o">=</span> <span class="s1">'''version: "3.8"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar docker-compose.yml (orquestacion completa: API + Airflow + Postgres)</span>
+<span class="n">compose</span> <span class="o">=</span> <span class="s1">'''x-airflow-common:</span>
+<span class="s1">  &amp;airflow-common</span>
+<span class="s1">  build:</span>
+<span class="s1">    context: .</span>
+<span class="s1">    dockerfile: Dockerfile.airflow</span>
+<span class="s1">  environment:</span>
+<span class="s1">    &amp;airflow-common-env</span>
+<span class="s1">    AIRFLOW__CORE__EXECUTOR: LocalExecutor</span>
+<span class="s1">    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow</span>
+<span class="s1">    AIRFLOW__CORE__FERNET_KEY: ''</span>
+<span class="s1">    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'</span>
+<span class="s1">    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'</span>
+<span class="s1">    AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'</span>
+<span class="s1">    LEAD_SCORING_BASE_DIR: /opt/airflow/data</span>
+<span class="s1">    LEAD_SCORING_MODEL_DIR: /opt/airflow/models</span>
+<span class="s1">    PIPELINES_DIR: /opt/airflow/dags</span>
+<span class="s1">  volumes:</span>
+<span class="s1">    - ./dags:/opt/airflow/dags</span>
+<span class="s1">    - ./pipelines:/opt/airflow/dags/pipelines</span>
+<span class="s1">    - ./models:/opt/airflow/models</span>
+<span class="s1">    - ../../_working/data:/opt/airflow/data</span>
+<span class="s1">    - ./logs:/opt/airflow/logs</span>
+<span class="s1">  user: "$</span><span class="si">{AIRFLOW_UID:-50000}</span><span class="s1">:0"</span>
+<span class="s1">  depends_on:</span>
+<span class="s1">    &amp;airflow-common-depends-on</span>
+<span class="s1">    postgres:</span>
+<span class="s1">      condition: service_healthy</span>
 
 <span class="s1">services:</span>
 <span class="s1">  lead-scorer-api:</span>
@@ -8901,13 +9009,94 @@ Response:
 <span class="s1">      interval: 30s</span>
 <span class="s1">      timeout: 5s</span>
 <span class="s1">      retries: 3</span>
+
+<span class="s1">  postgres:</span>
+<span class="s1">    image: postgres:13</span>
+<span class="s1">    environment:</span>
+<span class="s1">      POSTGRES_USER: airflow</span>
+<span class="s1">      POSTGRES_PASSWORD: airflow</span>
+<span class="s1">      POSTGRES_DB: airflow</span>
+<span class="s1">    ports:</span>
+<span class="s1">      - "5432:5432"</span>
+<span class="s1">    volumes:</span>
+<span class="s1">      - postgres-db-volume:/var/lib/postgresql/data</span>
+<span class="s1">    healthcheck:</span>
+<span class="s1">      test: ["CMD", "pg_isready", "-U", "airflow"]</span>
+<span class="s1">      interval: 5s</span>
+<span class="s1">      retries: 5</span>
+<span class="s1">    restart: always</span>
+
+<span class="s1">  airflow-init:</span>
+<span class="s1">    &lt;&lt;: *airflow-common</span>
+<span class="s1">    entrypoint: /bin/bash</span>
+<span class="s1">    command:</span>
+<span class="s1">      - -c</span>
+<span class="s1">      - |</span>
+<span class="s1">        mkdir -p /sources/logs /sources/dags /sources/plugins</span>
+<span class="s1">        exec /entrypoint airflow version</span>
+<span class="s1">    environment:</span>
+<span class="s1">      &lt;&lt;: *airflow-common-env</span>
+<span class="s1">      _AIRFLOW_DB_MIGRATE: 'true'</span>
+<span class="s1">      _AIRFLOW_WWW_USER_CREATE: 'true'</span>
+<span class="s1">      _AIRFLOW_WWW_USER_USERNAME: airflow</span>
+<span class="s1">      _AIRFLOW_WWW_USER_PASSWORD: airflow</span>
+<span class="s1">      _PIP_ADDITIONAL_REQUIREMENTS: ''</span>
+<span class="s1">    user: "0:0"</span>
+<span class="s1">    volumes:</span>
+<span class="s1">      - .:/sources</span>
+
+<span class="s1">  airflow-webserver:</span>
+<span class="s1">    &lt;&lt;: *airflow-common</span>
+<span class="s1">    command: webserver</span>
+<span class="s1">    ports:</span>
+<span class="s1">      - "8080:8080"</span>
+<span class="s1">    healthcheck:</span>
+<span class="s1">      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]</span>
+<span class="s1">      interval: 10s</span>
+<span class="s1">      timeout: 10s</span>
+<span class="s1">      retries: 5</span>
+<span class="s1">    restart: always</span>
+<span class="s1">    depends_on:</span>
+<span class="s1">      &lt;&lt;: *airflow-common-depends-on</span>
+<span class="s1">      airflow-init:</span>
+<span class="s1">        condition: service_completed_successfully</span>
+
+<span class="s1">  airflow-scheduler:</span>
+<span class="s1">    &lt;&lt;: *airflow-common</span>
+<span class="s1">    command: scheduler</span>
+<span class="s1">    healthcheck:</span>
+<span class="s1">      test: ["CMD-SHELL", 'airflow jobs check --job-type SchedulerJob --hostname "$$</span><span class="si">{HOSTNAME}</span><span class="s1">"']</span>
+<span class="s1">      interval: 10s</span>
+<span class="s1">      timeout: 10s</span>
+<span class="s1">      retries: 5</span>
+<span class="s1">    restart: always</span>
+<span class="s1">    depends_on:</span>
+<span class="s1">      &lt;&lt;: *airflow-common-depends-on</span>
+<span class="s1">      airflow-init:</span>
+<span class="s1">        condition: service_completed_successfully</span>
+
+<span class="s1">  airflow-triggerer:</span>
+<span class="s1">    &lt;&lt;: *airflow-common</span>
+<span class="s1">    command: triggerer</span>
+<span class="s1">    healthcheck:</span>
+<span class="s1">      test: ["CMD-SHELL", 'airflow jobs check --job-type TriggererJob --hostname "$$</span><span class="si">{HOSTNAME}</span><span class="s1">"']</span>
+<span class="s1">      interval: 10s</span>
+<span class="s1">      timeout: 10s</span>
+<span class="s1">      retries: 5</span>
+<span class="s1">    restart: always</span>
+<span class="s1">    depends_on:</span>
+<span class="s1">      &lt;&lt;: *airflow-common-depends-on</span>
+<span class="s1">      airflow-init:</span>
+<span class="s1">        condition: service_completed_successfully</span>
+
+<span class="s1">volumes:</span>
+<span class="s1">  postgres-db-volume:</span>
 <span class="s1">'''</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">APP_DIR</span><span class="p">,</span> <span class="s1">'docker-compose.yml'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">compose</span><span class="p">)</span>
 
 <span class="c1"># Generar requirements-api.txt (dependencias del API Docker, NO de Streamlit)</span>
-<span class="c1"># Las versiones de sklearn y lightgbm deben coincidir con las de los .pkl</span>
 <span class="n">requirements_api</span> <span class="o">=</span> <span class="s1">'''fastapi==0.104.1</span>
 <span class="s1">uvicorn==0.24.0</span>
 <span class="s1">pandas&gt;=2.0.0</span>
@@ -8920,14 +9109,13 @@ Response:
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">APP_DIR</span><span class="p">,</span> <span class="s1">'requirements-api.txt'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">requirements_api</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'docker-compose.yml generado'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'docker-compose.yml generado (6 servicios: API + Postgres + 4 Airflow)'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'requirements-api.txt generado (dependencias API produccion)'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'  Nota: requirements.txt (Streamlit demo) no se modifica desde este notebook'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">=== Desplegar ==='</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'  cd app/'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'  docker-compose up --build'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'  docker compose up -d'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'  # API en http://localhost:8000'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'  # Docs en http://localhost:8000/docs'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'  # Airflow en http://localhost:8080 (airflow/airflow)'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8940,15 +9128,57 @@ Response:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>docker-compose.yml generado
+<pre>docker-compose.yml generado (6 servicios: API + Postgres + 4 Airflow)
 requirements-api.txt generado (dependencias API produccion)
-  Nota: requirements.txt (Streamlit demo) no se modifica desde este notebook
 
 === Desplegar ===
   cd app/
-  docker-compose up --build
+  docker compose up -d
   # API en http://localhost:8000
-  # Docs en http://localhost:8000/docs
+  # Airflow en http://localhost:8080 (airflow/airflow)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=gnywmvydhal">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar Dockerfile.airflow (imagen custom para los containers de Airflow)</span>
+<span class="c1"># Necesario porque LightGBM requiere libgomp1 (OpenMP) que no viene en la imagen base</span>
+<span class="n">dockerfile_airflow</span> <span class="o">=</span> <span class="s1">'''FROM apache/airflow:2.10.4-python3.9</span>
+
+<span class="s1">USER root</span>
+<span class="s1">RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends </span><span class="se">\\</span>
+<span class="s1">    libgomp1 </span><span class="se">\\</span>
+<span class="s1">    &amp;&amp; rm -rf /var/lib/apt/lists/*</span>
+
+<span class="s1">USER airflow</span>
+<span class="s1">RUN pip install --no-cache-dir </span><span class="se">\\</span>
+<span class="s1">    scikit-learn==1.6.1 lightgbm==4.6.0 pyarrow</span>
+<span class="s1">'''</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">APP_DIR</span><span class="p">,</span> <span class="s1">'Dockerfile.airflow'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dockerfile_airflow</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Dockerfile.airflow generado (Airflow + libgomp1 + sklearn + lightgbm)'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Dockerfile.airflow generado (Airflow + libgomp1 + sklearn + lightgbm)
 </pre>
 </div>
 </div>
@@ -9104,7 +9334,7 @@ siguiendo el mismo patron que <code>api.py</code> y <code>Dockerfile</code> en l
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar pipelines/__init__.py</span>
@@ -9139,7 +9369,7 @@ siguiendo el mismo patron que <code>api.py</code> y <code>Dockerfile</code> en l
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar pipelines/ingest.py (logica de NB01)</span>
@@ -9254,7 +9484,7 @@ siguiendo el mismo patron que <code>api.py</code> y <code>Dockerfile</code> en l
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar pipelines/transform.py (logica de NB03, CORREGIDO con 39 features)</span>
@@ -9517,7 +9747,7 @@ siguiendo el mismo patron que <code>api.py</code> y <code>Dockerfile</code> en l
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar pipelines/score.py (logica de NB04)</span>
@@ -9812,7 +10042,13 @@ siguiendo el mismo patron que <code>api.py</code> y <code>Dockerfile</code> en l
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>pipelines/score.py generado
+<pre>pipelines/score.py generado</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 pipelines/monitor.py generado
 pipelines/retrain.py generado
 pipelines/validate.py generado
@@ -9880,7 +10116,7 @@ por <code>lead_score</code> descendente, con su cluster, nivel de riesgo y recom
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar scoring_dag.py (DAG 1: scoring semanal)</span>
@@ -9912,7 +10148,7 @@ por <code>lead_score</code> descendente, con su cluster, nivel de riesgo y recom
 <span class="s1">PROCESSED_DIR = os.path.join(BASE_DIR, "processed")</span>
 <span class="s1">SCORED_DIR = os.path.join(BASE_DIR, "scored")</span>
 
-<span class="s1">PIPELINES_DIR = os.environ.get("PIPELINES_DIR", "/opt/airflow/pipelines")</span>
+<span class="s1">PIPELINES_DIR = os.environ.get("PIPELINES_DIR", "/opt/airflow/dags")</span>
 <span class="s1">if PIPELINES_DIR not in sys.path:</span>
 <span class="s1">    sys.path.insert(0, PIPELINES_DIR)</span>
 
@@ -10091,7 +10327,7 @@ Este DAG lo detecta antes de que sea un problema.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar monitoring_dag.py (DAG 2: monitoring mensual)</span>
@@ -10120,7 +10356,7 @@ Este DAG lo detecta antes de que sea un problema.</p>
 <span class="s1">PROCESSED_DIR = os.path.join(BASE_DIR, "processed")</span>
 <span class="s1">SCORED_DIR = os.path.join(BASE_DIR, "scored")</span>
 
-<span class="s1">PIPELINES_DIR = os.environ.get("PIPELINES_DIR", "/opt/airflow/pipelines")</span>
+<span class="s1">PIPELINES_DIR = os.environ.get("PIPELINES_DIR", "/opt/airflow/dags")</span>
 <span class="s1">if PIPELINES_DIR not in sys.path:</span>
 <span class="s1">    sys.path.insert(0, PIPELINES_DIR)</span>
 
@@ -10233,11 +10469,12 @@ Este DAG lo detecta antes de que sea un problema.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Eliminado: lead_scoring_dag.py (reemplazado por 2 DAGs separados)
-dags/monitoring_dag.py generado (DAG 2: monitoring mensual)
+<pre>dags/monitoring_dag.py generado (DAG 2: monitoring mensual)
 
 === DAGs en ./app/dags ===
+  __pycache__
   monitoring_dag.py
+  pipelines
   scoring_dag.py
 </pre>
 </div>
@@ -10287,7 +10524,7 @@ y los datos más recientes:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">calculate_psi</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
@@ -10332,7 +10569,7 @@ y los datos más recientes:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Simular monitorizacion: dividir datos en referencia y produccion</span>
@@ -10373,7 +10610,13 @@ y los datos más recientes:</p>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Datos de referencia (entrenamiento): 2,993 filas
 Datos simulados (produccion): 2,994 filas
-
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 === PSI por feature ===
                     Feature      PSI      Status
            fe_log_employees 0.181015 MONITORIZAR
@@ -10425,7 +10668,7 @@ Six months headcount growth 0.105107 MONITORIZAR
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visualizar PSI</span>
@@ -10460,7 +10703,7 @@ Six months headcount growth 0.105107 MONITORIZAR
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<div> <div class="plotly-graph-div" id="7056511b-4d02-4a74-9df9-1f2f7194b3f3" style="height:500px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("7056511b-4d02-4a74-9df9-1f2f7194b3f3")) {                    Plotly.newPlot(                        "7056511b-4d02-4a74-9df9-1f2f7194b3f3",                        [{"marker":{"color":["#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71"]},"text":["0.181","0.181","0.159","0.149","0.146","0.124","0.116","0.109","0.105","0.099","0.078","0.078","0.073","0.062","0.056","0.054","0.036","0.029","0.018","0.016","0.016","0.011","0.005","0.005","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0"],"textposition":"auto","x":["fe_log_employees","Number of employees","nlp_embedding_01","nlp_embedding_02","fe_company_size_bucket","fe_headcount_momentum","fe_type_of_contact_ord","Two years headcount growth","Six months headcount growth","nlp_embedding_03","fe_department_encoded","Yearly headcount growth","ext_ms_maturity_score","Year founded","nlp_contact_report_length","fe_company_age","nlp_topic","nlp_urgency_score","nlp_report_length","Number of connections","fe_log_connections","Years in company","Years in role","fe_seniority_ord","fe_tech_fit_comunica","fe_tech_fit_colabora","fe_tech_fit_infra","fe_tech_fit_ia","fe_tech_fit_data","fe_tech_fit_workplace","fe_has_bio","nlp_has_momentum","ext_has_competitor_tech","fe_microsoft_flag","fe_has_email","fe_fit_data_approved","fe_fit_approved","Hiring on LinkedIn","fe_tech_fit_maite"],"y":[0.1810153267059731,0.1810153267059731,0.15876484683886194,0.14902133699236395,0.1460115874074122,0.12397072128110256,0.11610966548533566,0.10904472723074782,0.10510713787992405,0.0990628995485241,0.07796814048046391,0.07779484650102517,0.0728723901440309,0.0620307401090918,0.0560239188058064,0.053566445025087825,0.0356227553644457,0.029410563748602077,0.01812888253653246,0.015926468185748655,0.015926468185748655,0.010688713823806371,0.005308010640095771,0.005118516567152974,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"type":"bar"}],                        {"annotations":[{"showarrow":false,"text":"Umbral monitorizar (0.1)","x":1,"xanchor":"right","xref":"x domain","y":0.1,"yanchor":"bottom","yref":"y"},{"showarrow":false,"text":"Umbral alerta (0.25)","x":1,"xanchor":"right","xref":"x domain","y":0.25,"yanchor":"bottom","yref":"y"}],"height":500,"shapes":[{"line":{"color":"#f39c12","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.1,"y1":0.1,"yref":"y"},{"line":{"color":"#e74c3c","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.25,"y1":0.25,"yref":"y"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Population Stability Index (PSI) por feature"},"xaxis":{"tickangle":-45,"title":{"text":"Feature"}},"yaxis":{"title":{"text":"PSI"}}},                        {"responsive": true}                    )                };            </script> </div>
+<div> <div class="plotly-graph-div" id="d3db38ad-59f0-48e6-9533-a5763eff5bac" style="height:500px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("d3db38ad-59f0-48e6-9533-a5763eff5bac")) {                    Plotly.newPlot(                        "d3db38ad-59f0-48e6-9533-a5763eff5bac",                        [{"marker":{"color":["#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71"]},"text":["0.181","0.181","0.159","0.149","0.146","0.124","0.116","0.109","0.105","0.099","0.078","0.078","0.073","0.062","0.056","0.054","0.036","0.029","0.018","0.016","0.016","0.011","0.005","0.005","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0"],"textposition":"auto","x":["fe_log_employees","Number of employees","nlp_embedding_01","nlp_embedding_02","fe_company_size_bucket","fe_headcount_momentum","fe_type_of_contact_ord","Two years headcount growth","Six months headcount growth","nlp_embedding_03","fe_department_encoded","Yearly headcount growth","ext_ms_maturity_score","Year founded","nlp_contact_report_length","fe_company_age","nlp_topic","nlp_urgency_score","nlp_report_length","Number of connections","fe_log_connections","Years in company","Years in role","fe_seniority_ord","fe_tech_fit_comunica","fe_tech_fit_colabora","fe_tech_fit_infra","fe_tech_fit_ia","fe_tech_fit_data","fe_tech_fit_workplace","fe_has_bio","nlp_has_momentum","ext_has_competitor_tech","fe_microsoft_flag","fe_has_email","fe_fit_data_approved","fe_fit_approved","Hiring on LinkedIn","fe_tech_fit_maite"],"y":[0.1810153267059731,0.1810153267059731,0.15876484683886194,0.14902133699236395,0.1460115874074122,0.12397072128110256,0.11610966548533566,0.10904472723074782,0.10510713787992405,0.0990628995485241,0.07796814048046391,0.07779484650102517,0.0728723901440309,0.0620307401090918,0.0560239188058064,0.053566445025087825,0.0356227553644457,0.029410563748602077,0.01812888253653246,0.015926468185748655,0.015926468185748655,0.010688713823806371,0.005308010640095771,0.005118516567152974,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"type":"bar"}],                        {"annotations":[{"showarrow":false,"text":"Umbral monitorizar (0.1)","x":1,"xanchor":"right","xref":"x domain","y":0.1,"yanchor":"bottom","yref":"y"},{"showarrow":false,"text":"Umbral alerta (0.25)","x":1,"xanchor":"right","xref":"x domain","y":0.25,"yanchor":"bottom","yref":"y"}],"height":500,"shapes":[{"line":{"color":"#f39c12","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.1,"y1":0.1,"yref":"y"},{"line":{"color":"#e74c3c","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.25,"y1":0.25,"yref":"y"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Population Stability Index (PSI) por feature"},"xaxis":{"tickangle":-45,"title":{"text":"Feature"}},"yaxis":{"title":{"text":"PSI"}}},                        {"responsive": true}                    )                };            </script> </div>
 </div>
 </div>
 </div>
@@ -10470,7 +10713,7 @@ Six months headcount growth 0.105107 MONITORIZAR
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Simular drift artificial para demostrar la deteccion</span>
@@ -10507,7 +10750,13 @@ Six months headcount growth 0.105107 MONITORIZAR
 <pre>=== Simulacion de drift artificial ===
 Escenario: Number of employees aumenta un 50% en datos nuevos
 
-PSI sin drift:  0.1810 -&gt; ALERTA
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>PSI sin drift:  0.1810 -&gt; ALERTA
 PSI con drift:  0.3891 -&gt; ALERTA
 
 El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
@@ -10554,10 +10803,11 @@ mismos artefactos <code>.pkl</code> pero sin Airflow ni Docker.</p>
 </code></pre>
 <h3 id="Estructura-de-archivos">Estructura de archivos<a class="anchor-link" href="#Estructura-de-archivos">¶</a></h3><pre><code>TFM_deliverables/
 ├── app/
-│   ├── api.py                        # FastAPI (Container 1)
+│   ├── api.py                        # FastAPI (Container API)
 │   ├── streamlit_app.py              # App interactiva (demo, 3 tabs)
-│   ├── Dockerfile                    # Container 1: imagen Docker
-│   ├── docker-compose.yml
+│   ├── Dockerfile                    # Container API: Python + FastAPI
+│   ├── Dockerfile.airflow            # Container Airflow: + libgomp1 + ML deps
+│   ├── docker-compose.yml            # Orquestacion: 6 servicios
 │   ├── requirements-api.txt          # Dependencias API (produccion Docker)
 │   ├── requirements.txt              # Dependencias Streamlit (demo)
 │   ├── models/
@@ -10661,11 +10911,15 @@ mismos artefactos <code>.pkl</code> pero sin Airflow ni Docker.</p>
 </tr>
 <tr>
 <td><code>app/Dockerfile</code></td>
-<td>Container 1: imagen Docker para la API</td>
+<td>Container API: Python + FastAPI</td>
+</tr>
+<tr>
+<td><code>app/Dockerfile.airflow</code></td>
+<td>Container Airflow: imagen oficial + libgomp1 + ML deps</td>
 </tr>
 <tr>
 <td><code>app/docker-compose.yml</code></td>
-<td>Orquestacion del contenedor</td>
+<td>Orquestacion: 6 servicios (API + Postgres + 4 Airflow)</td>
 </tr>
 <tr>
 <td><code>app/requirements-api.txt</code></td>
@@ -10749,8 +11003,13 @@ mismos artefactos <code>.pkl</code> pero sin Airflow ni Docker.</p>
 </thead>
 <tbody>
 <tr>
-<td><strong>Container 1 (API)</strong></td>
-<td>Scoring individual via REST</td>
+<td><strong>Container API</strong></td>
+<td>Scoring individual via REST (FastAPI)</td>
+<td>Siempre activo</td>
+</tr>
+<tr>
+<td><strong>Airflow</strong> (4 servicios + Postgres)</td>
+<td>Orquestacion de pipelines</td>
 <td>Siempre activo</td>
 </tr>
 <tr>
@@ -10799,6 +11058,9 @@ mismos artefactos <code>.pkl</code> pero sin Airflow ni Docker.</p>
 <h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h3><p>El sistema va mas alla de un modelo aislado: es un <strong>pipeline de produccion profesional</strong>
 con scoring en tiempo real (API), procesamiento en batch (DAG 1), monitorizacion continua
 (DAG 2) y una interfaz accesible (Streamlit).</p>
+<p>La infraestructura se despliega en <strong>dos bloques Docker</strong> (API + Airflow) con seis servicios
+orquestados por <code>docker-compose.yml</code>. Cada bloque tiene su propio Dockerfile con dependencias
+especificas, siguiendo el principio de responsabilidad unica.</p>
 <p>La <strong>demo en Streamlit Cloud</strong> (raona-lead-scoring.streamlit.app) permite al equipo comercial
 explorar los resultados hoy. La <strong>arquitectura de produccion</strong> (API + Airflow + Docker)
 esta lista para desplegarse cuando Raona decida escalar el sistema.</p>
@@ -10810,7 +11072,7 @@ esta lista para desplegarse cuando Raona decida escalar el sistema.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Inventario final</span>
@@ -10819,10 +11081,11 @@ esta lista para desplegarse cuando Raona decida escalar el sistema.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'='</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 
 <span class="n">generated_files</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="c1"># API y contenedores</span>
+    <span class="c1"># Infraestructura</span>
     <span class="p">(</span><span class="s1">'app/api.py'</span><span class="p">,</span> <span class="s1">'FastAPI endpoint'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'app/Dockerfile'</span><span class="p">,</span> <span class="s1">'Container 1: imagen Docker'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'app/docker-compose.yml'</span><span class="p">,</span> <span class="s1">'Orquestacion'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/Dockerfile'</span><span class="p">,</span> <span class="s1">'Container API: Python + FastAPI'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/Dockerfile.airflow'</span><span class="p">,</span> <span class="s1">'Container Airflow: + libgomp1 + ML deps'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/docker-compose.yml'</span><span class="p">,</span> <span class="s1">'Orquestacion: 6 servicios'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/requirements-api.txt'</span><span class="p">,</span> <span class="s1">'Dependencias API (produccion Docker)'</span><span class="p">),</span>
     <span class="c1"># Pipelines</span>
     <span class="p">(</span><span class="s1">'app/pipelines/__init__.py'</span><span class="p">,</span> <span class="s1">'Modulo pipelines'</span><span class="p">),</span>
@@ -10859,6 +11122,7 @@ esta lista para desplegarse cuando Raona decida escalar el sistema.</p>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">  lead_scoring_dag.py eliminado correctamente (reemplazado por 2 DAGs)'</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Modelo en produccion: lead_scorer.pkl (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FEATURE_COLS</span><span class="p">)</span><span class="si">}</span><span class="s1"> features)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Infraestructura: 2 bloques Docker, 6 servicios'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -10877,8 +11141,9 @@ RESUMEN NOTEBOOK 05 - MLOps
 
 Archivos del sistema:
   [OK] app/api.py -- FastAPI endpoint
-  [OK] app/Dockerfile -- Container 1: imagen Docker
-  [OK] app/docker-compose.yml -- Orquestacion
+  [OK] app/Dockerfile -- Container API: Python + FastAPI
+  [OK] app/Dockerfile.airflow -- Container Airflow: + libgomp1 + ML deps
+  [OK] app/docker-compose.yml -- Orquestacion: 6 servicios
   [OK] app/requirements-api.txt -- Dependencias API (produccion Docker)
   [OK] app/pipelines/__init__.py -- Modulo pipelines
   [OK] app/pipelines/ingest.py -- NB01: ingestion
@@ -10899,6 +11164,7 @@ Archivos del sistema:
   lead_scoring_dag.py eliminado correctamente (reemplazado por 2 DAGs)
 
 Modelo en produccion: lead_scorer.pkl (39 features)
+Infraestructura: 2 bloques Docker, 6 servicios
 </pre>
 </div>
 </div>

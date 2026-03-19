@@ -23,7 +23,7 @@ MODEL_DIR = os.environ.get("LEAD_SCORING_MODEL_DIR", "/opt/airflow/models")
 PROCESSED_DIR = os.path.join(BASE_DIR, "processed")
 SCORED_DIR = os.path.join(BASE_DIR, "scored")
 
-PIPELINES_DIR = os.environ.get("PIPELINES_DIR", "/opt/airflow/pipelines")
+PIPELINES_DIR = os.environ.get("PIPELINES_DIR", "/opt/airflow/dags")
 if PIPELINES_DIR not in sys.path:
     sys.path.insert(0, PIPELINES_DIR)
 

@@ -3,7 +3,7 @@ FROM python:3.9-slim
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgomp1 \
+    libgomp1 curl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements-api.txt .
