@@ -7951,53 +7951,114 @@ table.dataframe tr:hover td {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Notebook-05:-MLOps---Pipeline-de-producci%C3%B3n">Notebook 05: MLOps - Pipeline de producción<a class="anchor-link" href="#Notebook-05:-MLOps---Pipeline-de-producci%C3%B3n">¶</a></h1><h2 id="Objetivo">Objetivo<a class="anchor-link" href="#Objetivo">¶</a></h2><p>Documentar y demostrar como el modelo de lead scoring pasa de un notebook experimental
-a un sistema desplegable en producción. Cubrimos:</p>
+<h1 id="Notebook-05:-MLOps---Pipeline-de-produccion">Notebook 05: MLOps - Pipeline de produccion<a class="anchor-link" href="#Notebook-05:-MLOps---Pipeline-de-produccion">¶</a></h1><h2 id="Objetivo">Objetivo<a class="anchor-link" href="#Objetivo">¶</a></h2><p>Documentar y demostrar como el modelo de lead scoring pasa de un notebook experimental
+a un sistema desplegable en produccion. Este notebook cubre dos entornos diferenciados:</p>
+<h3 id="Dos-entornos:-Demo-y-Produccion">Dos entornos: Demo y Produccion<a class="anchor-link" href="#Dos-entornos:-Demo-y-Produccion">¶</a></h3><table>
+<thead>
+<tr>
+<th></th>
+<th><strong>DEMO (Streamlit Cloud)</strong></th>
+<th><strong>PRODUCCION (propuesta)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Que es</strong></td>
+<td>App interactiva ya desplegada</td>
+<td>Arquitectura profesional propuesta</td>
+</tr>
+<tr>
+<td><strong>URL</strong></td>
+<td><a href="https://raona-lead-scoring.streamlit.app">raona-lead-scoring.streamlit.app</a></td>
+<td><code>localhost:8000</code> (Docker local)</td>
+</tr>
+<tr>
+<td><strong>Scoring</strong></td>
+<td>Formulario individual + carga de CSV</td>
+<td>API REST tiempo real + batch via Airflow</td>
+</tr>
+<tr>
+<td><strong>Orquestacion</strong></td>
+<td>Manual (el usuario sube datos)</td>
+<td>Airflow DAGs automaticos (semanal/mensual)</td>
+</tr>
+<tr>
+<td><strong>Monitorizacion</strong></td>
+<td>No</td>
+<td>PSI mensual + reentrenamiento condicional</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><strong>Desplegado y funcional</strong></td>
+<td><strong>Codigo generado, no desplegado</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Ambos entornos comparten los mismos artefactos del modelo (<code>lead_scorer.pkl</code>, <code>preprocessor.pkl</code>,
+<code>clustering.pkl</code>, <code>feature_names.pkl</code>) y la misma logica de scoring.</p>
 <table>
 <thead>
 <tr>
-<th>Sección</th>
+<th>Seccion</th>
 <th>Contenido</th>
+<th>Entorno</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>5.1</strong></td>
-<td>Pipeline end-to-end: de datos crudos a predicción</td>
+<td>Pipeline end-to-end: de datos crudos a prediccion</td>
+<td>Comun</td>
 </tr>
 <tr>
 <td><strong>5.2</strong></td>
 <td>Tracking de experimentos con MLflow</td>
+<td>Comun</td>
 </tr>
 <tr>
 <td><strong>5.3</strong></td>
 <td>Servir el modelo: API FastAPI + Docker</td>
+<td>Produccion</td>
 </tr>
 <tr>
 <td><strong>5.4</strong></td>
-<td>DAG 1 - Scoring pipeline (frecuencia alta)</td>
+<td>Demo: Streamlit Cloud</td>
+<td>Demo</td>
 </tr>
 <tr>
 <td><strong>5.5</strong></td>
-<td>DAG 2 - Monitoring + Retraining (frecuencia baja)</td>
+<td>Pipelines de produccion (archivos .py)</td>
+<td>Produccion</td>
 </tr>
 <tr>
 <td><strong>5.6</strong></td>
-<td>Arquitectura completa</td>
+<td>DAG 1 - Scoring pipeline (frecuencia alta)</td>
+<td>Produccion</td>
 </tr>
 <tr>
 <td><strong>5.7</strong></td>
+<td>DAG 2 - Monitoring + Retraining (frecuencia baja)</td>
+<td>Produccion</td>
+</tr>
+<tr>
+<td><strong>5.8</strong></td>
+<td>Arquitectura completa</td>
+<td>Comun</td>
+</tr>
+<tr>
+<td><strong>5.9</strong></td>
 <td>Trabajo futuro y roadmap</td>
+<td>Comun</td>
 </tr>
 </tbody>
 </table>
-<h2 id="Por-qu%C3%A9-MLOps?">Por qué MLOps?<a class="anchor-link" href="#Por-qu%C3%A9-MLOps?">¶</a></h2><p>Un modelo en un notebook no es un producto. Para que Raona pueda usar el lead scoring
-en su día a dia, necesita:</p>
+<h2 id="Por-que-MLOps?">Por que MLOps?<a class="anchor-link" href="#Por-que-MLOps?">¶</a></h2><p>Un modelo en un notebook no es un producto. Para que Raona pueda usar el lead scoring
+en su dia a dia, necesita:</p>
 <ul>
 <li>Un <strong>API</strong> que reciba datos de un contacto y devuelva un score</li>
 <li>Un <strong>contenedor</strong> que se pueda desplegar en cualquier servidor</li>
-<li><strong>Orquestación</strong> para procesar nuevos contactos automáticamente</li>
-<li><strong>Monitorización</strong> para saber cuando el modelo deja de funciónar bien</li>
+<li><strong>Orquestacion</strong> para procesar nuevos contactos automaticamente</li>
+<li><strong>Monitorizacion</strong> para saber cuando el modelo deja de funcionar bien</li>
 <li><strong>Reproducibilidad</strong> para poder reentrenar con datos nuevos</li>
 </ul>
 </div>
@@ -8085,9 +8146,10 @@ Modelos en: ./app/models
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="5.1-Pipeline-end-to-end">5.1 Pipeline end-to-end<a class="anchor-link" href="#5.1-Pipeline-end-to-end">¶</a></h2><p>Demostramos que el pipeline completo funcióna: desde un diccionario JSON con los datos
-de un contacto hasta la predicción del score, cluster y recomendación.</p>
-<p>Esto es exactamente lo que hara el API en producción.</p>
+<h2 id="5.1-Pipeline-end-to-end">5.1 Pipeline end-to-end<a class="anchor-link" href="#5.1-Pipeline-end-to-end">¶</a></h2><p>Demostramos que el pipeline completo funciona: desde un diccionario JSON con los datos
+de un contacto hasta la prediccion del score, cluster y recomendacion.</p>
+<p>Esto es exactamente lo que hace tanto la <strong>demo Streamlit</strong> como la <strong>API de produccion</strong>
+propuesta: la misma funcion <code>score_lead()</code> encapsula la logica de scoring comun a ambos entornos.</p>
 </div>
 </div>
 </div>
@@ -8253,7 +8315,13 @@ de un contacto hasta la predicción del score, cluster y recomendación.</p>
   Seniority: MANAGER
   Departamento: Sales &amp; MKT
 
-=== Resultado del scoring ===
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>=== Resultado del scoring ===
   lead_score: 0.7139
   cluster: 1
   risk_level: ALTO
@@ -8405,14 +8473,14 @@ Experimento: raona_lead_scoring
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>2026/03/19 08:21:26 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
+<pre>2026/03/19 09:10:39 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre><span class="ansi-red-fg">2026/03/19 08:21:28 WARNING mlflow.models.model: Model logged without a signature and input example. Please set `input_example` parameter when logging the model to auto infer the model signature.</span>
+<pre><span class="ansi-red-fg">2026/03/19 09:10:40 WARNING mlflow.models.model: Model logged without a signature and input example. Please set `input_example` parameter when logging the model to auto infer the model signature.</span>
 </pre>
 </div>
 </div>
@@ -8462,7 +8530,7 @@ Total runs registrados: 1
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
 <div> <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
-<script charset="utf-8" crossorigin="anonymous" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> <div class="plotly-graph-div" id="17499ea2-b25e-4222-ad10-2252b5fa94a8" style="height:400px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("17499ea2-b25e-4222-ad10-2252b5fa94a8")) {                    Plotly.newPlot(                        "17499ea2-b25e-4222-ad10-2252b5fa94a8",                        [{"marker":{"color":"#2ecc71"},"name":"PR-AUC","text":["0.303"],"textposition":"auto","x":["LightGBM_PRODUCTION"],"y":[0.3027739426923056],"type":"bar"},{"marker":{"color":"#3498db"},"name":"ROC-AUC","text":["0.676"],"textposition":"auto","x":["LightGBM_PRODUCTION"],"y":[0.6758437355524735],"type":"bar"}],                        {"barmode":"group","height":400,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"MLflow: Experimento registrado"}},                        {"responsive": true}                    )                };            </script> </div>
+<script charset="utf-8" crossorigin="anonymous" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> <div class="plotly-graph-div" id="070d0025-9c3d-4419-9f9b-7a9bf514da89" style="height:400px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("070d0025-9c3d-4419-9f9b-7a9bf514da89")) {                    Plotly.newPlot(                        "070d0025-9c3d-4419-9f9b-7a9bf514da89",                        [{"marker":{"color":"#2ecc71"},"name":"PR-AUC","text":["0.303"],"textposition":"auto","x":["LightGBM_PRODUCTION"],"y":[0.3027739426923056],"type":"bar"},{"marker":{"color":"#3498db"},"name":"ROC-AUC","text":["0.676"],"textposition":"auto","x":["LightGBM_PRODUCTION"],"y":[0.6758437355524735],"type":"bar"}],                        {"barmode":"group","height":400,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"MLflow: Experimento registrado"}},                        {"responsive": true}                    )                };            </script> </div>
 </div>
 </div>
 </div>
@@ -8887,6 +8955,882 @@ requirements-api.txt generado (dependencias API produccion)
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=osiqi29iuii">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<hr/>
+<h2 id="5.4-Demo:-Streamlit-Cloud">5.4 Demo: Streamlit Cloud<a class="anchor-link" href="#5.4-Demo:-Streamlit-Cloud">¶</a></h2><p>La demo desplegada es una <strong>app interactiva en Streamlit Cloud</strong> que permite al equipo
+comercial de Raona explorar los resultados del modelo sin necesidad de infraestructura propia.</p>
+<p><strong>URL:</strong> <a href="https://raona-lead-scoring.streamlit.app">raona-lead-scoring.streamlit.app</a></p>
+<h3 id="Estructura-de-la-app-(3-pestanas)">Estructura de la app (3 pestanas)<a class="anchor-link" href="#Estructura-de-la-app-(3-pestanas)">¶</a></h3><table>
+<thead>
+<tr>
+<th>Pestana</th>
+<th>Funcion</th>
+<th>Datos que usa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dashboard</strong></td>
+<td>KPIs globales, distribucion de scores, analisis por canal/timing, segmentacion por cluster</td>
+<td><code>sample_contacts.parquet</code>, <code>daily_analytics_ES.parquet</code></td>
+</tr>
+<tr>
+<td><strong>Lead Scorer</strong></td>
+<td>Formulario para scorear un contacto individual con recomendacion de outreach</td>
+<td><code>models/*.pkl</code> (scoring en tiempo real)</td>
+</tr>
+<tr>
+<td><strong>Batch Scorer</strong></td>
+<td>Subir CSV de contactos, scorear todos a la vez, descargar ranking en Excel</td>
+<td><code>models/*.pkl</code> + CSV del usuario</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Archivos-de-la-demo">Archivos de la demo<a class="anchor-link" href="#Archivos-de-la-demo">¶</a></h3><table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Funcion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app/streamlit_app.py</code></td>
+<td>Codigo principal (~1000 lineas: CSS personalizado + logica + visualizaciones Plotly)</td>
+</tr>
+<tr>
+<td><code>app/requirements.txt</code></td>
+<td>Dependencias de Streamlit Cloud (<code>scikit-learn==1.6.1</code>, <code>lightgbm==4.6.0</code>)</td>
+</tr>
+<tr>
+<td><code>app/data/sample_contacts.parquet</code></td>
+<td>Dataset de contactos con scores pre-calculados para el dashboard</td>
+</tr>
+<tr>
+<td><code>app/data/daily_analytics_ES.parquet</code></td>
+<td>Metricas diarias agregadas para graficos temporales</td>
+</tr>
+<tr>
+<td><code>app/data/not_contacted_pool.csv</code></td>
+<td>Pool de 4,735 contactos no contactados para batch scoring</td>
+</tr>
+<tr>
+<td><code>app/models/*.pkl</code></td>
+<td>Artefactos del modelo (los mismos que usaria la API de produccion)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Despliegue">Despliegue<a class="anchor-link" href="#Despliegue">¶</a></h3><p>Streamlit Cloud conecta directamente al repositorio GitHub (<code>acaballito/raona-lead-scoring</code>).
+Cada push a la rama <code>main</code> dispara una reconstruccion automatica de la app. No requiere
+Docker, servidor propio ni configuracion de infraestructura.</p>
+<blockquote>
+<p><strong>Nota:</strong> El archivo <code>streamlit_app.py</code> no se genera desde este notebook por su extension
+(~1000 lineas con CSS personalizado y visualizaciones interactivas). El codigo fuente
+completo esta disponible en <code>app/streamlit_app.py</code>.</p>
+</blockquote>
+<h3 id="Diferencia-clave-con-produccion">Diferencia clave con produccion<a class="anchor-link" href="#Diferencia-clave-con-produccion">¶</a></h3><p>La demo y la propuesta de produccion comparten los mismos artefactos <code>.pkl</code>, pero difieren en:</p>
+<ul>
+<li><strong>Dependencias separadas</strong>: <code>requirements.txt</code> (Streamlit) vs <code>requirements-api.txt</code> (API Docker)</li>
+<li><strong>Scoring</strong>: La demo usa la logica directamente en Python; la produccion la expone via API REST</li>
+<li><strong>Orquestacion</strong>: La demo es manual; la produccion usa Airflow para batch scoring semanal</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=scsy10nsp6c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<hr/>
+<h2 id="5.5-Pipelines-de-produccion-(archivos-.py)">5.5 Pipelines de produccion (archivos .py)<a class="anchor-link" href="#5.5-Pipelines-de-produccion-(archivos-.py)">¶</a></h2><p>Los DAGs de Airflow (secciones 5.6 y 5.7) invocan modulos Python que encapsulan la logica
+de cada notebook. Cada modulo es una extraccion directa del codigo de los notebooks,
+adaptada para ejecutarse de forma autonoma en un entorno de produccion.</p>
+<table>
+<thead>
+<tr>
+<th>Modulo</th>
+<th>Notebook origen</th>
+<th>Funcion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pipelines/ingest.py</code></td>
+<td>NB01</td>
+<td>Carga CSV de Enginy, valida esquema, crea target, guarda Parquet</td>
+</tr>
+<tr>
+<td><code>pipelines/transform.py</code></td>
+<td>NB03</td>
+<td>Feature engineering completo (39 features)</td>
+</tr>
+<tr>
+<td><code>pipelines/score.py</code></td>
+<td>NB04</td>
+<td>Scoring con <code>lead_scorer.pkl</code> + clustering + priorizacion</td>
+</tr>
+<tr>
+<td><code>pipelines/monitor.py</code></td>
+<td>NB05</td>
+<td>Calcula PSI por feature para detectar drift</td>
+</tr>
+<tr>
+<td><code>pipelines/retrain.py</code></td>
+<td>NB05</td>
+<td>Reentrena LightGBM con datos acumulados</td>
+</tr>
+<tr>
+<td><code>pipelines/validate.py</code></td>
+<td>NB05</td>
+<td>Compara candidato vs actual, promueve si es mejor</td>
+</tr>
+</tbody>
+</table>
+<p>Las celdas siguientes generan estos archivos en <code>app/pipelines/</code> directamente desde el notebook,
+siguiendo el mismo patron que <code>api.py</code> y <code>Dockerfile</code> en la seccion 5.3.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=wbligrxnk2">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar pipelines/__init__.py</span>
+<span class="n">PIPELINES_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">APP_DIR</span><span class="p">,</span> <span class="s1">'pipelines'</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">PIPELINES_DIR</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">init_code</span> <span class="o">=</span> <span class="s1">'"""Pipeline modules para Raona Lead Scoring MLOps.</span><span class="se">\n\n</span><span class="s1">Extraido de los notebooks para uso en produccion con Airflow.</span><span class="se">\n</span><span class="s1">"""</span><span class="se">\n</span><span class="s1">'</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PIPELINES_DIR</span><span class="p">,</span> <span class="s1">'__init__.py'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">init_code</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'pipelines/__init__.py generado'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>pipelines/__init__.py generado
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=lob9u0u9idb">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar pipelines/ingest.py (logica de NB01)</span>
+<span class="n">ingest_code</span> <span class="o">=</span> <span class="s1">'''"""Ingest: carga y validacion de datos nuevos.</span>
+
+<span class="s1">Logica extraida de NB01. Carga un CSV de contactos exportado de Enginy,</span>
+<span class="s1">valida el esquema y guarda en formato Parquet.</span>
+<span class="s1">"""</span>
+<span class="s1">import os</span>
+<span class="s1">import re</span>
+<span class="s1">import pandas as pd</span>
+<span class="s1">import numpy as np</span>
+<span class="s1">import logging</span>
+
+<span class="s1">logger = logging.getLogger(__name__)</span>
+
+<span class="s1">REQUIRED_COLS = [</span>
+<span class="s1">    "LinkedIn profile ID", "Company name", "Campaign engagement status",</span>
+<span class="s1">    "Job title", "Number of employees", "Industry",</span>
+<span class="s1">]</span>
+
+
+<span class="s1">def load_contacts(csv_path: str) -&gt; pd.DataFrame:</span>
+<span class="s1">    """Carga contacts CSV y aplica limpieza basica."""</span>
+<span class="s1">    logger.info(f"Cargando </span><span class="si">{csv_path}</span><span class="s1">")</span>
+<span class="s1">    df = pd.read_csv(csv_path, encoding="utf-8-sig", low_memory=False)</span>
+<span class="s1">    logger.info(f"Filas cargadas: {len(df):,}")</span>
+<span class="s1">    return df</span>
+
+
+<span class="s1">def validate_schema(df: pd.DataFrame) -&gt; bool:</span>
+<span class="s1">    """Valida que el DataFrame tenga las columnas minimas requeridas."""</span>
+<span class="s1">    missing = [c for c in REQUIRED_COLS if c not in df.columns]</span>
+<span class="s1">    if missing:</span>
+<span class="s1">        logger.error(f"Columnas faltantes: </span><span class="si">{missing}</span><span class="s1">")</span>
+<span class="s1">        return False</span>
+<span class="s1">    logger.info("Esquema validado correctamente")</span>
+<span class="s1">    return True</span>
+
+
+<span class="s1">def create_target(df: pd.DataFrame) -&gt; pd.DataFrame:</span>
+<span class="s1">    """Crea variable objetivo target_replied desde Campaign engagement status."""</span>
+<span class="s1">    df["target_replied"] = df["Campaign engagement status"].str.contains(</span>
+<span class="s1">        "Replied", case=False, na=False</span>
+<span class="s1">    ).astype(int)</span>
+<span class="s1">    logger.info(f"Target creado: {df['target_replied'].sum()} positivos ({df['target_replied'].mean():.1%})")</span>
+<span class="s1">    return df</span>
+
+
+<span class="s1">def filter_valid_contacts(df: pd.DataFrame) -&gt; pd.DataFrame:</span>
+<span class="s1">    """Filtra contactos sin mensajes enviados y no validos."""</span>
+<span class="s1">    n_before = len(df)</span>
+<span class="s1">    status = df["Campaign engagement status"]</span>
+<span class="s1">    contacted = status.str.contains("Sent|Replied|Connection Accepted", case=False, na=False)</span>
+<span class="s1">    df = df[contacted].copy()</span>
+<span class="s1">    if "Microsoft?" in df.columns:</span>
+<span class="s1">        df = df[df["Microsoft?"] != -1].copy()</span>
+<span class="s1">    if "FIT" in df.columns:</span>
+<span class="s1">        fit_no = df["FIT"].str.strip().str.upper() == "NO"</span>
+<span class="s1">        df = df[~fit_no].copy()</span>
+<span class="s1">    logger.info(f"Contactos filtrados: </span><span class="si">{n_before:,}</span><span class="s1"> -&gt; {len(df):,}")</span>
+<span class="s1">    return df</span>
+
+
+<span class="s1">def extract_reply_message_number(df: pd.DataFrame) -&gt; pd.DataFrame:</span>
+<span class="s1">    """Extrae el numero de mensaje de respuesta del status."""</span>
+<span class="s1">    def _extract(status):</span>
+<span class="s1">        if pd.isna(status):</span>
+<span class="s1">            return np.nan</span>
+<span class="s1">        match = re.search(r"Replied</span><span class="se">\\</span><span class="s1">s*</span><span class="se">\\</span><span class="s1">((</span><span class="se">\\</span><span class="s1">d+)</span><span class="se">\\</span><span class="s1">)", status)</span>
+<span class="s1">        return int(match.group(1)) if match else np.nan</span>
+<span class="s1">    df["reply_message_number"] = df["Campaign engagement status"].apply(_extract)</span>
+<span class="s1">    return df</span>
+
+
+<span class="s1">def run(csv_path: str, output_path: str) -&gt; str:</span>
+<span class="s1">    """Pipeline completo de ingestion."""</span>
+<span class="s1">    df = load_contacts(csv_path)</span>
+<span class="s1">    if not validate_schema(df):</span>
+<span class="s1">        raise ValueError("Esquema de datos invalido")</span>
+<span class="s1">    df = create_target(df)</span>
+<span class="s1">    df = filter_valid_contacts(df)</span>
+<span class="s1">    df = extract_reply_message_number(df)</span>
+<span class="s1">    df.to_parquet(output_path, index=False)</span>
+<span class="s1">    logger.info(f"Guardado: </span><span class="si">{output_path}</span><span class="s1"> ({len(df):,} filas)")</span>
+<span class="s1">    return output_path</span>
+<span class="s1">'''</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PIPELINES_DIR</span><span class="p">,</span> <span class="s1">'ingest.py'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ingest_code</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'pipelines/ingest.py generado (logica de NB01)'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>pipelines/ingest.py generado (logica de NB01)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2q51biyqznf">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar pipelines/transform.py (logica de NB03, CORREGIDO con 39 features)</span>
+<span class="c1"># Requiere: scikit-learn==1.6.1, lightgbm==4.6.0</span>
+<span class="n">transform_code</span> <span class="o">=</span> <span class="s1">'''"""Transform: feature engineering para datos nuevos.</span>
+
+<span class="s1">Logica extraida de NB03. Aplica las mismas transformaciones que el notebook</span>
+<span class="s1">a datos nuevos para que sean compatibles con el modelo (39 features).</span>
+
+<span class="s1">Requiere: scikit-learn==1.6.1, lightgbm==4.6.0</span>
+<span class="s1">"""</span>
+<span class="s1">import re</span>
+<span class="s1">import numpy as np</span>
+<span class="s1">import pandas as pd</span>
+<span class="s1">import logging</span>
+
+<span class="s1">logger = logging.getLogger(__name__)</span>
+
+<span class="s1">SENIORITY_MAP = {"CLEVEL": 4, "DIRECTOR": 3, "MANAGER": 2, "LEAD": 1, "JR": 0}</span>
+
+<span class="s1">TYPE_OF_CONTACT_MAP = {</span>
+<span class="s1">    "KEY_DECISION_MAKER": 5, "BUYER_CHAMPION": 4, "CHAMPION": 3,</span>
+<span class="s1">    "INFLUENCER": 3, "REFERRAL": 2, "NULL": 0,</span>
+<span class="s1">}</span>
+
+<span class="s1">URGENCY_KEYWORDS = [</span>
+<span class="s1">    "crecimiento", "expansion", "transformacion digital",</span>
+<span class="s1">    "nuevo proyecto", "inversion", "presupuesto",</span>
+<span class="s1">    "contratando", "hiring", "growth",</span>
+<span class="s1">    "licitacion", "concurso",</span>
+<span class="s1">    "migracion", "modernizacion",</span>
+<span class="s1">    "urgente", "inmediato", "prioridad",</span>
+<span class="s1">]</span>
+
+<span class="s1">HR_KEYWORDS = ["HR", "RRHH", "PEOPLE", "RECURSOS HUMANOS", "HUMAN RESOURCES", "TALENT"]</span>
+<span class="s1">COMMS_KEYWORDS = ["COMUNICACION", "COMMUNICATIONS", "MARKETING", "BRAND"]</span>
+
+<span class="s1"># Scores de madurez Microsoft (extraido de NB03)</span>
+<span class="s1">TECH_SCORES = {</span>
+<span class="s1">    # Microsoft ecosystem (positivo)</span>
+<span class="s1">    "azure": 3, "microsoft azure": 3,</span>
+<span class="s1">    "dynamics 365": 3, "dynamics": 3,</span>
+<span class="s1">    "microsoft 365": 2, "office 365": 2, "microsoft office": 2,</span>
+<span class="s1">    "power bi": 2, "power platform": 2, "power apps": 2, "power automate": 2,</span>
+<span class="s1">    "sharepoint": 2,</span>
+<span class="s1">    "teams": 1, "microsoft teams": 1,</span>
+<span class="s1">    "active directory": 1, "entra id": 1, "azure ad": 1,</span>
+<span class="s1">    "exchange": 1, "exchange online": 1,</span>
+<span class="s1">    "windows server": 1, "sql server": 1,</span>
+<span class="s1">    "intune": 2, "endpoint manager": 2,</span>
+<span class="s1">    "copilot": 2,</span>
+<span class="s1">    # Competidores (negativo)</span>
+<span class="s1">    "google workspace": -1, "google cloud": -1, "gcp": -1,</span>
+<span class="s1">    "aws": -1, "amazon web services": -1,</span>
+<span class="s1">    "salesforce": -1, "hubspot": -1,</span>
+<span class="s1">    "slack": -1, "zoom": -1,</span>
+<span class="s1">}</span>
+
+<span class="s1"># Mapeo de productos Raona a keywords tecnologicas (extraido de NB03)</span>
+<span class="s1">PRODUCT_TECH_MAP = {</span>
+<span class="s1">    "comunica": ["teams", "microsoft teams", "skype"],</span>
+<span class="s1">    "colabora": ["sharepoint", "onedrive", "power apps", "power automate", "power platform"],</span>
+<span class="s1">    "infra": ["azure", "microsoft azure", "windows server", "sql server"],</span>
+<span class="s1">    "ia": ["copilot", "azure ai", "cognitive", "openai"],</span>
+<span class="s1">    "data": ["power bi", "fabric", "synapse", "sql server"],</span>
+<span class="s1">    "workplace": ["microsoft 365", "office 365", "intune", "endpoint manager"],</span>
+<span class="s1">    "maite": ["entra id", "azure ad", "active directory", "purview", "intune"],</span>
+<span class="s1">}</span>
+
+
+<span class="s1">def clean_type_of_contact(val):</span>
+<span class="s1">    """Limpia el campo TYPE OF CONTACT a categorias estandar."""</span>
+<span class="s1">    if pd.isna(val):</span>
+<span class="s1">        return "NULL"</span>
+<span class="s1">    val_clean = re.sub(r"[^a-zA-Z</span><span class="se">\\</span><span class="s1">s-]", "", str(val)).strip().upper()</span>
+<span class="s1">    if "DECISOR" in val_clean:</span>
+<span class="s1">        return "KEY_DECISION_MAKER"</span>
+<span class="s1">    if "CHAMPION" in val_clean and "BUYER" in val_clean:</span>
+<span class="s1">        return "BUYER_CHAMPION"</span>
+<span class="s1">    if "CHAMPION" in val_clean:</span>
+<span class="s1">        return "CHAMPION"</span>
+<span class="s1">    if "INFLUENCER" in val_clean:</span>
+<span class="s1">        return "INFLUENCER"</span>
+<span class="s1">    if "REFERER" in val_clean or "REFERIDOR" in val_clean:</span>
+<span class="s1">        return "REFERRAL"</span>
+<span class="s1">    return "NULL"</span>
+
+
+<span class="s1">def correct_department(row):</span>
+<span class="s1">    """Corrige departamento usando Job title."""</span>
+<span class="s1">    dept = row.get("ai_DEPARTMENT", np.nan)</span>
+<span class="s1">    title = str(row.get("Job title", "")).upper()</span>
+<span class="s1">    if any(kw in title for kw in HR_KEYWORDS):</span>
+<span class="s1">        return "HR"</span>
+<span class="s1">    if any(kw in title for kw in COMMS_KEYWORDS):</span>
+<span class="s1">        return "COMMUNICATIONS"</span>
+<span class="s1">    return dept</span>
+
+
+<span class="s1">def count_urgency_keywords(text):</span>
+<span class="s1">    """Cuenta palabras clave de urgencia en texto."""</span>
+<span class="s1">    if pd.isna(text):</span>
+<span class="s1">        return 0</span>
+<span class="s1">    text_lower = str(text).lower()</span>
+<span class="s1">    return sum(1 for kw in URGENCY_KEYWORDS if kw in text_lower)</span>
+
+
+<span class="s1">def score_tech_stack(tech_string):</span>
+<span class="s1">    """Calcula score de madurez Microsoft y presencia de competidores."""</span>
+<span class="s1">    if pd.isna(tech_string):</span>
+<span class="s1">        return 0, 0</span>
+<span class="s1">    tech_lower = str(tech_string).lower()</span>
+<span class="s1">    ms_score = 0</span>
+<span class="s1">    has_competitor = 0</span>
+<span class="s1">    for tech, score in TECH_SCORES.items():</span>
+<span class="s1">        if tech in tech_lower:</span>
+<span class="s1">            if score &gt; 0:</span>
+<span class="s1">                ms_score += score</span>
+<span class="s1">            else:</span>
+<span class="s1">                has_competitor = 1</span>
+<span class="s1">    return ms_score, has_competitor</span>
+
+
+<span class="s1">def tech_contains(tech_str, keywords):</span>
+<span class="s1">    """Verifica si el string de tecnologias contiene alguna keyword."""</span>
+<span class="s1">    if pd.isna(tech_str):</span>
+<span class="s1">        return 0</span>
+<span class="s1">    tech_lower = str(tech_str).lower()</span>
+<span class="s1">    return int(any(kw in tech_lower for kw in keywords))</span>
+
+
+<span class="s1">def run(df: pd.DataFrame, global_mean: float = 0.06) -&gt; pd.DataFrame:</span>
+<span class="s1">    """Aplica feature engineering completo a un DataFrame (39 features)."""</span>
+<span class="s1">    logger.info(f"Feature engineering en {len(df):,} filas")</span>
+
+<span class="s1">    # --- Codificaciones ordinales ---</span>
+<span class="s1">    if "ai_SENIORITY" in df.columns:</span>
+<span class="s1">        df["fe_seniority_ord"] = df["ai_SENIORITY"].map(SENIORITY_MAP)</span>
+
+<span class="s1">    if "ai_TYPE_OF_CONTACT" in df.columns:</span>
+<span class="s1">        df["ai_TYPE_OF_CONTACT_clean"] = df["ai_TYPE_OF_CONTACT"].apply(clean_type_of_contact)</span>
+<span class="s1">        df["fe_type_of_contact_ord"] = df["ai_TYPE_OF_CONTACT_clean"].map(TYPE_OF_CONTACT_MAP)</span>
+
+<span class="s1">    # --- FIT ---</span>
+<span class="s1">    if "ai_FIT" in df.columns:</span>
+<span class="s1">        df["fe_fit_approved"] = df["ai_FIT"].apply(</span>
+<span class="s1">            lambda x: 1.0 if pd.notna(x) and "APROBADO" in str(x).upper()</span>
+<span class="s1">                       and "DESAPROBADO" not in str(x).upper() else 0.0</span>
+<span class="s1">        )</span>
+<span class="s1">    if "ai_FIT_DATA" in df.columns:</span>
+<span class="s1">        df["fe_fit_data_approved"] = df["ai_FIT_DATA"].map({"SI": 1, "NO": 0, "COMPETITOR": 0, "DUDA": 0})</span>
+
+<span class="s1">    # --- Numericas ---</span>
+<span class="s1">    if "Year founded" in df.columns:</span>
+<span class="s1">        df["fe_company_age"] = 2026 - df["Year founded"]</span>
+<span class="s1">    if "Number of employees" in df.columns:</span>
+<span class="s1">        df["fe_log_employees"] = np.log1p(df["Number of employees"])</span>
+<span class="s1">        bins = [0, 10, 50, 250, 1000, np.inf]</span>
+<span class="s1">        labels = [0, 1, 2, 3, 4]</span>
+<span class="s1">        df["fe_company_size_bucket"] = pd.cut(</span>
+<span class="s1">            df["Number of employees"], bins=bins, labels=labels, right=False</span>
+<span class="s1">        ).astype(float)</span>
+<span class="s1">    if "Number of connections" in df.columns:</span>
+<span class="s1">        df["fe_log_connections"] = np.log1p(df["Number of connections"])</span>
+
+<span class="s1">    # --- Headcount momentum ---</span>
+<span class="s1">    for col in ["Six months headcount growth", "Yearly headcount growth", "Two years headcount growth"]:</span>
+<span class="s1">        if col not in df.columns:</span>
+<span class="s1">            df[col] = 0.0</span>
+<span class="s1">    df["fe_headcount_momentum"] = (</span>
+<span class="s1">        0.5 * df["Six months headcount growth"].fillna(0) +</span>
+<span class="s1">        0.3 * df["Yearly headcount growth"].fillna(0) +</span>
+<span class="s1">        0.2 * df["Two years headcount growth"].fillna(0)</span>
+<span class="s1">    )</span>
+
+<span class="s1">    # --- Binarias ---</span>
+<span class="s1">    if "Professional email" in df.columns:</span>
+<span class="s1">        df["fe_has_email"] = df["Professional email"].notna().astype(int)</span>
+<span class="s1">    if "Profile bio" in df.columns:</span>
+<span class="s1">        df["fe_has_bio"] = df["Profile bio"].notna().astype(int)</span>
+<span class="s1">    if "ai_Microsoft" in df.columns:</span>
+<span class="s1">        df["fe_microsoft_flag"] = (df["ai_Microsoft"] == 1).astype(int)</span>
+
+<span class="s1">    # --- Department encoding ---</span>
+<span class="s1">    if "ai_DEPARTMENT" in df.columns:</span>
+<span class="s1">        df["fe_department_corrected"] = df.apply(correct_department, axis=1)</span>
+<span class="s1">        df["fe_department_encoded"] = global_mean  # Fallback con media global</span>
+
+<span class="s1">    # --- Enrichment externo (ext_) ---</span>
+<span class="s1">    if "Technologies used" in df.columns:</span>
+<span class="s1">        tech_results = df["Technologies used"].apply(score_tech_stack)</span>
+<span class="s1">        df["ext_ms_maturity_score"] = tech_results.apply(lambda x: x[0])</span>
+<span class="s1">        df["ext_has_competitor_tech"] = tech_results.apply(lambda x: x[1])</span>
+<span class="s1">    else:</span>
+<span class="s1">        df["ext_ms_maturity_score"] = 0</span>
+<span class="s1">        df["ext_has_competitor_tech"] = 0</span>
+
+<span class="s1">    # --- Tech fit por producto (fe_tech_fit_*) ---</span>
+<span class="s1">    if "Technologies used" in df.columns:</span>
+<span class="s1">        for product, keywords in PRODUCT_TECH_MAP.items():</span>
+<span class="s1">            col_name = f"fe_tech_fit_</span><span class="si">{product}</span><span class="s1">"</span>
+<span class="s1">            df[col_name] = df["Technologies used"].apply(lambda x, kw=keywords: tech_contains(x, kw))</span>
+<span class="s1">    else:</span>
+<span class="s1">        for product in PRODUCT_TECH_MAP:</span>
+<span class="s1">            df[f"fe_tech_fit_</span><span class="si">{product}</span><span class="s1">"] = 0</span>
+
+<span class="s1">    # --- NLP basicas ---</span>
+<span class="s1">    if "ai_COMPANY_REPORT" in df.columns:</span>
+<span class="s1">        df["nlp_report_length"] = df["ai_COMPANY_REPORT"].str.len().fillna(0)</span>
+<span class="s1">    else:</span>
+<span class="s1">        df["nlp_report_length"] = 0</span>
+<span class="s1">    if "ai_CONTACT_REPORT" in df.columns:</span>
+<span class="s1">        df["nlp_contact_report_length"] = df["ai_CONTACT_REPORT"].str.len().fillna(0)</span>
+<span class="s1">    else:</span>
+<span class="s1">        df["nlp_contact_report_length"] = 0</span>
+<span class="s1">    if "ai_MOMENTUM" in df.columns:</span>
+<span class="s1">        df["nlp_has_momentum"] = df["ai_MOMENTUM"].notna().astype(int)</span>
+<span class="s1">        urgency_m = df["ai_MOMENTUM"].apply(count_urgency_keywords)</span>
+<span class="s1">        urgency_r = df.get("ai_COMPANY_REPORT", pd.Series(dtype=str)).apply(count_urgency_keywords)</span>
+<span class="s1">        df["nlp_urgency_score"] = pd.concat([urgency_m, urgency_r], axis=1).max(axis=1)</span>
+<span class="s1">    else:</span>
+<span class="s1">        df["nlp_has_momentum"] = 0</span>
+<span class="s1">        df["nlp_urgency_score"] = 0</span>
+
+<span class="s1">    # --- NLP embeddings (requeririan modelo de embeddings en produccion) ---</span>
+<span class="s1">    for col in ["nlp_embedding_01", "nlp_embedding_02", "nlp_embedding_03", "nlp_topic"]:</span>
+<span class="s1">        if col not in df.columns:</span>
+<span class="s1">            df[col] = 0.0</span>
+
+<span class="s1">    n_features = len([c for c in df.columns if c.startswith(("fe_", "nlp_", "ext_"))])</span>
+<span class="s1">    logger.info(f"Features creadas: </span><span class="si">{n_features}</span><span class="s1"> (fe_ + nlp_ + ext_)")</span>
+<span class="s1">    return df</span>
+<span class="s1">'''</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PIPELINES_DIR</span><span class="p">,</span> <span class="s1">'transform.py'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">transform_code</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'pipelines/transform.py generado (logica de NB03, 39 features)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'  Incluye: TECH_SCORES, PRODUCT_TECH_MAP, score_tech_stack(), tech_contains()'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>pipelines/transform.py generado (logica de NB03, 39 features)
+  Incluye: TECH_SCORES, PRODUCT_TECH_MAP, score_tech_stack(), tech_contains()
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0njahvff1p38">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar pipelines/score.py (logica de NB04)</span>
+<span class="n">score_code</span> <span class="o">=</span> <span class="s1">'''"""Score: aplica modelo de lead scoring y clustering a datos nuevos.</span>
+
+<span class="s1">Logica extraida de NB04. Usa el modelo LightGBM para scoring de contactos nuevos.</span>
+
+<span class="s1">Requiere: scikit-learn==1.6.1, lightgbm==4.6.0</span>
+<span class="s1">"""</span>
+<span class="s1">import os</span>
+<span class="s1">import pickle</span>
+<span class="s1">import numpy as np</span>
+<span class="s1">import pandas as pd</span>
+<span class="s1">import logging</span>
+
+<span class="s1">logger = logging.getLogger(__name__)</span>
+
+
+<span class="s1">def load_artifacts(model_dir: str) -&gt; dict:</span>
+<span class="s1">    """Carga todos los artefactos del modelo."""</span>
+<span class="s1">    artifacts = </span><span class="si">{}</span>
+<span class="s1">    for name in ["lead_scorer", "preprocessor", "clustering", "feature_names"]:</span>
+<span class="s1">        path = os.path.join(model_dir, f"</span><span class="si">{name}</span><span class="s1">.pkl")</span>
+<span class="s1">        if os.path.exists(path):</span>
+<span class="s1">            with open(path, "rb") as f:</span>
+<span class="s1">                artifacts[name] = pickle.load(f)</span>
+<span class="s1">            logger.info(f"Cargado: </span><span class="si">{name}</span><span class="s1">")</span>
+<span class="s1">    return artifacts</span>
+
+
+<span class="s1">def score_leads(df: pd.DataFrame, artifacts: dict) -&gt; pd.DataFrame:</span>
+<span class="s1">    """Aplica scoring y asigna clusters."""</span>
+<span class="s1">    features = artifacts["feature_names"]</span>
+<span class="s1">    prep = artifacts["preprocessor"]</span>
+<span class="s1">    model = artifacts["lead_scorer"]</span>
+
+<span class="s1">    X = df.reindex(columns=features, fill_value=np.nan)</span>
+<span class="s1">    X_processed = prep.transform(X)</span>
+<span class="s1">    df["lead_score"] = model.predict_proba(X_processed)[:, 1]</span>
+<span class="s1">    logger.info(f"Scores generados: media={df['lead_score'].mean():.3f}")</span>
+
+<span class="s1">    clustering = artifacts["clustering"]</span>
+<span class="s1">    cluster_feats = clustering["features"]</span>
+<span class="s1">    X_cl = df.reindex(columns=cluster_feats, fill_value=0)</span>
+<span class="s1">    X_cl_scaled = clustering["scaler"].transform(</span>
+<span class="s1">        clustering["imputer"].transform(X_cl)</span>
+<span class="s1">    )</span>
+<span class="s1">    df["cluster"] = clustering["kmeans"].predict(X_cl_scaled)</span>
+
+<span class="s1">    df["priority"] = pd.cut(</span>
+<span class="s1">        df["lead_score"], bins=[-0.01, 0.1, 0.3, 1.01],</span>
+<span class="s1">        labels=["Low", "Medium", "High"],</span>
+<span class="s1">    )</span>
+<span class="s1">    logger.info(f"Distribucion: {df['priority'].value_counts().to_dict()}")</span>
+<span class="s1">    return df</span>
+
+
+<span class="s1">def run(parquet_path: str, model_dir: str, output_path: str) -&gt; str:</span>
+<span class="s1">    """Pipeline de scoring."""</span>
+<span class="s1">    df = pd.read_parquet(parquet_path)</span>
+<span class="s1">    artifacts = load_artifacts(model_dir)</span>
+<span class="s1">    df = score_leads(df, artifacts)</span>
+<span class="s1">    df.to_parquet(output_path, index=False)</span>
+<span class="s1">    logger.info(f"Guardado: </span><span class="si">{output_path}</span><span class="s1"> ({len(df):,} filas)")</span>
+<span class="s1">    return output_path</span>
+<span class="s1">'''</span>
+
+<span class="c1"># Generar pipelines/monitor.py (logica de NB05)</span>
+<span class="n">monitor_code</span> <span class="o">=</span> <span class="s1">'''"""Monitor: detecta drift en features usando PSI.</span>
+
+<span class="s1">Logica extraida de NB05. Calcula Population Stability Index entre</span>
+<span class="s1">los datos de entrenamiento y los datos nuevos.</span>
+<span class="s1">"""</span>
+<span class="s1">import numpy as np</span>
+<span class="s1">import pandas as pd</span>
+<span class="s1">import logging</span>
+
+<span class="s1">logger = logging.getLogger(__name__)</span>
+
+
+<span class="s1">def calculate_psi(expected: np.ndarray, actual: np.ndarray, bins: int = 10) -&gt; float:</span>
+<span class="s1">    """Calcula Population Stability Index entre dos distribuciones."""</span>
+<span class="s1">    breakpoints = np.percentile(expected[~np.isnan(expected)], np.linspace(0, 100, bins + 1))</span>
+<span class="s1">    breakpoints = np.unique(breakpoints)</span>
+<span class="s1">    if len(breakpoints) &lt; 3:</span>
+<span class="s1">        return 0.0</span>
+<span class="s1">    expected_counts = np.histogram(expected[~np.isnan(expected)], bins=breakpoints)[0]</span>
+<span class="s1">    actual_counts = np.histogram(actual[~np.isnan(actual)], bins=breakpoints)[0]</span>
+<span class="s1">    expected_pct = (expected_counts + 1) / (expected_counts.sum() + len(expected_counts))</span>
+<span class="s1">    actual_pct = (actual_counts + 1) / (actual_counts.sum() + len(actual_counts))</span>
+<span class="s1">    psi = np.sum((actual_pct - expected_pct) * np.log(actual_pct / expected_pct))</span>
+<span class="s1">    return float(psi)</span>
+
+
+<span class="s1">def classify_psi(psi: float) -&gt; str:</span>
+<span class="s1">    """Clasifica el nivel de drift segun el PSI."""</span>
+<span class="s1">    if psi &lt; 0.1:</span>
+<span class="s1">        return "OK"</span>
+<span class="s1">    elif psi &lt; 0.25:</span>
+<span class="s1">        return "MONITORIZAR"</span>
+<span class="s1">    return "ALERTA"</span>
+
+
+<span class="s1">def run(train_path: str, new_path: str, features: list) -&gt; pd.DataFrame:</span>
+<span class="s1">    """Calcula PSI para cada feature entre datos de entrenamiento y nuevos."""</span>
+<span class="s1">    train_df = pd.read_parquet(train_path)</span>
+<span class="s1">    new_df = pd.read_parquet(new_path)</span>
+<span class="s1">    results = []</span>
+<span class="s1">    for feat in features:</span>
+<span class="s1">        if feat in train_df.columns and feat in new_df.columns:</span>
+<span class="s1">            train_vals = train_df[feat].values.astype(float)</span>
+<span class="s1">            new_vals = new_df[feat].values.astype(float)</span>
+<span class="s1">            psi = calculate_psi(train_vals, new_vals)</span>
+<span class="s1">            status = classify_psi(psi)</span>
+<span class="s1">            results.append({"feature": feat, "psi": round(psi, 4), "status": status})</span>
+<span class="s1">            if status == "ALERTA":</span>
+<span class="s1">                logger.warning(f"DRIFT DETECTADO en </span><span class="si">{feat}</span><span class="s1">: PSI=</span><span class="si">{psi:.4f}</span><span class="s1">")</span>
+<span class="s1">    psi_df = pd.DataFrame(results)</span>
+<span class="s1">    logger.info(f"PSI calculado para {len(results)} features. Alertas: {(psi_df['status'] == 'ALERTA').sum()}")</span>
+<span class="s1">    return psi_df</span>
+<span class="s1">'''</span>
+
+<span class="c1"># Generar pipelines/retrain.py (logica de NB05)</span>
+<span class="n">retrain_code</span> <span class="o">=</span> <span class="s1">'''"""Retrain: reentrenamiento del modelo con datos acumulados.</span>
+
+<span class="s1">Solo se ejecuta si el monitor detecta drift significativo.</span>
+
+<span class="s1">Requiere: scikit-learn==1.6.1, lightgbm==4.6.0</span>
+<span class="s1">"""</span>
+<span class="s1">import os</span>
+<span class="s1">import pickle</span>
+<span class="s1">import numpy as np</span>
+<span class="s1">import pandas as pd</span>
+<span class="s1">import logging</span>
+
+<span class="s1">from sklearn.pipeline import Pipeline</span>
+<span class="s1">from sklearn.impute import SimpleImputer</span>
+<span class="s1">from sklearn.preprocessing import StandardScaler</span>
+<span class="s1">from sklearn.model_selection import train_test_split</span>
+<span class="s1">from sklearn.metrics import average_precision_score</span>
+
+<span class="s1">logger = logging.getLogger(__name__)</span>
+<span class="s1">SEED = 42</span>
+
+
+<span class="s1">def run(data_path: str, model_dir: str, feature_names_path: str) -&gt; dict:</span>
+<span class="s1">    """Reentrena el modelo con los datos acumulados."""</span>
+<span class="s1">    try:</span>
+<span class="s1">        import lightgbm as lgb</span>
+<span class="s1">    except ImportError:</span>
+<span class="s1">        logger.error("LightGBM no disponible")</span>
+<span class="s1">        return {"status": "error", "message": "LightGBM not installed"}</span>
+
+<span class="s1">    df = pd.read_parquet(data_path)</span>
+<span class="s1">    logger.info(f"Datos para reentrenamiento: {len(df):,} filas")</span>
+
+<span class="s1">    with open(feature_names_path, "rb") as f:</span>
+<span class="s1">        features = pickle.load(f)</span>
+
+<span class="s1">    X = df[features].copy()</span>
+<span class="s1">    y = df["target_replied"].copy()</span>
+
+<span class="s1">    X_train, X_test, y_train, y_test = train_test_split(</span>
+<span class="s1">        X, y, test_size=0.2, random_state=SEED, stratify=y</span>
+<span class="s1">    )</span>
+
+<span class="s1">    preprocessor = Pipeline([</span>
+<span class="s1">        ("imputer", SimpleImputer(strategy="median")),</span>
+<span class="s1">        ("scaler", StandardScaler()),</span>
+<span class="s1">    ])</span>
+<span class="s1">    X_train_p = preprocessor.fit_transform(X_train)</span>
+<span class="s1">    X_test_p = preprocessor.transform(X_test)</span>
+
+<span class="s1">    neg_pos_ratio = (y_train == 0).sum() / max((y_train == 1).sum(), 1)</span>
+<span class="s1">    model = lgb.LGBMClassifier(</span>
+<span class="s1">        n_estimators=300, learning_rate=0.05, max_depth=6,</span>
+<span class="s1">        num_leaves=31, scale_pos_weight=neg_pos_ratio,</span>
+<span class="s1">        random_state=SEED, verbose=-1,</span>
+<span class="s1">    )</span>
+<span class="s1">    model.fit(X_train_p, y_train)</span>
+
+<span class="s1">    y_proba = model.predict_proba(X_test_p)[:, 1]</span>
+<span class="s1">    pr_auc = average_precision_score(y_test, y_proba)</span>
+<span class="s1">    logger.info(f"Nuevo modelo PR-AUC: </span><span class="si">{pr_auc:.4f}</span><span class="s1">")</span>
+
+<span class="s1">    candidate_dir = os.path.join(model_dir, "candidate")</span>
+<span class="s1">    os.makedirs(candidate_dir, exist_ok=True)</span>
+<span class="s1">    with open(os.path.join(candidate_dir, "lead_scorer.pkl"), "wb") as f:</span>
+<span class="s1">        pickle.dump(model, f)</span>
+<span class="s1">    with open(os.path.join(candidate_dir, "preprocessor.pkl"), "wb") as f:</span>
+<span class="s1">        pickle.dump(preprocessor, f)</span>
+
+<span class="s1">    return {</span>
+<span class="s1">        "status": "success", "pr_auc": pr_auc,</span>
+<span class="s1">        "train_size": len(X_train), "test_size": len(X_test),</span>
+<span class="s1">        "candidate_dir": candidate_dir,</span>
+<span class="s1">    }</span>
+<span class="s1">'''</span>
+
+<span class="c1"># Generar pipelines/validate.py (logica de NB05)</span>
+<span class="n">validate_code</span> <span class="o">=</span> <span class="s1">'''"""Validate: compara modelo candidato vs modelo actual.</span>
+
+<span class="s1">Promueve el nuevo modelo a produccion solo si mejora el PR-AUC</span>
+<span class="s1">en un holdout set independiente.</span>
+
+<span class="s1">Requiere: scikit-learn==1.6.1, lightgbm==4.6.0</span>
+<span class="s1">"""</span>
+<span class="s1">import os</span>
+<span class="s1">import pickle</span>
+<span class="s1">import shutil</span>
+<span class="s1">import numpy as np</span>
+<span class="s1">import pandas as pd</span>
+<span class="s1">import logging</span>
+
+<span class="s1">from sklearn.metrics import average_precision_score</span>
+
+<span class="s1">logger = logging.getLogger(__name__)</span>
+<span class="s1">MIN_IMPROVEMENT = 0.01</span>
+
+
+<span class="s1">def run(data_path: str, model_dir: str, candidate_dir: str, feature_names_path: str) -&gt; dict:</span>
+<span class="s1">    """Compara candidato vs actual y promueve si es mejor."""</span>
+<span class="s1">    df = pd.read_parquet(data_path)</span>
+<span class="s1">    y = df["target_replied"]</span>
+
+<span class="s1">    with open(feature_names_path, "rb") as f:</span>
+<span class="s1">        features = pickle.load(f)</span>
+<span class="s1">    X = df[features].copy()</span>
+
+<span class="s1">    # Modelo actual</span>
+<span class="s1">    with open(os.path.join(model_dir, "preprocessor.pkl"), "rb") as f:</span>
+<span class="s1">        current_prep = pickle.load(f)</span>
+<span class="s1">    with open(os.path.join(model_dir, "lead_scorer.pkl"), "rb") as f:</span>
+<span class="s1">        current_model = pickle.load(f)</span>
+<span class="s1">    X_current = current_prep.transform(X)</span>
+<span class="s1">    current_score = average_precision_score(y, current_model.predict_proba(X_current)[:, 1])</span>
+
+<span class="s1">    # Modelo candidato</span>
+<span class="s1">    with open(os.path.join(candidate_dir, "preprocessor.pkl"), "rb") as f:</span>
+<span class="s1">        candidate_prep = pickle.load(f)</span>
+<span class="s1">    with open(os.path.join(candidate_dir, "lead_scorer.pkl"), "rb") as f:</span>
+<span class="s1">        candidate_model = pickle.load(f)</span>
+<span class="s1">    X_candidate = candidate_prep.transform(X)</span>
+<span class="s1">    candidate_score = average_precision_score(y, candidate_model.predict_proba(X_candidate)[:, 1])</span>
+
+<span class="s1">    improvement = candidate_score - current_score</span>
+<span class="s1">    logger.info(f"PR-AUC actual: </span><span class="si">{current_score:.4f}</span><span class="s1">, candidato: </span><span class="si">{candidate_score:.4f}</span><span class="s1">, mejora: </span><span class="si">{improvement:+.4f}</span><span class="s1">")</span>
+
+<span class="s1">    result = {</span>
+<span class="s1">        "current_pr_auc": current_score,</span>
+<span class="s1">        "candidate_pr_auc": candidate_score,</span>
+<span class="s1">        "improvement": improvement,</span>
+<span class="s1">    }</span>
+
+<span class="s1">    if improvement &gt;= MIN_IMPROVEMENT:</span>
+<span class="s1">        shutil.copy(os.path.join(candidate_dir, "lead_scorer.pkl"), os.path.join(model_dir, "lead_scorer.pkl"))</span>
+<span class="s1">        shutil.copy(os.path.join(candidate_dir, "preprocessor.pkl"), os.path.join(model_dir, "preprocessor.pkl"))</span>
+<span class="s1">        result["promoted"] = True</span>
+<span class="s1">        logger.info("Modelo candidato PROMOVIDO a produccion")</span>
+<span class="s1">    else:</span>
+<span class="s1">        result["promoted"] = False</span>
+<span class="s1">        logger.info(f"Candidato NO promovido (mejora </span><span class="si">{improvement:.4f}</span><span class="s1"> &lt; umbral </span><span class="si">{MIN_IMPROVEMENT}</span><span class="s1">)")</span>
+
+<span class="s1">    shutil.rmtree(candidate_dir, ignore_errors=True)</span>
+<span class="s1">    return result</span>
+<span class="s1">'''</span>
+
+<span class="c1"># Escribir todos los archivos</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">code</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'score.py'</span><span class="p">,</span> <span class="n">score_code</span><span class="p">),</span> <span class="p">(</span><span class="s1">'monitor.py'</span><span class="p">,</span> <span class="n">monitor_code</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">'retrain.py'</span><span class="p">,</span> <span class="n">retrain_code</span><span class="p">),</span> <span class="p">(</span><span class="s1">'validate.py'</span><span class="p">,</span> <span class="n">validate_code</span><span class="p">)]:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PIPELINES_DIR</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'pipelines/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> generado'</span><span class="p">)</span>
+
+<span class="c1"># Verificacion</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">=== Pipelines generados ==='</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'__init__.py'</span><span class="p">,</span> <span class="s1">'ingest.py'</span><span class="p">,</span> <span class="s1">'transform.py'</span><span class="p">,</span> <span class="s1">'score.py'</span><span class="p">,</span>
+             <span class="s1">'monitor.py'</span><span class="p">,</span> <span class="s1">'retrain.py'</span><span class="p">,</span> <span class="s1">'validate.py'</span><span class="p">]:</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PIPELINES_DIR</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">exists</span> <span class="o">=</span> <span class="s1">'OK'</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">else</span> <span class="s1">'FALTA'</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  [</span><span class="si">{</span><span class="n">exists</span><span class="si">}</span><span class="s1">] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">size</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> bytes)'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>pipelines/score.py generado
+pipelines/monitor.py generado
+pipelines/retrain.py generado
+pipelines/validate.py generado
+
+=== Pipelines generados ===
+  [OK] __init__.py (118 bytes)
+  [OK] ingest.py (2,919 bytes)
+  [OK] transform.py (8,842 bytes)
+  [OK] score.py (2,096 bytes)
+  [OK] monitor.py (2,161 bytes)
+  [OK] retrain.py (2,395 bytes)
+  [OK] validate.py (2,409 bytes)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ff3a005e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8894,9 +9838,9 @@ requirements-api.txt generado (dependencias API produccion)
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="5.4-DAG-1:-Scoring-pipeline-(frecuencia-alta)">5.4 DAG 1: Scoring pipeline (frecuencia alta)<a class="anchor-link" href="#5.4-DAG-1:-Scoring-pipeline-(frecuencia-alta)">¶</a></h2><p>Este DAG se ejecuta <strong>cada vez que Raona exporta contactos nuevos de Enginy</strong>
-(tipicamente semanal). Su única función es procesar y scorear el batch de contactos.</p>
-<h3 id="Flujo">Flujo<a class="anchor-link" href="#Flujo">¶</a></h3><pre><code>ingest ──&gt; transform ──&gt; score ──&gt; deliver
+<h2 id="5.6-DAG-1:-Scoring-pipeline-(frecuencia-alta)">5.6 DAG 1: Scoring pipeline (frecuencia alta)<a class="anchor-link" href="#5.6-DAG-1:-Scoring-pipeline-(frecuencia-alta)">¶</a></h2><p>Este DAG se ejecuta <strong>cada vez que Raona exporta contactos nuevos de Enginy</strong>
+(tipicamente semanal). Su unica funcion es procesar y scorear el batch de contactos.</p>
+<h3 id="Flujo">Flujo<a class="anchor-link" href="#Flujo">¶</a></h3><pre><code>ingest ──&gt; transform ──&gt; score ──&gt; done
 </code></pre>
 <table>
 <thead>
@@ -8922,16 +9866,152 @@ requirements-api.txt generado (dependencias API produccion)
 <td><code>pipelines/score.py</code></td>
 <td>Scorea todos los contactos con <code>lead_scorer.pkl</code>, asigna clusters</td>
 </tr>
-<tr>
-<td><strong>deliver</strong></td>
-<td><code>pipelines/score.py</code></td>
-<td>Genera CSV rankeado por score para el equipo comercial</td>
-</tr>
 </tbody>
 </table>
 <h3 id="Resultado">Resultado<a class="anchor-link" href="#Resultado">¶</a></h3><p>Un archivo CSV (o tabla en base de datos) con todos los contactos nuevos ordenados
 por <code>lead_score</code> descendente, con su cluster, nivel de riesgo y recomendaciones.</p>
 <h3 id="Frecuencia">Frecuencia<a class="anchor-link" href="#Frecuencia">¶</a></h3><p>Semanal o bajo demanda. Se puede disparar manualmente o programar en Airflow.</p>
+<p>El siguiente codigo genera <code>app/dags/scoring_dag.py</code>:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=h4o9stsx534">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar scoring_dag.py (DAG 1: scoring semanal)</span>
+<span class="n">DAGS_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">APP_DIR</span><span class="p">,</span> <span class="s1">'dags'</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">DAGS_DIR</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">scoring_dag_code</span> <span class="o">=</span> <span class="s1">'''"""Airflow DAG 1: Scoring semanal de contactos nuevos.</span>
+
+<span class="s1">Pipeline: ingest &gt;&gt; transform &gt;&gt; score &gt;&gt; done</span>
+
+<span class="s1">Se ejecuta semanalmente cuando Raona exporta nuevos contactos de Enginy.</span>
+<span class="s1">En demo mode, divide el dataset existente 80/20 para simular datos nuevos.</span>
+<span class="s1">"""</span>
+<span class="s1">from datetime import datetime, timedelta</span>
+<span class="s1">from airflow import DAG</span>
+<span class="s1">from airflow.operators.python import PythonOperator</span>
+<span class="s1">from airflow.operators.empty import EmptyOperator</span>
+
+<span class="s1">import os</span>
+<span class="s1">import sys</span>
+<span class="s1">import pandas as pd</span>
+<span class="s1">import logging</span>
+
+<span class="s1">logger = logging.getLogger(__name__)</span>
+
+<span class="s1">BASE_DIR = os.environ.get("LEAD_SCORING_BASE_DIR", "/opt/airflow/data")</span>
+<span class="s1">MODEL_DIR = os.environ.get("LEAD_SCORING_MODEL_DIR", "/opt/airflow/models")</span>
+<span class="s1">RAW_DATA_DIR = os.path.join(BASE_DIR, "raw")</span>
+<span class="s1">PROCESSED_DIR = os.path.join(BASE_DIR, "processed")</span>
+<span class="s1">SCORED_DIR = os.path.join(BASE_DIR, "scored")</span>
+
+<span class="s1">PIPELINES_DIR = os.environ.get("PIPELINES_DIR", "/opt/airflow/pipelines")</span>
+<span class="s1">if PIPELINES_DIR not in sys.path:</span>
+<span class="s1">    sys.path.insert(0, PIPELINES_DIR)</span>
+
+<span class="s1">default_args = {</span>
+<span class="s1">    "owner": "raona-data",</span>
+<span class="s1">    "depends_on_past": False,</span>
+<span class="s1">    "email_on_failure": False,</span>
+<span class="s1">    "retries": 1,</span>
+<span class="s1">    "retry_delay": timedelta(minutes=5),</span>
+<span class="s1">}</span>
+
+
+<span class="s1">def _setup_demo_mode(**kwargs):</span>
+<span class="s1">    """En demo mode, divide el dataset existente 80/20."""</span>
+<span class="s1">    from sklearn.model_selection import train_test_split</span>
+<span class="s1">    os.makedirs(RAW_DATA_DIR, exist_ok=True)</span>
+<span class="s1">    os.makedirs(PROCESSED_DIR, exist_ok=True)</span>
+<span class="s1">    os.makedirs(SCORED_DIR, exist_ok=True)</span>
+<span class="s1">    full_data_path = os.path.join(BASE_DIR, "modeling_dataset_final.parquet")</span>
+<span class="s1">    if not os.path.exists(full_data_path):</span>
+<span class="s1">        logger.warning(f"Dataset no encontrado: </span><span class="si">{full_data_path}</span><span class="s1">")</span>
+<span class="s1">        return</span>
+<span class="s1">    df = pd.read_parquet(full_data_path)</span>
+<span class="s1">    train, new = train_test_split(df, test_size=0.2, random_state=42, stratify=df["target_replied"])</span>
+<span class="s1">    train.to_parquet(os.path.join(PROCESSED_DIR, "historical.parquet"), index=False)</span>
+<span class="s1">    new.to_parquet(os.path.join(RAW_DATA_DIR, "new_contacts.parquet"), index=False)</span>
+<span class="s1">    logger.info(f"Demo: {len(train)} historicos, {len(new)} nuevos")</span>
+
+
+<span class="s1">def _ingest(**kwargs):</span>
+<span class="s1">    """Ejecuta pipeline de ingestion."""</span>
+<span class="s1">    input_path = os.path.join(RAW_DATA_DIR, "new_contacts.parquet")</span>
+<span class="s1">    output_path = os.path.join(PROCESSED_DIR, "ingested.parquet")</span>
+<span class="s1">    if input_path.endswith(".parquet"):</span>
+<span class="s1">        df = pd.read_parquet(input_path)</span>
+<span class="s1">        df.to_parquet(output_path, index=False)</span>
+<span class="s1">    else:</span>
+<span class="s1">        from pipelines import ingest</span>
+<span class="s1">        ingest.run(input_path, output_path)</span>
+<span class="s1">    return output_path</span>
+
+
+<span class="s1">def _transform(**kwargs):</span>
+<span class="s1">    """Ejecuta feature engineering."""</span>
+<span class="s1">    from pipelines import transform</span>
+<span class="s1">    input_path = os.path.join(PROCESSED_DIR, "ingested.parquet")</span>
+<span class="s1">    df = pd.read_parquet(input_path)</span>
+<span class="s1">    df = transform.run(df)</span>
+<span class="s1">    output_path = os.path.join(PROCESSED_DIR, "transformed.parquet")</span>
+<span class="s1">    df.to_parquet(output_path, index=False)</span>
+<span class="s1">    return output_path</span>
+
+
+<span class="s1">def _score(**kwargs):</span>
+<span class="s1">    """Aplica scoring."""</span>
+<span class="s1">    from pipelines import score</span>
+<span class="s1">    input_path = os.path.join(PROCESSED_DIR, "transformed.parquet")</span>
+<span class="s1">    output_path = os.path.join(SCORED_DIR, f"scored_{datetime.now().strftime('%Y%m</span><span class="si">%d</span><span class="s1">')}.parquet")</span>
+<span class="s1">    score.run(input_path, MODEL_DIR, output_path)</span>
+<span class="s1">    return output_path</span>
+
+
+<span class="s1">with DAG(</span>
+<span class="s1">    dag_id="raona_scoring_weekly",</span>
+<span class="s1">    default_args=default_args,</span>
+<span class="s1">    description="Scoring semanal: ingest -&gt; transform -&gt; score",</span>
+<span class="s1">    schedule_interval="@weekly",</span>
+<span class="s1">    start_date=datetime(2026, 1, 1),</span>
+<span class="s1">    catchup=False,</span>
+<span class="s1">    tags=["raona", "ml", "scoring"],</span>
+<span class="s1">) as dag:</span>
+
+<span class="s1">    setup = PythonOperator(task_id="setup_demo", python_callable=_setup_demo_mode)</span>
+<span class="s1">    ingest = PythonOperator(task_id="ingest", python_callable=_ingest)</span>
+<span class="s1">    transform = PythonOperator(task_id="transform", python_callable=_transform)</span>
+<span class="s1">    score = PythonOperator(task_id="score", python_callable=_score)</span>
+<span class="s1">    done = EmptyOperator(task_id="done")</span>
+
+<span class="s1">    setup &gt;&gt; ingest &gt;&gt; transform &gt;&gt; score &gt;&gt; done</span>
+<span class="s1">'''</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DAGS_DIR</span><span class="p">,</span> <span class="s1">'scoring_dag.py'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">scoring_dag_code</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'dags/scoring_dag.py generado (DAG 1: scoring semanal)'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>dags/scoring_dag.py generado (DAG 1: scoring semanal)
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -8943,9 +10023,9 @@ por <code>lead_score</code> descendente, con su cluster, nivel de riesgo y recom
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="5.5-DAG-2:-Monitoring-+-Retraining-(frecuencia-baja)">5.5 DAG 2: Monitoring + Retraining (frecuencia baja)<a class="anchor-link" href="#5.5-DAG-2:-Monitoring-+-Retraining-(frecuencia-baja)">¶</a></h2><p>Este DAG se ejecuta <strong>mensualmente</strong>. Su función es vigilar si el modelo sigue siendo
-fiable y, si detecta cambios significativos en los datos, reentrenar automáticamente.</p>
-<h3 id="Por-qu%C3%A9-es-necesario?">Por qué es necesario?<a class="anchor-link" href="#Por-qu%C3%A9-es-necesario?">¶</a></h3><p>El modelo se entreno con datos de un período concreto. Con el tiempo:</p>
+<h2 id="5.7-DAG-2:-Monitoring-+-Retraining-(frecuencia-baja)">5.7 DAG 2: Monitoring + Retraining (frecuencia baja)<a class="anchor-link" href="#5.7-DAG-2:-Monitoring-+-Retraining-(frecuencia-baja)">¶</a></h2><p>Este DAG se ejecuta <strong>mensualmente</strong>. Su funcion es vigilar si el modelo sigue siendo
+fiable y, si detecta cambios significativos en los datos, reentrenar automaticamente.</p>
+<h3 id="Por-que-es-necesario?">Por que es necesario?<a class="anchor-link" href="#Por-que-es-necesario?">¶</a></h3><p>El modelo se entreno con datos de un periodo concreto. Con el tiempo:</p>
 <ul>
 <li>Raona puede empezar a vender productos nuevos que atraen otro perfil</li>
 <li>El mercado cambia y responden perfiles diferentes</li>
@@ -8954,15 +10034,15 @@ fiable y, si detecta cambios significativos en los datos, reentrenar automática
 <p>El modelo sigue scoreando, pero sus predicciones pueden dejar de ser fiables.
 Este DAG lo detecta antes de que sea un problema.</p>
 <h3 id="Flujo">Flujo<a class="anchor-link" href="#Flujo">¶</a></h3><pre><code>evaluate_drift ──&gt; check_drift
-                       │
+                       |
                ┌──────┴──────┐
-               │             │
+               |             |
          PSI &gt; 0.25    PSI &lt;= 0.25
-               │             │
+               |             |
            retrain       skip (fin)
-               │
+               |
            validate
-               │
+               |
             deploy
 </code></pre>
 <table>
@@ -9002,6 +10082,165 @@ Este DAG lo detecta antes de que sea un problema.</p>
 </tbody>
 </table>
 <h3 id="Frecuencia">Frecuencia<a class="anchor-link" href="#Frecuencia">¶</a></h3><p>Mensual. Podrian pasar meses sin reentrenar si los datos son estables.</p>
+<p>El siguiente codigo genera <code>app/dags/monitoring_dag.py</code>:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=msso64vjy6a">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generar monitoring_dag.py (DAG 2: monitoring mensual)</span>
+<span class="n">monitoring_dag_code</span> <span class="o">=</span> <span class="s1">'''"""Airflow DAG 2: Monitoring mensual + reentrenamiento condicional.</span>
+
+<span class="s1">Pipeline: monitor &gt;&gt; check_drift &gt;&gt; [retrain &gt;&gt; validate | skip_retrain] &gt;&gt; done</span>
+
+<span class="s1">Se ejecuta mensualmente. Si detecta drift significativo (PSI &gt; 0.25 en 3+ features),</span>
+<span class="s1">dispara reentrenamiento automatico y valida el modelo candidato.</span>
+<span class="s1">"""</span>
+<span class="s1">from datetime import datetime, timedelta</span>
+<span class="s1">from airflow import DAG</span>
+<span class="s1">from airflow.operators.python import PythonOperator, BranchPythonOperator</span>
+<span class="s1">from airflow.operators.empty import EmptyOperator</span>
+
+<span class="s1">import os</span>
+<span class="s1">import sys</span>
+<span class="s1">import pickle</span>
+<span class="s1">import pandas as pd</span>
+<span class="s1">import logging</span>
+
+<span class="s1">logger = logging.getLogger(__name__)</span>
+
+<span class="s1">BASE_DIR = os.environ.get("LEAD_SCORING_BASE_DIR", "/opt/airflow/data")</span>
+<span class="s1">MODEL_DIR = os.environ.get("LEAD_SCORING_MODEL_DIR", "/opt/airflow/models")</span>
+<span class="s1">PROCESSED_DIR = os.path.join(BASE_DIR, "processed")</span>
+<span class="s1">SCORED_DIR = os.path.join(BASE_DIR, "scored")</span>
+
+<span class="s1">PIPELINES_DIR = os.environ.get("PIPELINES_DIR", "/opt/airflow/pipelines")</span>
+<span class="s1">if PIPELINES_DIR not in sys.path:</span>
+<span class="s1">    sys.path.insert(0, PIPELINES_DIR)</span>
+
+<span class="s1">default_args = {</span>
+<span class="s1">    "owner": "raona-data",</span>
+<span class="s1">    "depends_on_past": False,</span>
+<span class="s1">    "email_on_failure": False,</span>
+<span class="s1">    "retries": 1,</span>
+<span class="s1">    "retry_delay": timedelta(minutes=5),</span>
+<span class="s1">}</span>
+
+
+<span class="s1">def _monitor(**kwargs):</span>
+<span class="s1">    """Calcula PSI y decide si reentrenar."""</span>
+<span class="s1">    from pipelines import monitor</span>
+<span class="s1">    train_path = os.path.join(PROCESSED_DIR, "historical.parquet")</span>
+<span class="s1">    new_path = os.path.join(PROCESSED_DIR, "transformed.parquet")</span>
+<span class="s1">    feature_names_path = os.path.join(MODEL_DIR, "feature_names.pkl")</span>
+<span class="s1">    with open(feature_names_path, "rb") as f:</span>
+<span class="s1">        features = pickle.load(f)</span>
+<span class="s1">    psi_df = monitor.run(train_path, new_path, features)</span>
+<span class="s1">    psi_path = os.path.join(SCORED_DIR, f"psi_{datetime.now().strftime('%Y%m</span><span class="si">%d</span><span class="s1">')}.csv")</span>
+<span class="s1">    psi_df.to_csv(psi_path, index=False)</span>
+<span class="s1">    n_alerts = (psi_df["status"] == "ALERTA").sum()</span>
+<span class="s1">    kwargs["ti"].xcom_push(key="n_drift_alerts", value=n_alerts)</span>
+<span class="s1">    return n_alerts</span>
+
+
+<span class="s1">def _check_drift(**kwargs):</span>
+<span class="s1">    """Branch: reentrenar solo si hay drift significativo."""</span>
+<span class="s1">    n_alerts = kwargs["ti"].xcom_pull(task_ids="monitor", key="n_drift_alerts")</span>
+<span class="s1">    if n_alerts and n_alerts &gt; 0:</span>
+<span class="s1">        return "retrain"</span>
+<span class="s1">    return "skip_retrain"</span>
+
+
+<span class="s1">def _retrain(**kwargs):</span>
+<span class="s1">    """Reentrena modelo con datos acumulados."""</span>
+<span class="s1">    from pipelines import retrain</span>
+<span class="s1">    hist_path = os.path.join(PROCESSED_DIR, "historical.parquet")</span>
+<span class="s1">    new_path = os.path.join(PROCESSED_DIR, "transformed.parquet")</span>
+<span class="s1">    hist = pd.read_parquet(hist_path)</span>
+<span class="s1">    new = pd.read_parquet(new_path)</span>
+<span class="s1">    combined = pd.concat([hist, new], ignore_index=True)</span>
+<span class="s1">    combined_path = os.path.join(PROCESSED_DIR, "combined_for_retrain.parquet")</span>
+<span class="s1">    combined.to_parquet(combined_path, index=False)</span>
+<span class="s1">    feature_names_path = os.path.join(MODEL_DIR, "feature_names.pkl")</span>
+<span class="s1">    result = retrain.run(combined_path, MODEL_DIR, feature_names_path)</span>
+<span class="s1">    kwargs["ti"].xcom_push(key="retrain_result", value=result)</span>
+<span class="s1">    return result</span>
+
+
+<span class="s1">def _validate(**kwargs):</span>
+<span class="s1">    """Valida modelo candidato vs actual."""</span>
+<span class="s1">    from pipelines import validate</span>
+<span class="s1">    retrain_result = kwargs["ti"].xcom_pull(task_ids="retrain", key="retrain_result")</span>
+<span class="s1">    if not retrain_result or retrain_result.get("status") != "success":</span>
+<span class="s1">        logger.warning("Reentrenamiento fallido, saltando validacion")</span>
+<span class="s1">        return</span>
+<span class="s1">    holdout_path = os.path.join(PROCESSED_DIR, "transformed.parquet")</span>
+<span class="s1">    feature_names_path = os.path.join(MODEL_DIR, "feature_names.pkl")</span>
+<span class="s1">    result = validate.run(holdout_path, MODEL_DIR, retrain_result["candidate_dir"], feature_names_path)</span>
+<span class="s1">    return result</span>
+
+
+<span class="s1">with DAG(</span>
+<span class="s1">    dag_id="raona_monitoring_monthly",</span>
+<span class="s1">    default_args=default_args,</span>
+<span class="s1">    description="Monitoring mensual: PSI drift -&gt; reentrenamiento condicional",</span>
+<span class="s1">    schedule_interval="@monthly",</span>
+<span class="s1">    start_date=datetime(2026, 1, 1),</span>
+<span class="s1">    catchup=False,</span>
+<span class="s1">    tags=["raona", "ml", "monitoring"],</span>
+<span class="s1">) as dag:</span>
+
+<span class="s1">    monitor = PythonOperator(task_id="monitor", python_callable=_monitor)</span>
+<span class="s1">    check_drift = BranchPythonOperator(task_id="check_drift", python_callable=_check_drift)</span>
+<span class="s1">    retrain = PythonOperator(task_id="retrain", python_callable=_retrain)</span>
+<span class="s1">    validate = PythonOperator(task_id="validate", python_callable=_validate)</span>
+<span class="s1">    skip_retrain = EmptyOperator(task_id="skip_retrain")</span>
+<span class="s1">    done = EmptyOperator(task_id="done", trigger_rule="none_failed_min_one_success")</span>
+
+<span class="s1">    monitor &gt;&gt; check_drift</span>
+<span class="s1">    check_drift &gt;&gt; retrain &gt;&gt; validate &gt;&gt; done</span>
+<span class="s1">    check_drift &gt;&gt; skip_retrain &gt;&gt; done</span>
+<span class="s1">'''</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DAGS_DIR</span><span class="p">,</span> <span class="s1">'monitoring_dag.py'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">monitoring_dag_code</span><span class="p">)</span>
+
+<span class="c1"># Eliminar el DAG unificado antiguo</span>
+<span class="n">old_dag</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DAGS_DIR</span><span class="p">,</span> <span class="s1">'lead_scoring_dag.py'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">old_dag</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">old_dag</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Eliminado: lead_scoring_dag.py (reemplazado por 2 DAGs separados)'</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'dags/monitoring_dag.py generado (DAG 2: monitoring mensual)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">=== DAGs en </span><span class="si">{</span><span class="n">DAGS_DIR</span><span class="si">}</span><span class="s1"> ==='</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">f_name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">DAGS_DIR</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  </span><span class="si">{</span><span class="n">f_name</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Eliminado: lead_scoring_dag.py (reemplazado por 2 DAGs separados)
+dags/monitoring_dag.py generado (DAG 2: monitoring mensual)
+
+=== DAGs en ./app/dags ===
+  monitoring_dag.py
+  scoring_dag.py
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -9048,7 +10287,7 @@ y los datos más recientes:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">calculate_psi</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
@@ -9093,7 +10332,7 @@ y los datos más recientes:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Simular monitorizacion: dividir datos en referencia y produccion</span>
@@ -9132,13 +10371,7 @@ y los datos más recientes:</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Datos de referencia (entrenamiento): 2,993 filas</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+<pre>Datos de referencia (entrenamiento): 2,993 filas
 Datos simulados (produccion): 2,994 filas
 
 === PSI por feature ===
@@ -9192,7 +10425,7 @@ Six months headcount growth 0.105107 MONITORIZAR
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visualizar PSI</span>
@@ -9227,7 +10460,7 @@ Six months headcount growth 0.105107 MONITORIZAR
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<div> <div class="plotly-graph-div" id="89503dd5-64a0-4924-823f-54ae05151fb0" style="height:500px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("89503dd5-64a0-4924-823f-54ae05151fb0")) {                    Plotly.newPlot(                        "89503dd5-64a0-4924-823f-54ae05151fb0",                        [{"marker":{"color":["#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71"]},"text":["0.181","0.181","0.159","0.149","0.146","0.124","0.116","0.109","0.105","0.099","0.078","0.078","0.073","0.062","0.056","0.054","0.036","0.029","0.018","0.016","0.016","0.011","0.005","0.005","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0"],"textposition":"auto","x":["fe_log_employees","Number of employees","nlp_embedding_01","nlp_embedding_02","fe_company_size_bucket","fe_headcount_momentum","fe_type_of_contact_ord","Two years headcount growth","Six months headcount growth","nlp_embedding_03","fe_department_encoded","Yearly headcount growth","ext_ms_maturity_score","Year founded","nlp_contact_report_length","fe_company_age","nlp_topic","nlp_urgency_score","nlp_report_length","Number of connections","fe_log_connections","Years in company","Years in role","fe_seniority_ord","fe_tech_fit_comunica","fe_tech_fit_colabora","fe_tech_fit_infra","fe_tech_fit_ia","fe_tech_fit_data","fe_tech_fit_workplace","fe_has_bio","nlp_has_momentum","ext_has_competitor_tech","fe_microsoft_flag","fe_has_email","fe_fit_data_approved","fe_fit_approved","Hiring on LinkedIn","fe_tech_fit_maite"],"y":[0.1810153267059731,0.1810153267059731,0.15876484683886194,0.14902133699236395,0.1460115874074122,0.12397072128110256,0.11610966548533566,0.10904472723074782,0.10510713787992405,0.0990628995485241,0.07796814048046391,0.07779484650102517,0.0728723901440309,0.0620307401090918,0.0560239188058064,0.053566445025087825,0.0356227553644457,0.029410563748602077,0.01812888253653246,0.015926468185748655,0.015926468185748655,0.010688713823806371,0.005308010640095771,0.005118516567152974,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"type":"bar"}],                        {"annotations":[{"showarrow":false,"text":"Umbral monitorizar (0.1)","x":1,"xanchor":"right","xref":"x domain","y":0.1,"yanchor":"bottom","yref":"y"},{"showarrow":false,"text":"Umbral alerta (0.25)","x":1,"xanchor":"right","xref":"x domain","y":0.25,"yanchor":"bottom","yref":"y"}],"height":500,"shapes":[{"line":{"color":"#f39c12","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.1,"y1":0.1,"yref":"y"},{"line":{"color":"#e74c3c","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.25,"y1":0.25,"yref":"y"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Population Stability Index (PSI) por feature"},"xaxis":{"tickangle":-45,"title":{"text":"Feature"}},"yaxis":{"title":{"text":"PSI"}}},                        {"responsive": true}                    )                };            </script> </div>
+<div> <div class="plotly-graph-div" id="7056511b-4d02-4a74-9df9-1f2f7194b3f3" style="height:500px; width:100%;"></div> <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("7056511b-4d02-4a74-9df9-1f2f7194b3f3")) {                    Plotly.newPlot(                        "7056511b-4d02-4a74-9df9-1f2f7194b3f3",                        [{"marker":{"color":["#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#f39c12","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71","#2ecc71"]},"text":["0.181","0.181","0.159","0.149","0.146","0.124","0.116","0.109","0.105","0.099","0.078","0.078","0.073","0.062","0.056","0.054","0.036","0.029","0.018","0.016","0.016","0.011","0.005","0.005","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0"],"textposition":"auto","x":["fe_log_employees","Number of employees","nlp_embedding_01","nlp_embedding_02","fe_company_size_bucket","fe_headcount_momentum","fe_type_of_contact_ord","Two years headcount growth","Six months headcount growth","nlp_embedding_03","fe_department_encoded","Yearly headcount growth","ext_ms_maturity_score","Year founded","nlp_contact_report_length","fe_company_age","nlp_topic","nlp_urgency_score","nlp_report_length","Number of connections","fe_log_connections","Years in company","Years in role","fe_seniority_ord","fe_tech_fit_comunica","fe_tech_fit_colabora","fe_tech_fit_infra","fe_tech_fit_ia","fe_tech_fit_data","fe_tech_fit_workplace","fe_has_bio","nlp_has_momentum","ext_has_competitor_tech","fe_microsoft_flag","fe_has_email","fe_fit_data_approved","fe_fit_approved","Hiring on LinkedIn","fe_tech_fit_maite"],"y":[0.1810153267059731,0.1810153267059731,0.15876484683886194,0.14902133699236395,0.1460115874074122,0.12397072128110256,0.11610966548533566,0.10904472723074782,0.10510713787992405,0.0990628995485241,0.07796814048046391,0.07779484650102517,0.0728723901440309,0.0620307401090918,0.0560239188058064,0.053566445025087825,0.0356227553644457,0.029410563748602077,0.01812888253653246,0.015926468185748655,0.015926468185748655,0.010688713823806371,0.005308010640095771,0.005118516567152974,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"type":"bar"}],                        {"annotations":[{"showarrow":false,"text":"Umbral monitorizar (0.1)","x":1,"xanchor":"right","xref":"x domain","y":0.1,"yanchor":"bottom","yref":"y"},{"showarrow":false,"text":"Umbral alerta (0.25)","x":1,"xanchor":"right","xref":"x domain","y":0.25,"yanchor":"bottom","yref":"y"}],"height":500,"shapes":[{"line":{"color":"#f39c12","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.1,"y1":0.1,"yref":"y"},{"line":{"color":"#e74c3c","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0.25,"y1":0.25,"yref":"y"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Population Stability Index (PSI) por feature"},"xaxis":{"tickangle":-45,"title":{"text":"Feature"}},"yaxis":{"title":{"text":"PSI"}}},                        {"responsive": true}                    )                };            </script> </div>
 </div>
 </div>
 </div>
@@ -9237,7 +10470,7 @@ Six months headcount growth 0.105107 MONITORIZAR
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Simular drift artificial para demostrar la deteccion</span>
@@ -9291,33 +10524,38 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="5.6-Arquitectura-completa">5.6 Arquitectura completa<a class="anchor-link" href="#5.6-Arquitectura-completa">¶</a></h2><h3 id="Como-encajan-las-piezas">Como encajan las piezas<a class="anchor-link" href="#Como-encajan-las-piezas">¶</a></h3><pre><code>Enginy (exporta CSV nuevos)
-         │
-    DAG 1: Scoring (semanal)
-         │
+<h2 id="5.8-Arquitectura-completa">5.8 Arquitectura completa<a class="anchor-link" href="#5.8-Arquitectura-completa">¶</a></h2><blockquote>
+<p><strong>Nota:</strong> El diagrama siguiente muestra la arquitectura de <strong>produccion propuesta</strong>.
+La <strong>demo desplegada</strong> (raona-lead-scoring.streamlit.app) usa Streamlit Cloud con los
+mismos artefactos <code>.pkl</code> pero sin Airflow ni Docker.</p>
+</blockquote>
+<h3 id="Como-encajan-las-piezas">Como encajan las piezas<a class="anchor-link" href="#Como-encajan-las-piezas">¶</a></h3><pre><code>Enginy (exporta CSV nuevos)
+         |
+    DAG 1: Scoring (semanal)  ──── scoring_dag.py
+         |
          ├── ingest &gt; transform &gt; score &gt; deliver
-         │                                  │
-         │                         CSV rankeado para
-         │                         equipo comercial
-         │
-    DAG 2: Monitoring (mensual)
-         │
+         |                                  |
+         |                         CSV rankeado para
+         |                         equipo comercial
+         |
+    DAG 2: Monitoring (mensual) ── monitoring_dag.py
+         |
          ├── evaluate_drift &gt; check
-         │                     │
-         │              si drift: retrain &gt; validate &gt; deploy
-         │                                              │
-         │                                    actualiza .pkl
-         │                                              │
+         |                     |
+         |              si drift: retrain &gt; validate &gt; deploy
+         |                                              |
+         |                                    actualiza .pkl
+         |                                              |
     Container 1: API (siempre activo)  &lt;────────────────┘
-         │
+         |
          ├── POST /score (scoring individual)
-         ├── Streamlit conecta aquí
+         ├── Streamlit conecta aqui
          └── CRM / integraciones
 </code></pre>
 <h3 id="Estructura-de-archivos">Estructura de archivos<a class="anchor-link" href="#Estructura-de-archivos">¶</a></h3><pre><code>TFM_deliverables/
 ├── app/
 │   ├── api.py                        # FastAPI (Container 1)
-│   ├── streamlit_app.py              # App interactiva (3 tabs)
+│   ├── streamlit_app.py              # App interactiva (demo, 3 tabs)
 │   ├── Dockerfile                    # Container 1: imagen Docker
 │   ├── docker-compose.yml
 │   ├── requirements-api.txt          # Dependencias API (produccion Docker)
@@ -9331,12 +10569,13 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 │   │   ├── scoring_dag.py            # DAG 1: Scoring semanal
 │   │   └── monitoring_dag.py         # DAG 2: Monitoring mensual
 │   └── pipelines/
-│       ├── ingest.py
-│       ├── transform.py
-│       ├── score.py
-│       ├── monitor.py
-│       ├── retrain.py
-│       └── validate.py
+│       ├── __init__.py
+│       ├── ingest.py                 # NB01: carga y validacion
+│       ├── transform.py              # NB03: feature engineering (39 features)
+│       ├── score.py                  # NB04: scoring + clustering
+│       ├── monitor.py                # NB05: PSI drift detection
+│       ├── retrain.py                # NB05: reentrenamiento
+│       └── validate.py               # NB05: validacion y promocion
 ├── notebooks/
 │   ├── 01_data_loading.ipynb
 │   ├── 02_eda.ipynb
@@ -9344,7 +10583,7 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 │   ├── 04_models.ipynb
 │   └── 05_mlops.ipynb
 ├── report/
-│   ├── index.html
+│   ├── index.html                    # Data Story
 │   ├── nb01-nb05 HTML exports
 │   └── charts/
 └── _working/
@@ -9362,7 +10601,7 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="5.7-Trabajo-futuro-y-roadmap-de-producci%C3%B3n">5.7 Trabajo futuro y roadmap de producción<a class="anchor-link" href="#5.7-Trabajo-futuro-y-roadmap-de-producci%C3%B3n">¶</a></h2><h3 id="Mejoras-del-modelo">Mejoras del modelo<a class="anchor-link" href="#Mejoras-del-modelo">¶</a></h3><table>
+<h2 id="5.9-Trabajo-futuro-y-roadmap-de-produccion">5.9 Trabajo futuro y roadmap de produccion<a class="anchor-link" href="#5.9-Trabajo-futuro-y-roadmap-de-produccion">¶</a></h2><h3 id="Mejoras-del-modelo">Mejoras del modelo<a class="anchor-link" href="#Mejoras-del-modelo">¶</a></h3><table>
 <thead>
 <tr>
 <th>Mejora</th>
@@ -9383,10 +10622,10 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 </tr>
 </tbody>
 </table>
-<h3 id="Integraci%C3%B3n-con-Enginy">Integración con Enginy<a class="anchor-link" href="#Integraci%C3%B3n-con-Enginy">¶</a></h3><ol>
+<h3 id="Integracion-con-Enginy">Integracion con Enginy<a class="anchor-link" href="#Integracion-con-Enginy">¶</a></h3><ol>
 <li><strong>Exportacion programatica</strong>: script que descarga nuevos contactos via API de Enginy</li>
-<li><strong>Scoring automático</strong>: DAG 1 se dispara al detectar nuevo CSV</li>
-<li><strong>Priorizacion en campaña</strong>: ordenar contactos por lead_score antes del outreach</li>
+<li><strong>Scoring automatico</strong>: DAG 1 se dispara al detectar nuevo CSV</li>
+<li><strong>Priorizacion en campana</strong>: ordenar contactos por lead_score antes del outreach</li>
 <li><strong>Feedback loop</strong>: resultados del outreach retroalimentan el reentrenamiento</li>
 </ol>
 <h3 id="A/B-Testing">A/B Testing<a class="anchor-link" href="#A/B-Testing">¶</a></h3><p>Para validar el impacto real del modelo:</p>
@@ -9408,7 +10647,7 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="Resumen">Resumen<a class="anchor-link" href="#Resumen">¶</a></h2><h3 id="Artefactos-generados">Artefactos generados<a class="anchor-link" href="#Artefactos-generados">¶</a></h3><table>
+<h2 id="Resumen">Resumen<a class="anchor-link" href="#Resumen">¶</a></h2><h3 id="Artefactos-generados-desde-este-notebook">Artefactos generados desde este notebook<a class="anchor-link" href="#Artefactos-generados-desde-este-notebook">¶</a></h3><table>
 <thead>
 <tr>
 <th>Archivo</th>
@@ -9419,14 +10658,6 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 <tr>
 <td><code>app/api.py</code></td>
 <td>Endpoint FastAPI (POST /score, GET /health)</td>
-</tr>
-<tr>
-<td><code>models/lead_scorer.pkl</code></td>
-<td><strong>Modelo de PRODUCCION</strong> (39 features)</td>
-</tr>
-<tr>
-<td><code>models/preprocessor.pkl</code></td>
-<td>Pipeline preprocesado</td>
 </tr>
 <tr>
 <td><code>app/Dockerfile</code></td>
@@ -9441,12 +10672,70 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 <td>Dependencias del API (produccion Docker)</td>
 </tr>
 <tr>
-<td><code>app/requirements.txt</code></td>
-<td>Dependencias de Streamlit (demo, no generado aqui)</td>
+<td><code>app/pipelines/ingest.py</code></td>
+<td>Pipeline de ingestion (NB01)</td>
 </tr>
 <tr>
-<td><code>_working/mlruns/</code></td>
-<td>Registro de experimentos MLflow</td>
+<td><code>app/pipelines/transform.py</code></td>
+<td>Pipeline de feature engineering (NB03, 39 features)</td>
+</tr>
+<tr>
+<td><code>app/pipelines/score.py</code></td>
+<td>Pipeline de scoring (NB04)</td>
+</tr>
+<tr>
+<td><code>app/pipelines/monitor.py</code></td>
+<td>Pipeline de monitoring PSI (NB05)</td>
+</tr>
+<tr>
+<td><code>app/pipelines/retrain.py</code></td>
+<td>Pipeline de reentrenamiento (NB05)</td>
+</tr>
+<tr>
+<td><code>app/pipelines/validate.py</code></td>
+<td>Pipeline de validacion (NB05)</td>
+</tr>
+<tr>
+<td><code>app/dags/scoring_dag.py</code></td>
+<td>DAG 1: Scoring semanal</td>
+</tr>
+<tr>
+<td><code>app/dags/monitoring_dag.py</code></td>
+<td>DAG 2: Monitoring mensual</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Artefactos-preexistentes-(no-generados-aqui)">Artefactos preexistentes (no generados aqui)<a class="anchor-link" href="#Artefactos-preexistentes-(no-generados-aqui)">¶</a></h3><table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Descripcion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app/streamlit_app.py</code></td>
+<td>Demo interactiva (Streamlit Cloud)</td>
+</tr>
+<tr>
+<td><code>app/requirements.txt</code></td>
+<td>Dependencias Streamlit (demo)</td>
+</tr>
+<tr>
+<td><code>models/lead_scorer.pkl</code></td>
+<td>Modelo de PRODUCCION (39 features)</td>
+</tr>
+<tr>
+<td><code>models/preprocessor.pkl</code></td>
+<td>Pipeline preprocesado</td>
+</tr>
+<tr>
+<td><code>models/clustering.pkl</code></td>
+<td>K-Means + scaler</td>
+</tr>
+<tr>
+<td><code>models/feature_names.pkl</code></td>
+<td>Lista de features</td>
 </tr>
 </tbody>
 </table>
@@ -9476,7 +10765,7 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 </tr>
 <tr>
 <td><strong>Streamlit</strong></td>
-<td>Interfaz visual para el equipo comercial</td>
+<td>Demo interactiva para el equipo comercial</td>
 <td>Siempre activo</td>
 </tr>
 </tbody>
@@ -9509,8 +10798,10 @@ El DAG 2 detectaria este cambio y dispararia el reentrenamiento.
 </table>
 <h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h3><p>El sistema va mas alla de un modelo aislado: es un <strong>pipeline de produccion profesional</strong>
 con scoring en tiempo real (API), procesamiento en batch (DAG 1), monitorizacion continua
-(DAG 2) y una interfaz accesible (Streamlit). El modelo duplica la tasa de respuesta
-en el top 10% de leads, y Raona podria desplegarlo con <code>docker-compose up</code>.</p>
+(DAG 2) y una interfaz accesible (Streamlit).</p>
+<p>La <strong>demo en Streamlit Cloud</strong> (raona-lead-scoring.streamlit.app) permite al equipo comercial
+explorar los resultados hoy. La <strong>arquitectura de produccion</strong> (API + Airflow + Docker)
+esta lista para desplegarse cuando Raona decida escalar el sistema.</p>
 </div>
 </div>
 </div>
@@ -9519,7 +10810,7 @@ en el top 10% de leads, y Raona podria desplegarlo con <code>docker-compose up</
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Inventario final</span>
@@ -9528,25 +10819,44 @@ en el top 10% de leads, y Raona podria desplegarlo con <code>docker-compose up</
 <span class="nb">print</span><span class="p">(</span><span class="s1">'='</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 
 <span class="n">generated_files</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># API y contenedores</span>
     <span class="p">(</span><span class="s1">'app/api.py'</span><span class="p">,</span> <span class="s1">'FastAPI endpoint'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/Dockerfile'</span><span class="p">,</span> <span class="s1">'Container 1: imagen Docker'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/docker-compose.yml'</span><span class="p">,</span> <span class="s1">'Orquestacion'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/requirements-api.txt'</span><span class="p">,</span> <span class="s1">'Dependencias API (produccion Docker)'</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">'app/requirements.txt'</span><span class="p">,</span> <span class="s1">'Dependencias Streamlit (demo)'</span><span class="p">),</span>
+    <span class="c1"># Pipelines</span>
+    <span class="p">(</span><span class="s1">'app/pipelines/__init__.py'</span><span class="p">,</span> <span class="s1">'Modulo pipelines'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/pipelines/ingest.py'</span><span class="p">,</span> <span class="s1">'NB01: ingestion'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/pipelines/transform.py'</span><span class="p">,</span> <span class="s1">'NB03: feature engineering (39 features)'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/pipelines/score.py'</span><span class="p">,</span> <span class="s1">'NB04: scoring + clustering'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/pipelines/monitor.py'</span><span class="p">,</span> <span class="s1">'NB05: PSI drift detection'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/pipelines/retrain.py'</span><span class="p">,</span> <span class="s1">'NB05: reentrenamiento'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/pipelines/validate.py'</span><span class="p">,</span> <span class="s1">'NB05: validacion'</span><span class="p">),</span>
+    <span class="c1"># DAGs</span>
+    <span class="p">(</span><span class="s1">'app/dags/scoring_dag.py'</span><span class="p">,</span> <span class="s1">'DAG 1: scoring semanal'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/dags/monitoring_dag.py'</span><span class="p">,</span> <span class="s1">'DAG 2: monitoring mensual'</span><span class="p">),</span>
+    <span class="c1"># Modelo (preexistente)</span>
     <span class="p">(</span><span class="s1">'app/models/lead_scorer.pkl'</span><span class="p">,</span> <span class="s1">'Modelo (PRODUCCION)'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/models/preprocessor.pkl'</span><span class="p">,</span> <span class="s1">'Pipeline preprocesado'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/models/clustering.pkl'</span><span class="p">,</span> <span class="s1">'K-Means + scaler'</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">'app/models/feature_names.pkl'</span><span class="p">,</span> <span class="s1">'Lista de features'</span><span class="p">),</span>
+    <span class="c1"># Demo (preexistente)</span>
+    <span class="p">(</span><span class="s1">'app/streamlit_app.py'</span><span class="p">,</span> <span class="s1">'Demo Streamlit Cloud'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'app/requirements.txt'</span><span class="p">,</span> <span class="s1">'Dependencias Streamlit (demo)'</span><span class="p">),</span>
 <span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Archivos del sistema de produccion:'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Archivos del sistema:'</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">desc</span> <span class="ow">in</span> <span class="n">generated_files</span><span class="p">:</span>
     <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_ROOT</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
     <span class="n">exists</span> <span class="o">=</span> <span class="s1">'OK'</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">full_path</span><span class="p">)</span> <span class="k">else</span> <span class="s1">'PENDIENTE'</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  [</span><span class="si">{</span><span class="n">exists</span><span class="si">}</span><span class="s1">] </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1"> -- </span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">MLflow experiments:'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  URI: </span><span class="si">{</span><span class="n">mlflow</span><span class="o">.</span><span class="n">get_tracking_uri</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="c1"># Verificar que no queda el DAG antiguo</span>
+<span class="n">old_dag</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_ROOT</span><span class="p">,</span> <span class="s1">'app'</span><span class="p">,</span> <span class="s1">'dags'</span><span class="p">,</span> <span class="s1">'lead_scoring_dag.py'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">old_dag</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">  [AVISO] lead_scoring_dag.py todavia existe (deberia haberse eliminado)'</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">  lead_scoring_dag.py eliminado correctamente (reemplazado por 2 DAGs)'</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Modelo en produccion: lead_scorer.pkl (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FEATURE_COLS</span><span class="p">)</span><span class="si">}</span><span class="s1"> features)'</span><span class="p">)</span>
 </pre></div>
@@ -9565,19 +10875,28 @@ en el top 10% de leads, y Raona podria desplegarlo con <code>docker-compose up</
 RESUMEN NOTEBOOK 05 - MLOps
 ============================================================
 
-Archivos del sistema de produccion:
+Archivos del sistema:
   [OK] app/api.py -- FastAPI endpoint
   [OK] app/Dockerfile -- Container 1: imagen Docker
   [OK] app/docker-compose.yml -- Orquestacion
   [OK] app/requirements-api.txt -- Dependencias API (produccion Docker)
-  [OK] app/requirements.txt -- Dependencias Streamlit (demo)
+  [OK] app/pipelines/__init__.py -- Modulo pipelines
+  [OK] app/pipelines/ingest.py -- NB01: ingestion
+  [OK] app/pipelines/transform.py -- NB03: feature engineering (39 features)
+  [OK] app/pipelines/score.py -- NB04: scoring + clustering
+  [OK] app/pipelines/monitor.py -- NB05: PSI drift detection
+  [OK] app/pipelines/retrain.py -- NB05: reentrenamiento
+  [OK] app/pipelines/validate.py -- NB05: validacion
+  [OK] app/dags/scoring_dag.py -- DAG 1: scoring semanal
+  [OK] app/dags/monitoring_dag.py -- DAG 2: monitoring mensual
   [OK] app/models/lead_scorer.pkl -- Modelo (PRODUCCION)
   [OK] app/models/preprocessor.pkl -- Pipeline preprocesado
   [OK] app/models/clustering.pkl -- K-Means + scaler
   [OK] app/models/feature_names.pkl -- Lista de features
+  [OK] app/streamlit_app.py -- Demo Streamlit Cloud
+  [OK] app/requirements.txt -- Dependencias Streamlit (demo)
 
-MLflow experiments:
-  URI: file://./_working/mlruns
+  lead_scoring_dag.py eliminado correctamente (reemplazado por 2 DAGs)
 
 Modelo en produccion: lead_scorer.pkl (39 features)
 </pre>

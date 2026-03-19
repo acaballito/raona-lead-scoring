@@ -1,6 +1,8 @@
 """Score: aplica modelo de lead scoring y clustering a datos nuevos.
 
 Logica extraida de NB04. Usa el modelo LightGBM para scoring de contactos nuevos.
+
+Requiere: scikit-learn==1.6.1, lightgbm==4.6.0
 """
 import os
 import pickle
@@ -26,19 +28,14 @@ def load_artifacts(model_dir: str) -> dict:
 def score_leads(df: pd.DataFrame, artifacts: dict) -> pd.DataFrame:
     """Aplica scoring y asigna clusters."""
     features = artifacts["feature_names"]
-
     prep = artifacts["preprocessor"]
     model = artifacts["lead_scorer"]
 
-    # Preparar features
     X = df.reindex(columns=features, fill_value=np.nan)
     X_processed = prep.transform(X)
-
-    # Scoring
     df["lead_score"] = model.predict_proba(X_processed)[:, 1]
     logger.info(f"Scores generados: media={df['lead_score'].mean():.3f}")
 
-    # Clustering
     clustering = artifacts["clustering"]
     cluster_feats = clustering["features"]
     X_cl = df.reindex(columns=cluster_feats, fill_value=0)
@@ -47,14 +44,11 @@ def score_leads(df: pd.DataFrame, artifacts: dict) -> pd.DataFrame:
     )
     df["cluster"] = clustering["kmeans"].predict(X_cl_scaled)
 
-    # Prioridad
     df["priority"] = pd.cut(
-        df["lead_score"],
-        bins=[-0.01, 0.1, 0.3, 1.01],
+        df["lead_score"], bins=[-0.01, 0.1, 0.3, 1.01],
         labels=["Low", "Medium", "High"],
     )
-
-    logger.info(f"Distribucion de prioridad: {df['priority'].value_counts().to_dict()}")
+    logger.info(f"Distribucion: {df['priority'].value_counts().to_dict()}")
     return df
 
 

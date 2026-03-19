@@ -1,4 +1,4 @@
-"""Pipeline modules for Raona Lead Scoring MLOps.
+"""Pipeline modules para Raona Lead Scoring MLOps.
 
-Extracted from notebooks for production use with Airflow.
+Extraido de los notebooks para uso en produccion con Airflow.
 """

@@ -12,20 +12,14 @@ logger = logging.getLogger(__name__)
 
 def calculate_psi(expected: np.ndarray, actual: np.ndarray, bins: int = 10) -> float:
     """Calcula Population Stability Index entre dos distribuciones."""
-    # Crear bins basados en la distribucion esperada
     breakpoints = np.percentile(expected[~np.isnan(expected)], np.linspace(0, 100, bins + 1))
     breakpoints = np.unique(breakpoints)
-
     if len(breakpoints) < 3:
         return 0.0
-
     expected_counts = np.histogram(expected[~np.isnan(expected)], bins=breakpoints)[0]
     actual_counts = np.histogram(actual[~np.isnan(actual)], bins=breakpoints)[0]
-
-    # Evitar division por cero
     expected_pct = (expected_counts + 1) / (expected_counts.sum() + len(expected_counts))
     actual_pct = (actual_counts + 1) / (actual_counts.sum() + len(actual_counts))
-
     psi = np.sum((actual_pct - expected_pct) * np.log(actual_pct / expected_pct))
     return float(psi)
 
@@ -36,15 +30,13 @@ def classify_psi(psi: float) -> str:
         return "OK"
     elif psi < 0.25:
         return "MONITORIZAR"
-    else:
-        return "ALERTA"
+    return "ALERTA"
 
 
 def run(train_path: str, new_path: str, features: list) -> pd.DataFrame:
     """Calcula PSI para cada feature entre datos de entrenamiento y nuevos."""
     train_df = pd.read_parquet(train_path)
     new_df = pd.read_parquet(new_path)
-
     results = []
     for feat in features:
         if feat in train_df.columns and feat in new_df.columns:
@@ -55,8 +47,6 @@ def run(train_path: str, new_path: str, features: list) -> pd.DataFrame:
             results.append({"feature": feat, "psi": round(psi, 4), "status": status})
             if status == "ALERTA":
                 logger.warning(f"DRIFT DETECTADO en {feat}: PSI={psi:.4f}")
-
     psi_df = pd.DataFrame(results)
-    logger.info(f"PSI calculado para {len(results)} features")
-    logger.info(f"Alertas: {(psi_df['status'] == 'ALERTA').sum()}")
+    logger.info(f"PSI calculado para {len(results)} features. Alertas: {(psi_df['status'] == 'ALERTA').sum()}")
     return psi_df

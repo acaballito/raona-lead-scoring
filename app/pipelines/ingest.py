@@ -1,7 +1,7 @@
 """Ingest: carga y validacion de datos nuevos.
 
-Logica extraida de NB01. Carga un CSV de contactos, valida el esquema
-y guarda en formato Parquet.
+Logica extraida de NB01. Carga un CSV de contactos exportado de Enginy,
+valida el esquema y guarda en formato Parquet.
 """
 import os
 import re
@@ -18,7 +18,7 @@ REQUIRED_COLS = [
 
 
 def load_contacts(csv_path: str) -> pd.DataFrame:
-    """Carga contacts CSV y aplica limpieza basica (NB01 logic)."""
+    """Carga contacts CSV y aplica limpieza basica."""
     logger.info(f"Cargando {csv_path}")
     df = pd.read_csv(csv_path, encoding="utf-8-sig", low_memory=False)
     logger.info(f"Filas cargadas: {len(df):,}")
@@ -45,23 +45,16 @@ def create_target(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def filter_valid_contacts(df: pd.DataFrame) -> pd.DataFrame:
-    """Filtra contactos sin mensajes enviados y no validos (Microsoft?=-1, FIT=NO)."""
+    """Filtra contactos sin mensajes enviados y no validos."""
     n_before = len(df)
-
-    # Solo contactos que recibieron al menos un mensaje
     status = df["Campaign engagement status"]
     contacted = status.str.contains("Sent|Replied|Connection Accepted", case=False, na=False)
     df = df[contacted].copy()
-
-    # Excluir Microsoft?=-1
     if "Microsoft?" in df.columns:
         df = df[df["Microsoft?"] != -1].copy()
-
-    # Excluir FIT=NO
     if "FIT" in df.columns:
         fit_no = df["FIT"].str.strip().str.upper() == "NO"
         df = df[~fit_no].copy()
-
     logger.info(f"Contactos filtrados: {n_before:,} -> {len(df):,}")
     return df
 
@@ -73,7 +66,6 @@ def extract_reply_message_number(df: pd.DataFrame) -> pd.DataFrame:
             return np.nan
         match = re.search(r"Replied\s*\((\d+)\)", status)
         return int(match.group(1)) if match else np.nan
-
     df["reply_message_number"] = df["Campaign engagement status"].apply(_extract)
     return df
 
@@ -86,7 +78,6 @@ def run(csv_path: str, output_path: str) -> str:
     df = create_target(df)
     df = filter_valid_contacts(df)
     df = extract_reply_message_number(df)
-
     df.to_parquet(output_path, index=False)
     logger.info(f"Guardado: {output_path} ({len(df):,} filas)")
     return output_path
